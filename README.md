@@ -4,7 +4,7 @@ UniAmp (Unique Amplicon) is a pipeline used to generate primers complementary to
 The UniAmp pipeline can be conceptually split into 4 parts:
 1. Build directory of query genomes.
 2. Retrieve unique sequences in a reference genome compared to query genomes.
-3. Select 1 unique reference sequence for primer design.
+3. Select unique reference sequence for primer design.
 4. Design primers to unique reference sequence.
 ### Visual representation:
 ![UniAmp](https://github.com/kenscripts/UniAmp/blob/main/UniAmp.v2.png)
@@ -77,4 +77,4 @@ The following script is implemented using Primer-BLAST output:  \
 `uni_pcr.sh`  \
 ***Description***: First, html output from Primer-BLAST is parsed. Then, in-silico PCR is performed (usearch) on reference genome to determine the number of reference amplicons generated for primer pairs. In-silico PCR is also performed on query genome(s) as one final check for unique reference genome amplicons.  \
 ***Inputs***: Primer-BLAST html output, text file containing query paths, reference genome path  \
-***Dependencies***: nucmer, bedtools  \
+***Dependencies***: nucmer, bedtools
