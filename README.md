@@ -11,7 +11,7 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 # Dependencies
 The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatics software.  \
 \
-Besides basic Linux utility commands, the following software is implemented in the UniAmp pipeline:  \
+Besides basic Linux utility and Python commands, the following software is implemented in the UniAmp pipeline:  \
 (Optional)  \
 [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
 [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)  \
