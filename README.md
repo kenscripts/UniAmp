@@ -9,7 +9,7 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 ### Visual representation:
 ![UniAmp](https://github.com/kenscripts/UniAmp/blob/main/UniAmp.v2.png)
 # Dependencies
-The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatic software.  \
+The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatics software.  \
 \
 The following software is implemented in the UniAmp pipeline:  \
 (Optional)  \
@@ -31,7 +31,7 @@ Download repository from Github:  \
 Make scripts executable:  \
 `chmod a+x ./UniAmp/scripts/*`  \
 \
-Set following bash variables:  \
+Assign paths of dependencies to the following bash variables:  \
 `DATASETS_PATH=<path to datasets>`  \
 `RNAMMER_PATH=<path to rnammer>`  \
 `GTDBTK_PATH=<path to gtdb-tk>`  \
@@ -43,8 +43,8 @@ Set following bash variables:  \
 For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates.  \
 \
 The following is a walkthrough of the UniAmp pipeline.
-### Set paths
-Set paths as described above under "Installation".
+### Set bash variables
+Create bash variables for dependencies as described above under "Installation".
 ### Build directory of query genomes
 To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. \
 \
@@ -55,7 +55,7 @@ At this step, the following scripts can be implemented:  \
 ***Dependencies***: datasets, RNAmmer, blastn \
 \
 `get_gtdb_queries.sh`  \
-***Description***: Parses output from GTDB-tk using reference genome.  \
+***Description***: Parses output from GTDB-tk using reference genome to retrieve similiar query genomes \
 ***Inputs***: GTDB-tk output directory, reference genome path, output directory  \
 ***Dependencies***: None. Just need output from GTDB-tk using reference genome.  \
 ### Retrieve unique sequences
@@ -66,7 +66,7 @@ Once a directory with query genomes is assembled the following script is impleme
 ***Main Outputs***: uni_seq.sc.fasta and other intermediary files \
 ***Dependencies***: nucmer, bedtools 
 ### Select unique reference sequence
-The output from `uni_seq.sh` can produced many unique reference sequences. This depends on how many query genomes were compared and how similiar these query genomes were to the reference.  \
+The output from `uni_seq.sh` can produced many unique reference sequences. This depends on how many query genomes were compared and how similiar these query genomes were to the reference genome.  \
 \
 For the later steps in the UniAmp pipeline, unique reference sequences are manually entered in the online graphical interface of Primer-BLAST. As a result, it is convienent to only have 1 or a few unique reference sequences to use.  \
 \
