@@ -65,7 +65,7 @@ Once a directory with query genomes is assembled the following script is impleme
 ***Description***: Performs pairwise genome alignments between reference genome and each query genome (nucmer). From these alignments, unique reference genome intervals are found and used to extract unique reference sequences (bedtools). Small sequences (< 100 bp) are removed and local alignments (blastn) are performed to return only single-copy, unique reference sequences.  \
 ***Inputs***: reference genome path, query genome directory, output directory  \
 ***Main Outputs***: uni_seq.sc.fasta and other intermediary files \
-***Dependencies***: nucmer, bedtools 
+***Dependencies***: nucmer, bedtools, bioawk
 ### Select unique reference sequence
 The output from `uni_seq.sh` can produced many unique reference sequences. This depends on how many query genomes were compared and how similiar these query genomes were to the reference genome.  \
 \
