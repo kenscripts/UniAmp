@@ -32,8 +32,8 @@ Download repository from Github:  \
 Make scripts executable:  \
 `chmod a+x ./UniAmp/scripts/*`  \
 \
-Add UniAmp scripts to path:
-export PATH=./UniAmp/scripts/:$PATH
+Add UniAmp scripts to path:  \
+`export PATH=./UniAmp/scripts/:$PATH`  \
 \
 Assign paths of dependencies to the following bash variables:  \
 `DATASETS_PATH=<path to datasets>`  \
