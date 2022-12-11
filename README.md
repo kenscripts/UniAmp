@@ -63,7 +63,7 @@ Once a directory with query genomes is assembled the following script is impleme
 `uni_seq.sh`  \
 ***Description***: Performs pairwise genome alignments between reference genome and each query genome (nucmer). From these alignments, unique reference genome intervals are found and used to extract unique reference sequences (bedtools). Small sequences (< 100 bp) are removed and local alignments (blastn) are performed to return only single-copy, unique reference sequences.  \
 ***Inputs***: reference genome path, query genome directory, output directory  \
-***Main Outputs***: uni_seq.sc.fasta and other intermediary files
+***Main Outputs***: uni_seq.sc.fasta and other intermediary files \
 ***Dependencies***: nucmer, bedtools 
 ### Select unique reference sequence
 The output from `uni_seq.sh` can produced many unique reference sequences. This depends on how many query genomes were compared and how similiar these query genomes were to the reference.  \
@@ -78,5 +78,5 @@ The following script is implemented using Primer-BLAST output:  \
 `uni_pcr.sh`  \
 ***Description***: First, html output from Primer-BLAST is parsed. Then, in-silico PCR is performed (usearch) on reference genome to determine the number of reference amplicons generated for each primer pair. In-silico PCR is also performed on query genome(s) as one final check for unique reference genome amplicons.  \
 ***Inputs***: Primer-BLAST html output, text file containing query paths, reference genome path  \
-***Main Outputs***: \*uni_pcr.tsv
+***Main Outputs***: \*uni_pcr.tsv, \*.ispcr.tsv \
 ***Dependencies***: nucmer, bedtools
