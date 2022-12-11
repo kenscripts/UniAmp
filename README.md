@@ -1,46 +1,45 @@
 # Overview
-UniAmp (Unique Amplicon) is a pipeline used to generate primers complementary to a unique sequence in a reference genome.
-\
-\
-The UniAmp pipeline can be conceptually split into 4 parts:
+UniAmp (Unique Amplicon) is a pipeline used to generate primers complementary to a unique sequence in a reference genome. \
+<br />
+<br />
+The UniAmp pipeline can be conceptually split into 4 parts:  \
 1. Build directory of query genomes.
 2. Retrieve unique sequences in a reference genome compared to query genomes.
 3. Select 1 unique reference sequence for primer design.
 4. Design primers to unique reference sequence.
-  
+<br />
+<br />
 ### Visual representation:
-\
 ![UniAmp](https://github.com/kenscripts/UniAmp/blob/main/UniAmp.v2.png)
-\
+<br />
+<br />
 # Dependencies
 The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatic software. \
-\
-\
+<br />
+<br />
 The following software is implemented in the UniAmp pipeline:  \
 (Optional) \
 [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
 [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)  \
 [GTDB-tk](https://github.com/Ecogenomics/GTDBTk)  \
-\
+<br />
 (Required)  \
 [nucmer](https://sourceforge.net/projects/mummer/)  \
 [bedtools](https://github.com/arq5x/bedtools2)  \
 [blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
 [usearch](https://drive5.com/usearch/download.html)  \
-\
-If you use the UniAmp wrapper scripts, please cite the corresponding software.
-  
-  
-  
-  
-  
+<br />
+<br />
+If you use the UniAmp wrapper scripts, please cite the corresponding software.  \
+<br />
+<br />
 # Installation
 Download repository from Github:  \
 `git clone https://github.com/kenscripts/UniAmp.git`  \
-\
+<br />
 Make scripts executable:  \
 `chmod a+x ./UniAmp/scripts/*`  \
-\
+<br />
 Set following bash variables:  \
 `DATASETS_PATH=<path to datasets>`  \
 `RNAMMER_PATH=<path to rnammer>`  \
@@ -49,7 +48,8 @@ Set following bash variables:  \
 `BEDTOOLS_PATH=<path to bedtools>`  \
 `BLASTN_PATH=<path to blastn>`  \
 `USEARCH_PATH=<path to usearch>`  \
-\
+<br />
+<br />
 # Usage
 For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This workflow was used in the publication XXX to design strain-specific primers to bacterial isolates. \
 \
