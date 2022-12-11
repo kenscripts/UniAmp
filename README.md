@@ -40,20 +40,19 @@ Set following bash variables:  \
 `BLASTN_PATH=<path to blastn>`  \
 `USEARCH_PATH=<path to usearch>`
 # Usage
-For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This workflow was used in the publication XXX to design strain-specific primers to bacterial isolates.  \
+For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates.  \
 \
-The following is a walkthrough of the UniAmp pipeline.  \
-\
+The following is a walkthrough of the UniAmp pipeline.
 ### Set paths
 Set paths as described above under "Installation".
 ### Build directory of query genomes
 To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used.
 
-At this step, the following scripts can be implemented:
+At this step, the following scripts can be implemented:  \
 `get_ncbi_queries.sh`  \
 Description: retrieves taxon genomes to use as query genomes
 Inputs: reference genome, taxon, output directory path \
-Dependencies:[datasets](https://www.ncbi.nlm.nih.gov/datasets), [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)  \
+Dependencies:[datasets](https://www.ncbi.nlm.nih.gov/datasets), [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)
 
 ### Retrieve unique sequences
 pairwise alignment
