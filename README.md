@@ -46,8 +46,8 @@ The following is a walkthrough of the UniAmp pipeline.
 ### Set paths
 Set paths as described above under "Installation".
 ### Build directory of query genomes
-To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used.
-
+To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. \
+\
 At this step, the following scripts can be implemented:  \
 `get_ncbi_queries.sh`  \
 ***Description***: retrieves taxon genomes to use as query genomes  \
@@ -55,9 +55,9 @@ At this step, the following scripts can be implemented:  \
 ***Dependencies***: datasets, RNAmmer, blastn \
 \
 `get_gtdb_queries.sh`  \
-***Description***: Parses output from GTDB-tk using reference genome.
-***Inputs***: GTDB-tk output directory, reference genome path, output directory
-***Dependencies***: None. Just need output from GTDB-tk using reference genome.
+***Description***: Parses output from GTDB-tk using reference genome.  \
+***Inputs***: GTDB-tk output directory, reference genome path, output directory  \
+***Dependencies***: None. Just need output from GTDB-tk using reference genome.  \
 ### Retrieve unique sequences
 Once a directory with query genomes is assembled the following script is implemented:  \
 `uni_seq.sh`  \
@@ -71,11 +71,9 @@ For the later steps in the UniAmp pipeline, unique reference sequences are manua
 \
 To accomplish this, selection criteria can be imposed to select the most optimal unique reference sequence based on the user's preference. In the original UniAmp publication, sequences with a size of 150-250 bp and GC content of 40-60 % were selected. The remaining unique reference sequences were than aligned against the NCBI nucleotide collection database. The unique reference sequence with the least amount of matches was used for primer design.
 ### Primer-BLAST
-Once a unique reference sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/).  \
-\
-The html output is saved and used in the next step.
+Once a unique reference sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). The html output is saved and used in the next step.
 ### Get primer info
-The following step is implemented using Primer-BLAST output:  \
+The following script is implemented using Primer-BLAST output:  \
 `uni_pcr.sh`  \
 ***Description***: Html output from Primer-BLAST is parsed. In-silico PCR is performed on reference genome to determine number of reference amplicons generated for primer pairs. In-silico PCR is also performed on query genome(s) as one final check for unique reference genome amplicons.  \
 ***Inputs***: Primer-BLAST html output, text file containing query paths, reference genome path  \
