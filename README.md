@@ -75,6 +75,6 @@ Once a unique reference sequence is selected, this sequence is uploaded to the P
 ### Get primer info
 The following script is implemented using Primer-BLAST output:  \
 `uni_pcr.sh`  \
-***Description***: Html output from Primer-BLAST is parsed. In-silico PCR is performed on reference genome to determine number of reference amplicons generated for primer pairs. In-silico PCR is also performed on query genome(s) as one final check for unique reference genome amplicons.  \
+***Description***: First, html output from Primer-BLAST is parsed. Then, in-silico PCR is performed (usearch) on reference genome to determine the number of reference amplicons generated for primer pairs. In-silico PCR is also performed on query genome(s) as one final check for unique reference genome amplicons.  \
 ***Inputs***: Primer-BLAST html output, text file containing query paths, reference genome path  \
 ***Dependencies***: nucmer, bedtools  \
