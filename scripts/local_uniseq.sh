@@ -56,7 +56,7 @@ else
     # returns sequences using seq ids
     while read LINE;
     do
-      bioawk \
+      $BIOAWK_PATH \
       -v SEQID="$LINE" \
       -c fastx \
       '$name ~ SEQID {print ">"$name; print $seq}' \

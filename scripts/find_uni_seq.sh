@@ -71,7 +71,7 @@ do
   # -l: length of MUM
   # initially used -b 75 but changed to default
   # to maximize unique sequence retrieval for qPCR set b = 75
-  nucmer \
+  $NUCMER_PATH \
   $GENOMEFASTA \
   $QUERY_DIR/$QUERY \
   2> $OUT_DIR/nuc.log;

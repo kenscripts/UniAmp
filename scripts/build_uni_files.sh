@@ -19,20 +19,20 @@ UNIFASTA="$OUT_DIR/uni_seq.nuc.fasta"
 # convert nucmer coords into bed fmt
 # merge overlapping alignments
 awk -v OFS="\t" '{print $12,$1,$2}' $NUCCOORS |
-bedtools sort |
-bedtools merge > $UNIBED.tmp
+$BEDTOOLS_PATH sort |
+$BEDTOOLS_PATH merge > $UNIBED.tmp
 
 
 # find $REF specific intervals
 # achieved by finding intervals not in nucmer bed
 # removed 1 bp intervals
-bedtools complement -i $UNIBED.tmp -g $GENOMEBED |
+$BEDTOOLS_PATH complement -i $UNIBED.tmp -g $GENOMEBED |
 awk -v OFS="\t" '($3-$2)>1' > $UNIBED   
 
 
 # extract $REF specific sequences \
 # using $REF specific intervals
-bedtools getfasta \
+$BEDTOOLS_PATH getfasta \
 -fi $GENOMEFASTA \
 -bed $UNIBED \
 -fo $UNIFASTA 2> $OUT_DIR/bedtools.err

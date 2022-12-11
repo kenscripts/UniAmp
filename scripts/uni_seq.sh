@@ -63,7 +63,7 @@ printf "\n\n>>> Removing small sequences (<100 bp)\n\n"
 sleep 1
 
 # get sequences of appropriate size
-bioawk \
+$BIOAWK_PATH \
 -c fastx \
 'length($seq) > 100 {print ">"$name;print $seq}' \
 $UNIFASTA \

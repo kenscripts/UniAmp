@@ -13,7 +13,7 @@ printf "\n>>> Retrieving $TAXON accessions\n\n"
 ACCESSIONS="$OUT_DIR/ncbi_$TAXON.accessions"
 
 # get tax accessions
-datasets summary genome taxon "$TAXON" --refseq |
+$DATASETS_PATH summary genome taxon "$TAXON" --refseq |
 jq \
 -r \
 '.assemblies[].assembly |
@@ -33,7 +33,7 @@ printf "\n>>> Downloading $TAXON genomes\n\n"
 QUERY_GNOMES="$OUT_DIR/ncbi_$TAXON.genomes.zip"
 
 # download taxon genomes
-datasets \
+$DATASETS_PATH \
 download genome accession \
 --inputfile $ACCESSIONS \
 --filename $QUERY_GNOMES \
@@ -50,27 +50,6 @@ rm -r $OUT_DIR/ncbi_dataset/data;
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-#printf "\n>>> Searching for query 16S rRNA gene sequences\n\n"
-
-# output directory
-#mkdir -p $OUT_DIR/query_16S
-#QUERY_16S="$OUT_DIR/query_16S"
-
-# get query 16S sequences
-#for QUERY_FILE in $(ls $OUT_DIR/ncbi_dataset/*_genomic.fna);
-#do 
-#  QUERY_NAME=$(echo ${QUERY_FILE%_genomic.fna});
-#  basename $QUERY_FILE;
-#  perl \
-#  $RNAMMER \
-#  -S bac \
-#  -m ssu \
-#  -f $QUERY_NAME.16S.fna \
-#  $QUERY_FILE;
-#done
-
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-
 printf "\n>>> Searching for reference 16S rRNA gene sequences\n\n"
 
 # output
@@ -79,7 +58,7 @@ REF_16S="$OUT_DIR/$REF_NAME.16S.fna";
 
 # get reference 16S seq
 perl \
-$RNAMMER \
+$RNAMMER_PATH \
 -S bac \
 -m ssu \
 -f $REF_16S \
@@ -95,7 +74,7 @@ TAXON_BLAST="$OUT_DIR/ncbi_$TAXON.blast.tsv"
 QACCESSIONS="$OUT_DIR/ncbi_queries.accessions"
 
 # blast ref 16S against ncbi taxon genomes to find genomes of same species
-blastn \
+$BLASTN_PATH \
 -query $REF_16S \
 -subject <(cat $OUT_DIR/ncbi_dataset/*_genomic.fna) \
 -task megablast \

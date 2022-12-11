@@ -7,7 +7,7 @@ OUTNAME=$(echo $COORS | cut -d"." -f 1)
 
 awk -v OFS="\t" -v IDY=$IDY '$7<IDY' $COORS > $OUTNAME.dseqs.coors
 
-bedtools getfasta \
+$BEDTOOLS_PATH getfasta \
 -fi $GENOMEFASTA \
 -bed <(awk '{OFS="\t"; print $12,$1,$2}' $OUTNAME.dseqs.coors) \
 -fo $OUTNAME.dseqs.fasta

@@ -26,7 +26,7 @@ printf '\nEntrez Query: "%s"\n' "${ENTREZ[@]}"
 
 # entrez input is stored as an array; expand array into 1 string
 #-entrez_query $(printf '"%s"' "${ENTREZ[@]}") \
-blastn \
+$BLASTN_PATH \
 -remote \
 -query $QUERY \
 -db nt \

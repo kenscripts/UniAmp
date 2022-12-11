@@ -40,7 +40,7 @@ $9=pr2_name[1];
 print $0
 }' |
 sort -t$'\t' -k6,6 |
-bedtools groupby -g 6 -c 1 -o count \
+$BEDTOOLS_PATH groupby -g 6 -c 1 -o count \
 > $PCR_AMP_COUNT.tmp1
 
 # get number of non-reference amplicons
@@ -62,7 +62,7 @@ print $0
 }' |
 tail -n +2 |
 sort -t$'\t' -k6,6 |
-bedtools groupby -g 6 -c 1 -o count \
+$BEDTOOLS_PATH groupby -g 6 -c 1 -o count \
 > $PCR_AMP_COUNT.tmp2
 
 # combine counts

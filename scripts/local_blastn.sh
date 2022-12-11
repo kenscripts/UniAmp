@@ -19,7 +19,7 @@ BLAST_SUBJECT=$2
 # Instructions
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-blastn \
+$BLASTN_PATH \
 -query $BLAST_QUERY \
 -subject $BLAST_SUBJECT \
 -evalue 1e-10 \

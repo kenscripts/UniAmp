@@ -44,7 +44,7 @@ sleep 1;
 
 # get most unique match
 UNIQ_MATCH=$(head -n 1 $BLASTN_STATS | cut -f1);
-bioawk \
+$BIOAWK_PATH \
 -v SEQID="$UNIQ_MATCH" \
 -c fastx \
 '$name ~ SEQID {print ">"$name; print $seq}' \

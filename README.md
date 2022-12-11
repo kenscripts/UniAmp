@@ -11,7 +11,7 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 # Dependencies
 The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatics software.  \
 \
-The following software is implemented in the UniAmp pipeline:  \
+Besides basic Linux utility commands, the following software is implemented in the UniAmp pipeline:  \
 (Optional)  \
 [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
 [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)  \
@@ -22,6 +22,7 @@ The following software is implemented in the UniAmp pipeline:  \
 [bedtools](https://github.com/arq5x/bedtools2)  \
 [blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
 [usearch](https://drive5.com/usearch/download.html)  \
+[bioawk](https://github.com/lh3/bioawk)  \
 \
 If you use the UniAmp wrapper scripts, please cite the corresponding software above. See references below.
 # Installation
@@ -34,11 +35,11 @@ Make scripts executable:  \
 Assign paths of dependencies to the following bash variables:  \
 `DATASETS_PATH=<path to datasets>`  \
 `RNAMMER_PATH=<path to rnammer>`  \
-`GTDBTK_PATH=<path to gtdb-tk>`  \
 `NUCMER_PATH=<path to nucmer>`  \
 `BEDTOOLS_PATH=<path to bedtools>`  \
 `BLASTN_PATH=<path to blastn>`  \
-`USEARCH_PATH=<path to usearch>`
+`USEARCH_PATH=<path to usearch>`  \
+`BIOAWK_PATH=<path to bioawk>`
 # Usage
 For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates.  \
 \
