@@ -1,7 +1,5 @@
 # Description
-UniAmp (Unique Amplicon) is a computational pipeline that can be used to generate primers complementary to a unique sequence in a reference genome.
-
-INSERT VISUAL HERE
+UniAmp (Unique Amplicon) is a pipeline that can be used to generate primers complementary to a unique sequence in a reference genome.
 
 The UniAmp pipeline can be conceptually split into 4 parts:
 1. Build directory of query genomes.
@@ -9,8 +7,12 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 3. Select 1 unique reference sequence for primer design.
 4. Design primers to unique reference sequence.
 
+# Overview
+
+
+
 # Dependencies
-The UniAmp pipeline is composed of bash wrapper scripts around common bioinformatic software. 
+The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatic software. 
 
 UniAmp uses the following software:
 ## Optional
@@ -23,6 +25,9 @@ nucmer
 bedtools
 blastn
 usearch
+
+If you use the UniAmp wrapper scripts, please cite the corresponding software.
+
 
 # Installation
 git clone
