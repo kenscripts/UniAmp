@@ -71,7 +71,7 @@ For the later steps in the UniAmp pipeline, unique reference sequences are manua
 \
 To accomplish this, selection criteria can be imposed to select the most optimal unique reference sequence based on the user's preference. In the original UniAmp publication, sequences with a size of 150-250 bp and GC content of 40-60 % were selected. The remaining unique reference sequences were than aligned against the NCBI nucleotide collection database. The unique reference sequence with the least amount of matches was used for primer design.
 ### Primer-BLAST
-Once a unique reference sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). The html output is saved and used in the next step.
+Once a unique reference sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). Presently, no command-line tool exists for Primer-BLAST so the Primer-BLAST html output is saved and used in the next step. 
 ### Get primer info
 The following script is implemented using Primer-BLAST output:  \
 `uni_pcr.sh`  \
