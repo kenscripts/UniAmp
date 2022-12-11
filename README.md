@@ -7,12 +7,8 @@ The UniAmp pipeline can be conceptually split into 4 parts:  \
 2. Retrieve unique sequences in a reference genome compared to query genomes.  \
 3. Select 1 unique reference sequence for primer design.  \
 4. Design primers to unique reference sequence.  \
-\
-\
 ### Visual representation:
 ![UniAmp](https://github.com/kenscripts/UniAmp/blob/main/UniAmp.v2.png)  \
-\
-\
 # Dependencies
 The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatic software.  \
 \
@@ -31,8 +27,6 @@ The following software is implemented in the UniAmp pipeline:  \
 \
 \
 If you use the UniAmp wrapper scripts, please cite the corresponding software.  \
-\
-\
 # Installation
 Download repository from Github:  \
 `git clone https://github.com/kenscripts/UniAmp.git`  \
@@ -48,8 +42,6 @@ Set following bash variables:  \
 `BEDTOOLS_PATH=<path to bedtools>`  \
 `BLASTN_PATH=<path to blastn>`  \
 `USEARCH_PATH=<path to usearch>`  \
-\
-\
 # Usage
 For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This workflow was used in the publication XXX to design strain-specific primers to bacterial isolates.  \
 \
