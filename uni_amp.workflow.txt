@@ -1,0 +1,638 @@
+##################################################
+# Paths
+##################################################
+
+source ~/.bashprofile
+
+PROJ_DIR="/home/microbiome/data/dab_attachment"
+EXP_DIR="$PROJ_DIR/primers/primers-UniAmp"
+BAC_GNOMES="$EXP_DIR/bac_gnomes"
+GTDB_OUT="$EXP_DIR/bac_gtdb"
+
+##################################################
+# Build Member Directories
+##################################################
+
+make_syncom_dir.sh \
+$BAC_GNOMES \
+$EXP_DIR
+
+##################################################
+# Get GTDB Queries
+##################################################
+
+# make sure everything that is needed exists
+# this takes some time
+gtdbtk check_install
+
+# search bacteria genomes against gtdb
+# retrieves closely related genomes for query search
+# taxonomy annotation of reference genomes
+gtdbtk \
+ani_rep \
+--genome_dir $BAC_GNOMES \
+--out_dir $GTDB_OUT
+
+##################################################
+# BacillusG2-6
+##################################################
+
+G26_DIR="$BAC_GNOMES/g2_6";
+G26_QUERY="$G26_DIR/all_queries";
+G26_UNISEQ="$G26_DIR/uni_seq";
+G26_UNIPCR="$G26_DIR/uni_pcr";
+mkdir $G26_DIR;
+mkdir $G26_QUERY;
+mkdir $G26_UNISEQ;
+mkdir $G26_UNIPCR;
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get GTDB Queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# conda deactivate; conda env missing XML::Parser; conda and cpan don't work together
+# n = 4
+get_gtdb_queries.sh \
+$GTDB_OUT \
+$BAC_GNOMES/BacillusRUG2-6.genome.fna \
+$G26_DIR/gtdb_match
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get NCBI Queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# no queries with > 97 % identity
+# n = 7
+get_ncbi_queries.sh \
+$BAC_GNOMES/BacillusRUG2-6.genome.fna \
+"Peribacillus" \
+$G26_DIR/ncbi_ds
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Combine queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# move all queries into 1 directory
+# n = 11
+mv \
+$G26_DIR/*/*queries/*.fna \
+$G26_DIR/all_queries
+
+# remove duplicate queries
+# gtdb and ncbi use different file naming conventions
+# n = 9
+if ls $G26_QUERY | cut -d"_" -f1,2 | sort | uniq -c | grep -v "1 GCF";
+then
+    for QUERY in $(ls $G26_QUERY/*ASM*.fna);
+    do
+      NAME=$(basename $QUERY);
+      NUNAME=$(echo $NAME | cut -d"_" -f1,2,4,5);
+      echo $NUNAME;
+      mv $QUERY $G26_QUERY/$NUNAME;
+   done;
+fi
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Run UniSeq
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# n = 412 unique
+uni_seq.sh \
+$BAC_GNOMES/BacillusRUG2-6.genome.fna \
+$G26_QUERY \
+$G26_UNISEQ;
+
+# filtered uni_seq.sc.fasta for dna templates appropriate for qpcr
+# size: 150-250 bp
+# gc: 40-60 %
+# n = 18 uniseq
+bioawk \
+-c fastx \
+'length($seq) > 150 && length($seq) <250 && gc($seq) < 0.60 && gc($seq) > 0.40 {print ">"$name"\n"$seq"\n"}' \
+$G26_UNISEQ/uni_seq.sc.fasta \
+> $G26_UNISEQ/uni_seq.template.fasta;
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Remote UniSeq (22-06-27)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# search for matches to queries in NCBI nt database
+# blastn all queries at once instead of 1 by 1; remote blastn connection not stable
+# blastn ran separately; entrez_query didn't work when passed as bash script argument
+blastn \
+-remote \
+-query $G26_UNISEQ/uni_seq.template.fasta \
+-db nt \
+-entrez_query "Peribacillus [organism]" \
+-task blastn \
+-evalue 1e-3 \
+-max_hsps 1 \ 
+-max_target_seqs 100 \
+-outfmt "6 qseqid sseqid qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore" \
+> $G26_UNISEQ/uni_seq.template.rem_blastn.tsv;
+
+
+# get most unique sequence compared to NCBI nt database
+# uniseq: Ga0136732_106-247227-247445
+remote_uniseq.sh \
+$G26_UNISEQ/uni_seq.template.fasta \
+$G26_UNISEQ/uni_seq.template.rem_blastn.tsv \
+$G26_UNISEQ;
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Run UniPCR (22-06-26)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# run primer blast using online NCBI GUI 
+# pb online results: Ga0136732_106-247227-247445.pb220626.html
+
+# create file with query paths
+# n = 10
+dir \
+$BAC_GNOMES/BacillusRUG2-6.genome.fna \
+$G26_QUERY/* \
+> $G26_UNIPCR/g2_6.query_paths.tsv;
+
+# 22 primer pairs; all unique
+# chose pr23 for g2-6 attachment PCR
+uni_pcr.sh \
+$G26_UNIPCR/Ga0136732_106-247227-247445.pb220626.html \
+$G26_UNIPCR/g2_6.query_paths.tsv \
+BacillusRUG2-6.genome.fna |
+tee -a $G26_UNIPCR/uni_pcr.log;
+
+
+##################################################
+# DAB 1A
+##################################################
+
+DAB1A_DIR="$BAC_GNOMES/dab1a"
+DAB1A_QUERY="$DAB1A_DIR/all_queries"
+DAB1A_UNISEQ="$DAB1A_DIR/uni_seq"
+DAB1A_UNIPCR="$DAB1A_DIR/uni_pcr"
+mkdir $DAB1A_DIR
+mkdir $DAB1A_QUERY
+mkdir $DAB1A_UNISEQ
+mkdir $DAB1A_UNIPCR
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get GTDB Queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# conda deactivate; conda env missing XML::Parser; conda and cpan don't work together
+# n = 1
+get_gtdb_queries.sh \
+$GTDB_OUT \
+$BAC_GNOMES/MicrobacteriumRU370-1.genome.fna \
+$DAB1A_DIR/gtdb_match
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get NCBI Queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# no queries with > 97 % identity
+# n = 45
+get_ncbi_queries.sh \
+$BAC_GNOMES/MicrobacteriumRU370-1.genome.fna \
+"Microbacterium" \
+$DAB1A_DIR/ncbi_ds
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Combine queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# move all queries into 1 directory
+# n = 45
+mv \
+$DAB1A_DIR/*/*queries/*.fna \
+$DAB1A_QUERY
+
+# remove duplicate queries
+# gtdb and ncbi use different file naming conventions
+# n = 45
+if ls $DAB1A_QUERY | cut -d"_" -f1,2 | sort | uniq -c | grep -v "1 GCF";
+then
+    for QUERY in $(ls $DAB1A_QUERY/*ASM*.fna);
+    do
+      NAME=$(basename $QUERY);
+      NUNAME=$(echo $NAME | cut -d"_" -f1,2,4,5);
+      echo $NUNAME;
+      mv $QUERY $DAB1A_QUERY/$NUNAME;
+   done;
+fi
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Run UniSeq
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# n = 596 uniseq
+uni_seq.sh \
+$BAC_GNOMES/MicrobacteriumRU370-1.genome.fna \
+$DAB1A_QUERY \
+$DAB1A_UNISEQ;
+
+# filtered uni_seq.sc.fasta for dna templates appropriate for qpcr
+# size: 150-250 bp
+# gc: 40-60 %
+# n = 1 uniseq
+# alot of dab1a sequences are gc-rich
+bioawk \
+-c fastx \
+'length($seq) > 150 && length($seq) <250 && gc($seq) < 0.60 && gc($seq) > 0.40 {print ">"$name"\n"$seq"\n"}' \
+$DAB1A_UNISEQ/uni_seq.sc.fasta \
+> $DAB1A_UNISEQ/uni_seq.template.fasta;
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Remote UniSeq (22-06-27)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# search for matches to queries in NCBI nt database
+# blastn all queries at once instead of 1 by 1; remote blastn connection not stable
+# blastn ran separately; entrez_query didn't work when passed as bash script argument
+# no matches in NCBI database
+# uniseq: Ga0066385_101:855398-855596
+blastn \
+-remote \
+-query $DAB1A_UNISEQ/uni_seq.template.fasta \
+-db nt \
+-entrez_query "Microbacterium [organism]" \
+-task blastn \
+-evalue 1e-3 \
+-max_hsps 1 \
+-max_target_seqs 100 \
+-outfmt "6 qseqid sseqid qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore" \
+> $DAB1A_UNISEQ/uni_seq.template.rem_blastn.tsv;
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Run UniPCR (22-06-25)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# run primer blast using online NCBI GUI 
+# pb online results: Ga0066385_101-855398-855596.pb220625.html
+
+# create file with query paths
+# n = 46
+dir \
+$BAC_GNOMES/MicrobacteriumRU370-1.genome.fna \
+$DAB1A_QUERY/* \
+> $DAB1A_UNIPCR/dab1a.query_paths.tsv;
+
+# 23 primer pairs; all unique
+uni_pcr.sh \
+$DAB1A_UNIPCR/Ga0066385_101-855398-855596.pb220625.html \
+$DAB1A_UNIPCR/dab1a.query_paths.tsv \
+MicrobacteriumRU370-1.genome.fna |
+tee -a $DAB1A_UNIPCR/uni_pcr.log;
+
+##################################################
+# Azospirillum brasilense Sp7
+##################################################
+
+SP7_DIR="$BAC_GNOMES/sp7"
+SP7_QUERY="$SP7_DIR/all_queries"
+SP7_UNISEQ="$SP7_DIR/uni_seq"
+SP7_UNIPCR="$SP7_DIR/uni_pcr"
+mkdir $SP7_DIR
+mkdir $SP7_QUERY
+mkdir $SP7_UNISEQ
+mkdir $SP7_UNIPCR
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get GTDB Queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# n = 9
+get_gtdb_queries.sh \
+$GTDB_OUT \
+$BAC_GNOMES/Azospirillum_brasilense_Sp7.genome.fna \
+$SP7_DIR/gtdb_match
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get NCBI Queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# conda deactivate; conda env missing XML::Parser
+# no queries with > 97 % identity
+# n = 12 total
+get_ncbi_queries.sh \
+$BAC_GNOMES/Azospirillum_brasilense_Sp7.genome.fna \
+"Azospirillum" \
+$SP7_DIR/ncbi_ds
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Combine queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# move all queries into 1 directory
+# n = 21
+mv \
+$SP7_DIR/*/*queries/*.fna \
+$SP7_QUERY
+
+# remove duplicate queries
+# gtdb and ncbi use different file naming conventions
+# n = 18
+if ls $SP7_QUERY | cut -d"_" -f1,2 | sort | uniq -c | grep -v "1 GCF";
+then
+    for QUERY in $(ls $SP7_QUERY/*ASM*.fna);
+    do
+      NAME=$(basename $QUERY);
+      NUNAME=$(echo $NAME | cut -d"_" -f1,2,4,5);
+      echo $NUNAME;
+      mv $QUERY $SP7_QUERY/$NUNAME;
+   done;
+fi
+
+# Sp7 is unique; contains many 16S copies; some copies had < 100.00 %
+# need to remove self from ncbi queries: 
+# n = 17
+rm $SP7_QUERY/GCF_001315015.1_genomic.fna
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Run UniSeq
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# n = 0 uniseq
+uni_seq.sh \
+$BAC_GNOMES/Azospirillum_brasilense_Sp7.genome.fna \
+$SP7_QUERY \
+$SP7_UNISEQ
+
+# used sequence in uni_seq.filtered.fasta for primers
+
+# determined ANI of Reference to Queries
+# Sp7 contained 99.9 % ANI to GCF_005222145.1, Azospirillum brasilense strain MTCC4038
+java \
+-jar ~/Tools/OAU.jar \
+-fd $SP7_DIR/oau_dir / \
+-fmt matrix \
+-o $SP7_DIR/sp7.oau.tsv \
+-u /home/microbiome/Tools/miniconda3/bin/usearch_v11
+
+# re-ran uniseq without GCF_005222145.1 query
+# n = 16 queries
+# n = 157 uniseq
+uni_seq.sh \
+$BAC_GNOMES/Azospirillum_brasilense_Sp7.genome.fna \
+$SP7_QUERY \
+$SP7_UNISEQ
+
+# blast uniseq against GCF_005222145.1
+# get blast stats and get most unique sequence
+blastn \
+-query $SP7_UNISEQ/uni_seq.sc.fasta \
+-subject $SP7_DIR/ncbi_ds/ncbi_queries/GCF_005222145.1_ASM522214v1_genomic.fna \
+-task blastn \
+-evalue 1e-3 \
+-max_hsps 1 \
+-max_target_seqs 100 \
+-outfmt "6 qseqid sseqid qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore" \
+> $SP7_UNISEQ/uni_seq.sc.AbMTCC4038_blastn.tsv;
+
+# all Sp7 uniseq found in MTCC4038
+# Sp7 identical to MTCC4038
+get_query_blast_stats.sh \
+$SP7_UNISEQ/uni_seq.sc.fasta \
+$SP7_UNISEQ/uni_seq.sc.AbMTCC4038_blastn.tsv \
+$SP7_UNISEQ;
+
+# filtered uni_seq.sc.fasta for dna templates appropriate for qpcr
+# size: 150-250 bp
+# gc: 40-60 %
+# n = 7 uniseq
+bioawk \
+-c fastx \
+'length($seq) > 150 && length($seq) <250 && gc($seq) < 0.60 && gc($seq) > 0.40 {print ">"$name"\n"$seq"\n"}' \
+$SP7_UNISEQ/uni_seq.sc.fasta \
+> $SP7_UNISEQ/uni_seq.template.fasta;
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Remote UniSeq (22-06-30)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# entrez_query not working; NOT operator not registering correctly
+# -entrez_query "Azospirillum[organism] AND NOT MTCC4038[strain]" \
+blastn \
+-remote \
+-query $SP7_UNISEQ/uni_seq.template.fasta \
+-db nt \
+-entrez_query "Azospirillum[organism] NOT Sp 7[strain]" \
+-task blastn \
+-evalue 1e-3 \
+-max_hsps 1 \
+-max_target_seqs 100 \
+-outfmt "6 qseqid sseqid qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore" \
+> $SP7_UNISEQ/test.fasta.blastn_out.tsv
+
+# use e-utilities to find accessions from reference
+# n = 1743
+esearch \
+-db nuccore \
+-query "Azospirillum [organism] NOT (Sp 7[strain] OR Sp7[strain] OR MTCC4038[strain])" |
+esummary |
+xtract \
+-pattern DocumentSummary \
+-element Caption Title Strain \
+> $SP7_UNISEQ/ncbi.nuccore.not_ref_acc.tsv
+
+# search for matches to queries in NCBI nt database
+# blastn all queries at once instead of 1 by 1; remote blastn connection not stable
+# blastn ran separately; entrez_query didn't work when passed as bash script argument
+# n = 107
+blastn \
+-remote \
+-query uni_seq.template.fasta \
+-subject <(cut -f1 $SP7_UNISEQ/ncbi.nuccore.not_ref_acc.tsv) \
+-task blastn \
+-evalue 1e-3 \
+-max_hsps 1 \
+-max_target_seqs 100 \
+-outfmt "6 qseqid sacc qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore" \
+> $SP7_UNISEQ/uni_seq.template.rem_blastn.non_ref_acc.tsv;
+
+# remove matches corresponding to reference
+# n = 75
+awk \
+-F"\t" \
+'NR==FNR {REF[$1]; next} !($2 in REF)' \
+<(sed 's/\.[[:digit:]]\+//g' $SP7_UNISEQ/ncbi.nuccore.ref_acc.tsv) \
+$SP7_UNISEQ/uni_seq.template.rem_blastn.tsv \
+> $SP7_UNISEQ/uni_seq.template.rem_blastn.no_ref.tsv;
+
+# get most unique sequence compared to NCBI nt database
+# uniseq: Ga0060187_unitig_3_quiver.2:632701-632926
+remote_uniseq.sh \
+$SP7_UNISEQ/uni_seq.template.fasta \
+$SP7_UNISEQ/uni_seq.template.rem_blastn.no_ref.tsv \
+$SP7_UNISEQ;
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Run UniPCR (22-07-04)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# run primer blast using online NCBI GUI 
+# uniseq: Ga0060187_unitig_3_quiver.2:632701-632926
+# pb online results: Ga0060187_unitig_3_quiver.2:632701-632926.html
+
+# create file with query paths
+# n = 17
+dir \
+$BAC_GNOMES/Azospirillum_brasilense_Sp7.genome.fna \
+$SP7_QUERY/* \
+> $SP7_UNIPCR/sp7.query_paths.tsv;
+
+# 1 primer pair; all unique
+uni_pcr.sh \
+$SP7_UNIPCR/Ga0060187_unitig_3_quiver.2-632701-632926.pb220704.html \
+$SP7_UNIPCR/sp7.query_paths.tsv \
+Azospirillum_brasilense_Sp7.genome.fna |
+tee -a $SP7_UNIPCR/uni_pcr.log;
+
+##################################################
+# Azospirillum brasilense Sp245
+##################################################
+
+SP245_DIR="$BAC_GNOMES/sp245"
+SP245_QUERY="$SP245_DIR/all_queries"
+SP245_UNISEQ="$SP245_DIR/uni_seq"
+SP245_UNIPCR="$SP245_DIR/uni_pcr"
+mkdir $SP245_DIR
+mkdir $SP245_QUERY
+mkdir $SP245_UNISEQ
+mkdir $SP245_UNIPCR
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get GTDB Queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# n = 9
+get_gtdb_queries.sh \
+$GTDB_OUT \
+$BAC_GNOMES/Azospirillum_brasilense_Sp245.genome.fna \
+$SP245_DIR/gtdb_match
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Get NCBI Queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# conda deactivate; conda env missing XML::Parser; conda and cpan don't work together
+# no queries with > 97 % identity
+# n = 11
+get_ncbi_queries.sh \
+$BAC_GNOMES/Azospirillum_brasilense_Sp245.genome.fna \
+"Azospirillum" \
+$SP245_DIR/ncbi_ds
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Combine queries
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# move all queries into 1 directory
+# n = 20
+mv \
+$SP245_DIR/*/*queries/*.fna \
+$SP245_QUERY
+
+# remove duplicate queries
+# gtdb and ncbi use different file naming conventions
+# n = 17
+if ls $SP245_QUERY | cut -d"_" -f1,2 | sort | uniq -c | grep -v "1 GCF";
+then
+    for QUERY in $(ls $SP245_QUERY/*ASM*.fna);
+    do
+      NAME=$(basename $QUERY);
+      NUNAME=$(echo $NAME | cut -d"_" -f1,2,4,5);
+      echo $NUNAME;
+      mv $QUERY $SP245_QUERY/$NUNAME;
+   done;
+fi
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Run UniSeq
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# n = 157 uniseq
+uni_seq.sh \
+$BAC_GNOMES/Azospirillum_brasilense_Sp245.genome.fna \
+$SP245_QUERY \
+$SP245_UNISEQ;
+
+# filtered uni_seq.sc.fasta for dna templates appropriate for qpcr
+# size: 150-250 bp
+# gc: 40-60 %
+# n = 5 uniseq
+bioawk \
+-c fastx \
+'length($seq) > 150 && length($seq) <250 && gc($seq) < 0.60 && gc($seq) > 0.40 {print ">"$name"\n"$seq"\n"}' \
+$SP245_UNISEQ/uni_seq.sc.fasta \
+> $SP245_UNISEQ/uni_seq.template.fasta;
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Remote UniSeq (22-06-27)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# use e-utilities to find accessions from reference
+# n = 133
+esearch \
+-db nuccore \
+-query "Azospirillum [organism] AND Sp245[strain]" |
+efetch \
+-format acc \
+> $SP245_UNISEQ/ncbi.nuccore.ref_acc.tsv
+
+
+# search for matches to queries in NCBI nt database
+# blastn all queries at once instead of 1 by 1; remote blastn connection not stable
+# blastn ran separately; entrez_query didn't work when passed as bash script argument
+# -entrez_query "Azospirillum[organism] NOT Sp245[strain])" \
+# n = 47
+blastn \
+-remote \
+-query $SP245_UNISEQ/uni_seq.template.fasta \
+-db nt \
+-entrez_query "Azospirillum[organism]" \
+-task blastn \
+-evalue 1e-3 \
+-max_hsps 1 \
+-max_target_seqs 100 \
+-outfmt "6 qseqid sacc qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore" \
+> $SP245_UNISEQ/uni_seq.template.rem_blastn.tsv;
+
+# remove matches corresponding to reference
+# n = 47
+awk \
+-F"\t" \
+'NR==FNR {REF[$1]; next} !($2 in REF)' \
+<(sed 's/\.[[:digit:]]\+//g' $SP245_UNISEQ/ncbi.nuccore.ref_acc.tsv) \
+$SP245_UNISEQ/uni_seq.template.rem_blastn.tsv \
+> $SP245_UNISEQ/uni_seq.template.rem_blastn.no_ref.tsv;
+
+# get most unique sequence compared to NCBI nt database
+# uniseq: HE577333.1:86332-86486
+remote_uniseq.sh \
+$SP245_UNISEQ/uni_seq.template.fasta \
+$SP245_UNISEQ/uni_seq.template.rem_blastn.no_ref.tsv \
+$SP245_UNISEQ;
+
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Run UniPCR (22-06-27)
+#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+# run primer blast using online NCBI GUI 
+# uniseq: HE577333.1:86332-86486  
+# pb online results: HE577333.1-86332-86486.pb220627.html
+# 1 primer pair; unique
+
+# create file with query paths
+# n = 18
+dir \
+$BAC_GNOMES/Azospirillum_brasilense_Sp245.genome.fna \
+$SP245_QUERY/* \
+> $SP245_UNIPCR/sp245.query_paths.tsv;
+
+# 1 primer pair; all unique
+uni_pcr.sh \
+$SP245_UNIPCR/HE577333.1-86332-86486.pb220627.html \
+$SP245_UNIPCR/sp245.query_paths.tsv \
+Azospirillum_brasilense_Sp245.genome.fna |
+tee -a $SP245_UNIPCR/uni_pcr.log;
