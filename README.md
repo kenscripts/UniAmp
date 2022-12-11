@@ -11,8 +11,8 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 \
 \
 \
-Visual representation:
-![UniAmp](https://github.com/kenscripts/UniAmp/blob/main/UniAmp.v2.png)
+Visual representation: \
+![UniAmp](https://github.com/kenscripts/UniAmp/blob/main/UniAmp.v2.png) \
 \
 \
 \
@@ -21,18 +21,19 @@ The UniAmp pipeline is composed of bash wrapper scripts around public bioinforma
 \
 \
 The following software is implemented in the UniAmp pipeline:
+\
 (Optional)
-[datasets](https://www.ncbi.nlm.nih.gov/datasets)
+[datasets](https://www.ncbi.nlm.nih.gov/datasets) \
 \
-[RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)
+[RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2) \
 \
-[GTDB-tk](https://github.com/Ecogenomics/GTDBTk)
+[GTDB-tk](https://github.com/Ecogenomics/GTDBTk) \
 \
 (Required)
-[nucmer](https://sourceforge.net/projects/mummer/)
-[bedtools](https://github.com/arq5x/bedtools2)
-[blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)
-[usearch](https://drive5.com/usearch/download.html)
+[nucmer](https://sourceforge.net/projects/mummer/) \
+[bedtools](https://github.com/arq5x/bedtools2) \
+[blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/) \
+[usearch](https://drive5.com/usearch/download.html) \
 \
 If you use the UniAmp wrapper scripts, please cite the corresponding software.
 \
