@@ -7,7 +7,7 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 2. Retrieve unique sequences in a reference genome compared to query genomes.
 3. Select 1 unique reference sequence for primer design.
 4. Design primers to unique reference sequence.
-\
+  
 ### Visual representation:
 \
 ![UniAmp](https://github.com/kenscripts/UniAmp/blob/main/UniAmp.v2.png)
@@ -29,8 +29,8 @@ The following software is implemented in the UniAmp pipeline:  \
 [usearch](https://drive5.com/usearch/download.html)  \
 \
 If you use the UniAmp wrapper scripts, please cite the corresponding software.
-\
-\
+  
+  
 # Installation
 Download repository from Github:  \
 `git clone https://github.com/kenscripts/UniAmp.git`  \
