@@ -35,14 +35,14 @@ Make scripts executable:  \
 Add UniAmp scripts to path:  \
 `export PATH=./UniAmp/scripts/:$PATH`  \
 \
-Assign paths of dependencies to the following bash variables:  \
-`DATASETS_PATH=<path to datasets>`  \
-`RNAMMER_PATH=<path to rnammer>`  \
-`NUCMER_PATH=<path to nucmer>`  \
-`BEDTOOLS_PATH=<path to bedtools>`  \
-`BLASTN_PATH=<path to blastn>`  \
-`USEARCH_PATH=<path to usearch>`  \
-`BIOAWK_PATH=<path to bioawk>`
+Assign paths of dependencies to the following bash variables and export to environment:  \
+`export DATASETS_PATH=<path to datasets>`  \
+`export RNAMMER_PATH=<path to rnammer>`  \
+`export NUCMER_PATH=<path to nucmer>`  \
+`export BEDTOOLS_PATH=<path to bedtools>`  \
+`export BLASTN_PATH=<path to blastn>`  \
+`export USEARCH_PATH=<path to usearch>`  \
+`export BIOAWK_PATH=<path to bioawk>`
 # Usage
 For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates.  \
 \

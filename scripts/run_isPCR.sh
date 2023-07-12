@@ -45,8 +45,8 @@ do
     cat $GNOME_PATH > $OUT_DIR/query.fasta.tmp;
 
     # run ispcr
-    $USEARCH_PATH -search_pcr \
-    $OUT_DIR/query.fasta.tmp \
+    $USEARCH_PATH \
+    -search_pcr $OUT_DIR/query.fasta.tmp \
     -db $OUT_DIR/primer.fasta.tmp \
     -strand both \
     -maxdiffs 5 \
