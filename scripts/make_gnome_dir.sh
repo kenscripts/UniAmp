@@ -1,7 +1,7 @@
 #! /bin/bash
 
 GNOME_DIR=$1
-WD=$2
+OUT_DIR=$2
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -14,7 +14,7 @@ do
   printf "\n%s" "$REF_NAME";
 
   # make working directories
-  REF_DIR="$WD/$REF_NAME";
+  REF_DIR="$OUT_DIR/$REF_NAME";
   QUERY_DIR="$REF_DIR/query_gnomes";
   mkdir -p $QUERY_DIR;
 
