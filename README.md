@@ -38,7 +38,6 @@ For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". T
 The following is a walkthrough of the UniAmp pipeline.
 ### Set bash variables
 Create bash variables for dependencies by running setup script as described above under "Installation".
-\
 ### Build directory of query genomes
 To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. \
 \
