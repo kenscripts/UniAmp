@@ -41,7 +41,7 @@ Create bash variables for dependencies by running setup script as described abov
 ### Build directory of query genomes
 To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. \
 \
-At this step, the following scripts can be implemented:  \
+At this step, the following scripts can be implemented:
 ```
 get_gtdb_queries.sh <GTDBTK_DATA_PATH> <GTDB_DIR> <REF_GNOME> <OUT_DIR>
 
