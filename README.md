@@ -24,7 +24,7 @@ Besides basic Linux utilities and Python, the following software is implemented 
 [bedtools](https://github.com/arq5x/bedtools2)  \
 [blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
 [usearch](https://drive5.com/usearch/download.html)  \
-[bioawk](https://github.com/lh3/bioawk)  \
+[bioawk](https://github.com/lh3/bioawk)
 
 # Installation
 Download repository from Github:  \
