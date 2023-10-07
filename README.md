@@ -53,8 +53,9 @@ Create bash variables for dependencies as described above under "Installation".
 To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. \
 \
 At this step, the following scripts can be implemented:  \
-`get_ncbi_queries.sh`  \
-***Description***: retrieves taxon genomes to use as query genomes  \
+`get_ncbi_queries.sh <GTDB_DIR> <REF_GNOME> <OUT_DIR>`  \
+`Description:
+retrieves genomes of ani_rep to use as query genomes  \
 ***Inputs***: reference genome path, taxon, output directory path  \
 ***Dependencies***: datasets, RNAmmer, blastn \
 \

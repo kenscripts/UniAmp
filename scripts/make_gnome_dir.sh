@@ -1,7 +1,7 @@
 #! /bin/bash
 
-GNOME_DIR=$1
-OUT_DIR=$2
+GNOME_DIR=${1%/}
+OUT_DIR=${2%/}
 
 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -25,7 +25,7 @@ do
   cp $GNOME_DIR/* $QUERY_DIR;
 
   # remove reference genome from query subdirectory
-  rm $QUERY_DIR/$REF_GNOME;
+  rm $QUERY_DIR/$REF_NAME*;
 done
 
 printf "\n\n"
