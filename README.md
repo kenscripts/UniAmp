@@ -29,7 +29,7 @@ If you use the UniAmp wrapper scripts, please cite the corresponding software ab
 Download repository from Github:  \
 `git clone https://github.com/kenscripts/UniAmp.git`  \
 \
-Run the following script and specify UniAmp path:
+Run the following script and specify UniAmp path:  \
 `source ./uniamp_setup.sh <path to UniAmp>`  \
 This will add UniAmp scripts and binaries of dependencies to your path.
 # Usage
