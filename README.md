@@ -31,7 +31,7 @@ Download repository from Github:  \
 \
 Run the following script and specify UniAmp path:  \
 `source ./uniamp_setup.sh <path to UniAmp>`  \
-This will add UniAmp scripts and binaries of dependencies to your path.
+`# this will add UniAmp scripts and binaries of dependencies to your path`  \
 # Usage
 For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates.  \
 \
