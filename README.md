@@ -6,13 +6,14 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 2. Retrieve unique sequences in a reference genome compared to query genomes.
 3. Select unique reference sequence for primer design.
 4. Design primers to unique reference sequence.
+
 ### Visual representation:
 ![UniAmp](https://github.com/kenscripts/UniAmp/blob/main/UniAmp.v2.png)
+
 # Dependencies
 The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatics software.  \
 \
 Besides basic Linux utilities and Python, the following software is implemented in the UniAmp pipeline:  \
-\
 (Optional)  \
 [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
 [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)  \
@@ -24,7 +25,7 @@ Besides basic Linux utilities and Python, the following software is implemented 
 [blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
 [usearch](https://drive5.com/usearch/download.html)  \
 [bioawk](https://github.com/lh3/bioawk)  \
-\
+
 # Installation
 Download repository from Github:  \
 `git clone https://github.com/kenscripts/UniAmp.git`  \
