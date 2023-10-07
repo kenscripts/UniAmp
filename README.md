@@ -11,7 +11,7 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 # Dependencies
 The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatics software.  \
 \
-Besides basic Linux utility and Python, the following software is implemented in the UniAmp pipeline:  \
+Besides basic Linux utilities and Python, the following software is implemented in the UniAmp pipeline:  \
 (Optional)  \
 [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
 [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)  \
@@ -29,20 +29,10 @@ If you use the UniAmp wrapper scripts, please cite the corresponding software ab
 Download repository from Github:  \
 `git clone https://github.com/kenscripts/UniAmp.git`  \
 \
-Make scripts executable:  \
-`chmod a+x ./UniAmp/scripts/*`  \
+Run the following script and specify UniAmp path:
+`source ./uniamp_setup.sh <path to UniAmp>` \
+This will add UniAmp scripts and binaries of dependencies to your path.
 \
-Add UniAmp scripts to path:  \
-`export PATH=./UniAmp/scripts/:$PATH`  \
-\
-Assign paths of dependencies to the following bash variables and export to environment:  \
-`export DATASETS_PATH=<path to datasets>`  \
-`export RNAMMER_PATH=<path to rnammer>`  \
-`export NUCMER_PATH=<path to nucmer>`  \
-`export BEDTOOLS_PATH=<path to bedtools>`  \
-`export BLASTN_PATH=<path to blastn>`  \
-`export USEARCH_PATH=<path to usearch>`  \
-`export BIOAWK_PATH=<path to bioawk>`
 # Usage
 For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates.  \
 \
