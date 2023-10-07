@@ -24,14 +24,12 @@ Besides basic Linux utilities and Python, the following software is implemented 
 [usearch](https://drive5.com/usearch/download.html)  \
 [bioawk](https://github.com/lh3/bioawk)  \
 \
-If you use the UniAmp wrapper scripts, please cite the corresponding software above. See references below.
 # Installation
 Download repository from Github:  \
 `git clone https://github.com/kenscripts/UniAmp.git`  \
 \
 Run the following script and specify UniAmp path:  \
-`source ./uniamp_setup.sh <path to UniAmp>`  \
-`# this will add UniAmp scripts and binaries of dependencies to your path`  \
+`source ./uniamp_setup.sh <path to UniAmp>` 
 # Usage
 For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates.  \
 \
