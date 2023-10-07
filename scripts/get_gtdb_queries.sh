@@ -1,23 +1,30 @@
 #! /bin/bash
 
 # Description:
-# retrieves query genomes containining a high ANI to a reference genome sequence
+# retrieves genomes from GTDB-tk ani_rep output that match reference genome sequence
 
 # Usage:
-# get_gtdb_queries <GTDB_DIR> <REF_GNOME> <OUT_DIR>
+# get_gtdb_queries <GTDBTK_DATA_PATH> <GTDB_DIR> <REF_GNOME> <OUT_DIR>
 
+# Arguments:
+# <GTDBTK_DATA_PATH> = path to GTDB-tk reference data
 # <GTDB_DIR> = directory containing gtdbtk output
 # <REF_GNOME> = filename for reference genome sequence
 # <OUT_DIR> = path for output directory
+
+# Dependencies:
+# output from GTDB-tk ani_rep
+# GTDB-tk reference data
 
 ##################################################
 # Inputs
 ##################################################
 
-GTDB_DIR=${1%/};
-REF_GNOME=$2;
+GTDBTK_DATA_PATH=${1%/};
+GTDB_DIR=${2%/};
+REF_GNOME=$3;
 REF_NAME=$(basename $REF_GNOME | rev | cut -d"." -f2- | rev);
-OUT_DIR=${3%/};
+OUT_DIR=${4%/};
 
 ##################################################
 # Outputs
@@ -49,4 +56,4 @@ do
   $GTDBTK_DATA_PATH/fastani/database/*/*/*/*/${LINE}_genomic.fna.gz \
   $GTDB_QUERY;
   gunzip $GTDB_QUERY/${LINE}_genomic.fna.gz;
-done <(cut -f2 $GTDB_MATCHES);
+done < <(cut -f2 $GTDB_MATCHES);

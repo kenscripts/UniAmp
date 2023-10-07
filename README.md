@@ -44,18 +44,20 @@ To find unique reference sequences, the reference genome is compared to query ge
 \
 At this step, the following scripts can be implemented:  \
 ```
-get_gtdb_queries.sh <GTDB_DIR> <REF_GNOME> <OUT_DIR>
+get_gtdb_queries.sh <GTDBTK_DATA_PATH> <GTDB_DIR> <REF_GNOME> <OUT_DIR>
 
 Description:
-retrieves genomes of ani_rep to use as query genomes
+retrieves genomes from GTDB-tk ani_rep output that match reference genome sequence
 
 Arguments:
-GTDB_DIR directory containing GTDB-tk output
-REF_GNOME filename for reference genome sequence
-OUT_DIR directory for output
+<GTDBTK_DATA_PATH> directory containing GTDB-tk output
+<GTDB_DIR> directory containing GTDB-tk output
+<REF_GNOME> filename for reference genome sequence
+<OUT_DIR> directory for output
 
 Dependencies:
-None, just need output from GTDB-tk
+output from GTDB-tk ani_rep
+GTDB-tk reference data
 ```
 \
 `get_gtdb_queries.sh`  \
