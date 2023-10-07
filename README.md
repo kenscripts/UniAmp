@@ -37,19 +37,24 @@ For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". T
 \
 The following is a walkthrough of the UniAmp pipeline.
 ### Set bash variables
-Create bash variables for dependencies as described above under "Installation".
+Create bash variables for dependencies by running setup script as described above under "Installation".
+\
 ### Build directory of query genomes
 To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. \
 \
 At this step, the following scripts can be implemented:  \
-`get_ncbi_queries.sh <GTDB_DIR> <REF_GNOME> <OUT_DIR>`  \
+`get_gtdb_queries.sh <GTDB_DIR> <REF_GNOME> <OUT_DIR>`  \
 `Description:
-retrieves genomes of ani_rep to use as query genomes  \
-***Inputs***: reference genome path, taxon, output directory path  \
-***Dependencies***: datasets, RNAmmer, blastn \
+retrieves genomes of ani_rep to use as query genomes`  \
+`Arguments:
+GTDB_DIR directory containing GTDB-tk output
+REF_GNOME filename for reference genome sequence
+OUT_DIR directory for output `  \
+`Dependencies:
+None, just need output from GTDB-tk`  \
 \
 `get_gtdb_queries.sh`  \
-***Description***: Parses output from GTDB-tk using reference genome to retrieve similiar query genomes \
+Description***: Parses output from GTDB-tk using reference genome to retrieve similiar query genomes \
 ***Inputs***: GTDB-tk output directory, reference genome path, output directory  \
 ***Dependencies***: None. Just need output from GTDB-tk using reference genome.  \
 ### Retrieve unique sequences
