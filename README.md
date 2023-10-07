@@ -43,14 +43,14 @@ Create bash variables for dependencies by running setup script as described abov
 To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. \
 \
 At this step, the following scripts can be implemented:  \
-`get_gtdb_queries.sh <GTDB_DIR> <REF_GNOME> <OUT_DIR>`  \
-`Description:
-retrieves genomes of ani_rep to use as query genomes`  \
-`Arguments:
-GTDB_DIR directory containing GTDB-tk output
-REF_GNOME filename for reference genome sequence
-OUT_DIR directory for output `  \
-`Dependencies:
+`get_gtdb_queries.sh <GTDB_DIR> <REF_GNOME> <OUT_DIR>  \
+Description:  \
+retrieves genomes of ani_rep to use as query genomes  \
+Arguments:  \
+GTDB_DIR directory containing GTDB-tk output  \
+REF_GNOME filename for reference genome sequence  \
+OUT_DIR directory for output  \
+Dependencies:  \
 None, just need output from GTDB-tk`  \
 \
 `get_gtdb_queries.sh`  \
