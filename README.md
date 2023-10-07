@@ -49,8 +49,8 @@ Description:
 retrieves genomes from GTDB-tk ani_rep output that match reference genome sequence
 
 Arguments:
-<GTDBTK_DATA_PATH> directory containing GTDB-tk output
-<GTDB_DIR> directory containing GTDB-tk output
+<GTDBTK_DATA_PATH> path to GTDB-tk reference data
+<GTDB_DIR> directory containing GTDB-tk ani_rep output
 <REF_GNOME> filename for reference genome sequence
 <OUT_DIR> directory for output
 

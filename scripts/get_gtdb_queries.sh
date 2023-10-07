@@ -8,7 +8,7 @@
 
 # Arguments:
 # <GTDBTK_DATA_PATH> = path to GTDB-tk reference data
-# <GTDB_DIR> = directory containing gtdbtk output
+# <GTDB_DIR> = directory containing GTDB-tk ani_rep output
 # <REF_GNOME> = filename for reference genome sequence
 # <OUT_DIR> = path for output directory
 
