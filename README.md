@@ -63,7 +63,7 @@ GTDB-tk reference data
 get_ncbi_queries.sh <REF_GNOME> <TAXON> <OUT_DIR>
 
 Description:
-retrieves query genomes from NCBI that are a specific taxon with > 97% 16S rRNA sequence identity to reference genome sequence
+retrieves query genomes from NCBI of the specified taxon with > 97% 16S rRNA sequence identity to reference genome sequence
 
 Arguments:
 <REF_GNOME> filename of reference genome sequence
