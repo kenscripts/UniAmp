@@ -16,9 +16,10 @@ export PATH=$UNIAMP_PATH/scripts/:$PATH
 
 # export paths of bins
 export DATASETS_PATH="$UNIAMP_PATH/bin/datasets"
+export JQ_PATH="$UNIAMP_PATH/bin/jq"
 # modifying rnammer file
 #https://www.biostars.org/p/9550142/
-export RNAMMER_PATH="$UNIAMP_PATH/bin/rnammer-1.2/" 
+export RNAMMER_PATH="$UNIAMP_PATH/bin/rnammer-1.2/rnammer" 
 export NUCMER_PATH="$UNIAMP_PATH/bin/nucmer"
 export BEDTOOLS_PATH="$UNIAMP_PATH/bin/bedtools"
 export BLASTN_PATH="$UNIAMP_PATH/bin/blastn"

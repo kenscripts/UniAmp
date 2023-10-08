@@ -1,20 +1,60 @@
 #! /bin/bash
 
+# Description:
+# retrieves query genomes from NCBI that are a specific taxon with > 97% 16S rRNA sequence identity to reference genome sequence
+
+# Usage:
+# get_ncbi_queries.sh <REF_GNOME> <TAXON> <OUT_DIR>
+
+# Arguments:
+# <REF_GNOME> = filename of reference genome sequence
+# <TAXON> = search for query genomes from a specific taxon
+# <OUT_DIR> = path for output directory
+
+# Dependencies:
+# datasets
+# rnammer
+# blastn
+
+##################################################
+# Inputs
+##################################################
+
 REF_GNOME=$1
 TAXON=$2
 OUT_DIR=$3
-mkdir -p $OUT_DIR
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Outputs
+##################################################
+
+# taxon accessions
+ACCESSIONS="$OUT_DIR/ncbi_$TAXON.accessions"
+
+# taxon genomes
+QUERY_GNOMES="$OUT_DIR/ncbi_$TAXON.genomes.zip"
+
+# reference 16S 
+REF_NAME=$(basename $REF_GNOME | rev | cut -d"." -f2- | rev);
+REF_16S="$OUT_DIR/$REF_NAME.16S.fna";
+
+# query 16S
+TAXON_BLAST="$OUT_DIR/ncbi_$TAXON.blast.tsv"
+QACCESSIONS="$OUT_DIR/ncbi_queries.accessions"
+
+# query genomes
+NCBI_QUERY="$OUT_DIR/ncbi_query_gnomes"
+mkdir -p $NCBI_QUERY
+
+##################################################
+# Taxon Accessions
+##################################################
 
 printf "\n>>> Retrieving $TAXON accessions\n\n"
 
-# output
-ACCESSIONS="$OUT_DIR/ncbi_$TAXON.accessions"
-
 # get tax accessions
 $DATASETS_PATH summary genome taxon "$TAXON" --refseq |
-jq \
+$JQ_PATH \
 -r \
 '.assemblies[].assembly |
 select(.assembly_level == "Complete Genome") |
@@ -25,12 +65,11 @@ select(.assembly_level == "Complete Genome") |
 ACCESSION_COUNT=$(wc -l <$ACCESSIONS)
 printf "Total number of $TAXON accessions: $ACCESSION_COUNT\n\n"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Taxon Genomes
+##################################################
 
 printf "\n>>> Downloading $TAXON genomes\n\n"
-
-# output
-QUERY_GNOMES="$OUT_DIR/ncbi_$TAXON.genomes.zip"
 
 # download taxon genomes
 $DATASETS_PATH \
@@ -48,13 +87,11 @@ $OUT_DIR/ncbi_dataset/data/*/*_genomic.fna \
 $OUT_DIR/ncbi_dataset/;
 rm -r $OUT_DIR/ncbi_dataset/data;
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Reference 16S rRNA Gene Sequence
+##################################################
 
 printf "\n>>> Searching for reference 16S rRNA gene sequences\n\n"
-
-# output
-REF_NAME=$(basename $REF_GNOME | rev | cut -d"." -f2- | rev);
-REF_16S="$OUT_DIR/$REF_NAME.16S.fna";
 
 # get reference 16S seq
 perl \
@@ -65,13 +102,11 @@ $RNAMMER_PATH \
 $REF_GNOME;
 echo $REF_16S;
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Find Similar 16S rRNA Gene Sequences
+##################################################
 
 printf "\n>>> %s\n\n" "Searching for queries from same species as reference (> 97 % 16S identity)"
-
-# output
-TAXON_BLAST="$OUT_DIR/ncbi_$TAXON.blast.tsv"
-QACCESSIONS="$OUT_DIR/ncbi_queries.accessions"
 
 # blast ref 16S against ncbi taxon genomes to find genomes of same species
 $BLASTN_PATH \
@@ -114,21 +149,24 @@ uniq \
 QUERY_COUNT=$(wc -l <$QACCESSIONS)
 printf "Total number of query genomes: $QUERY_COUNT\n\n"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Get NCBI Query Genomes
+##################################################
 
 printf "\n>>> Building ncbi_queries directory\n"
 
-# output
-QUERY_DIR="$OUT_DIR/ncbi_queries"
-mkdir -p $QUERY_DIR
 
 # mv query genomes from ncbi_datases to ncbi_queries
 while read QUERY;
 do
-  mv $OUT_DIR/ncbi_dataset/${QUERY} $QUERY_DIR;
+  mv \
+  $OUT_DIR/ncbi_dataset/${QUERY} \
+  $NCBI_QUERY;
 done <$QACCESSIONS; 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Clean-Up
+##################################################
 
 printf "\n>>> Cleaning up intermediary files\n\n"
 

@@ -39,19 +39,19 @@ The following is a walkthrough of the UniAmp pipeline.
 ### Set bash variables
 Create bash variables for dependencies by running setup script as described above under "Installation".
 ### Build directory of query genomes
-To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. \
+To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. Below are some strategies to obtain query genomes with high sequence similarity to reference genome. \
 \
 At this step, the following scripts can be implemented:
 ```
 get_gtdb_queries.sh <GTDBTK_DATA_PATH> <GTDB_DIR> <REF_GNOME> <OUT_DIR>
 
 Description:
-retrieves genomes from GTDB-tk ani_rep output that match reference genome sequence
+retrieves query genomes from GTDB-tk ani_rep output that match reference genome sequence
 
 Arguments:
 <GTDBTK_DATA_PATH> path to GTDB-tk reference data
 <GTDB_DIR> directory containing GTDB-tk ani_rep output
-<REF_GNOME> filename for reference genome sequence
+<REF_GNOME> filename of reference genome sequence
 <OUT_DIR> directory for output
 
 Dependencies:
@@ -59,10 +59,22 @@ output from GTDB-tk ani_rep
 GTDB-tk reference data
 ```
 \
-`get_gtdb_queries.sh`  \
-Description***: Parses output from GTDB-tk using reference genome to retrieve similiar query genomes \
-***Inputs***: GTDB-tk output directory, reference genome path, output directory  \
-***Dependencies***: None. Just need output from GTDB-tk using reference genome.  \
+```
+get_ncbi_queries.sh <REF_GNOME> <TAXON> <OUT_DIR>
+
+Description:
+retrieves query genomes from NCBI that are a specific taxon with > 97% 16S rRNA sequence identity to reference genome sequence
+
+Arguments:
+<REF_GNOME> filename of reference genome sequence
+<TAXON> search for query genomes from a specific taxon
+<OUT_DIR> path for output directory
+
+Dependencies:
+datasets
+rnammer
+blastn
+```
 ### Retrieve unique sequences
 Once a directory with query genomes is assembled the following script is implemented:  \
 `uni_seq.sh`  \
