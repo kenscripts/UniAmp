@@ -10,6 +10,7 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 ### Visual representation:
 ![UniAmp](https://github.com/kenscripts/UniAmp/blob/main/UniAmp.v2.png)
 
+
 # Dependencies
 The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatics software.  \
 \
@@ -26,14 +27,18 @@ Besides basic Linux utilities and Python, the following software is implemented 
 [usearch](https://drive5.com/usearch/download.html)  \
 [bioawk](https://github.com/lh3/bioawk)
 
+
 # Installation
 Download repository from Github:  \
 `git clone https://github.com/kenscripts/UniAmp.git`  \
 \
 Run the following script and specify UniAmp path:  \
 `source ./uniamp_setup.sh <path to UniAmp>` 
+
+
 # Usage
 For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates. The following is a walkthrough of the UniAmp pipeline.
+
 ### Set bash variables
 Create bash variables for dependencies by running setup script as described above under "Installation".
 
@@ -73,6 +78,7 @@ datasets
 rnammer
 blastn
 ```
+
 ### Retrieve unique sequences
 Once a directory with query genomes is assembled the following script is implemented:  \
 `uni_seq.sh`  \
@@ -80,14 +86,17 @@ Once a directory with query genomes is assembled the following script is impleme
 ***Inputs***: reference genome path, query genome directory, output directory  \
 ***Main Outputs***: uni_seq.sc.fasta and other intermediary files \
 ***Dependencies***: nucmer, bedtools, bioawk
+
 ### Select unique reference sequence
 The output from `uni_seq.sh` can produced many unique reference sequences. This depends on how many query genomes were compared and how similiar these query genomes were to the reference genome.  \
 \
 For the later steps in the UniAmp pipeline, unique reference sequences are manually entered in the online graphical interface of Primer-BLAST. As a result, it is convienent to only have 1 or a few unique reference sequences to use.  \
 \
 To accomplish this, selection criteria can be imposed to select the most optimal unique reference sequence based on the user's preference. In the original UniAmp publication, sequences with a size of 150-250 bp and GC content of 40-60 % were selected. The remaining unique reference sequences were than aligned against the NCBI nucleotide collection database. The unique reference sequence with the least amount of matches was used for primer design.
+
 ### Primer-BLAST
 Once a unique reference sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). Presently, no command-line tool exists for Primer-BLAST so the Primer-BLAST html output is saved and used in the next step. 
+
 ### Tabulate primer pair info
 The following script is implemented using Primer-BLAST output:  \
 `uni_pcr.sh`  \
