@@ -35,9 +35,11 @@ Run the following script and specify UniAmp path:  \
 # Usage
 For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates.  \
 \
-The following is a walkthrough of the UniAmp pipeline.
+The following is a walkthrough of the UniAmp pipeline.  \
+\
 ### Set bash variables
-Create bash variables for dependencies by running setup script as described above under "Installation".
+Create bash variables for dependencies by running setup script as described above under "Installation".  \
+\
 ### Build directory of query genomes
 To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. Below are some strategies to obtain query genomes with high sequence similarity to reference genome. \
 \
@@ -57,8 +59,7 @@ Arguments:
 Dependencies:
 output from GTDB-tk ani_rep
 GTDB-tk reference data
-```
-\
+``` 
 ```
 get_ncbi_queries.sh <REF_GNOME> <TAXON> <OUT_DIR>
 
