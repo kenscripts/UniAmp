@@ -33,7 +33,7 @@ Download repository from Github:  \
 Run the following script and specify UniAmp path:  \
 `source ./uniamp_setup.sh <path to UniAmp>` 
 # Usage
-For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates. The following is a walkthrough of the UniAmp pipeline.  \
+For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates. The following is a walkthrough of the UniAmp pipeline.
 ### Set bash variables
 Create bash variables for dependencies by running setup script as described above under "Installation".  \
 \
