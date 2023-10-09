@@ -112,7 +112,7 @@ For the later steps in the UniAmp pipeline, unique reference sequences are uploa
 \
 To accomplish this, selection criteria can be imposed to select the most optimal unique reference sequence based on the user's preference. In the original UniAmp publication, unique reference sequences were filtered by size and GC content. The remaining sequences were than aligned against the NCBI nucleotide collection database. The unique reference sequence with the lowest similarity to any database sequence was used for primer design. This approach can be implemented by performing the following:
 
-1%29 use bioawk to filter unique reference sequences by size and gc content
+1[parens][1] use bioawk to filter unique reference sequences by size and gc content
 ```
 # size: 400-800 bp
 # gc: 40-60 %
