@@ -108,9 +108,9 @@ local_uniseq.sh:::blastn
 ### Select unique reference sequence
 The output from `uni_seq.sh` can produced many unique reference sequences. This depends on how many query genomes were compared and how similiar these query genomes were to the reference genome.  \
 \
-For the later steps in the UniAmp pipeline, unique reference sequences are uploaded to the web server of Primer-BLAST. As a result, it is convienent to only have 1 or a few unique reference sequences to use.  \
+For the later steps in the UniAmp pipeline, unique reference sequences are uploaded to the web server of Primer-BLAST. As a result, it is convienent to only have 1 or a few unique reference sequences to use. To accomplish this, selection criteria can be imposed to select the most optimal unique reference sequence based on the user's preference.  \
 \
-To accomplish this, selection criteria can be imposed to select the most optimal unique reference sequence based on the user's preference. In the original UniAmp publication, unique reference sequences were filtered by size and GC content. The remaining sequences were than aligned against the NCBI nucleotide collection database. The unique reference sequence with the lowest similarity to any database sequence was used for primer design. This approach can be implemented by performing the following:
+In the original UniAmp publication, unique reference sequences were filtered by size and GC content. The remaining sequences were than compared against the NCBI nucleotide collection database. The unique reference sequence with no match or with the lowest similarity to any database sequence was used for primer design. This approach can be implemented by performing the following:
 
 1\) use bioawk to filter unique reference sequences by size and gc content
 ```
@@ -122,6 +122,25 @@ $BIOAWK_PATH \
 $UNISEQ_DIR/uni_seq.sc.fasta \
 > $UNISEQ_DIR/uni_seq.filtered.fasta;
 ```
+2\) compare unique reference sequences against NCBI database and select most unique sequence
+```
+get_remote_uniseq.sh <QUERY_FASTA> <BLASTDB> <TAXON> <OUT_DIR>
+
+Description:
+performs a remote blastn search and returns most unique query sequence
+
+Arguments:
+<QUERY_FASTA> = path for query fasta to use in blastn search
+<BLAST_DB> = name of NCBI database to search against (e.g. nr)
+<TAXON> = limit blastn search to specific taxon (used as entrez query for [organism])
+<OUT_DIR> = path to output directory
+
+Dependencies:
+remote_blastn_lineage:::blastn
+remote_blastn_lineage:::taxon
+bioawk
+```
+
 
 ### Primer-BLAST
 Once a unique reference sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). Presently, no command-line tool exists for Primer-BLAST so the Primer-BLAST html output is saved and used in the next step. 
