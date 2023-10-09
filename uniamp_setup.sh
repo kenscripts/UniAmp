@@ -14,7 +14,7 @@ chmod u+x $UNIAMP_PATH/bin/*
 # add scripts to path
 export PATH=$UNIAMP_PATH/scripts/:$PATH
 
-# export paths of bins
+# export binaries as bash variables
 export DATASETS_PATH="$UNIAMP_PATH/bin/datasets"
 export JQ_PATH="$UNIAMP_PATH/bin/jq"
 # modifying rnammer file

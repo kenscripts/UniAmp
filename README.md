@@ -80,7 +80,7 @@ blastn
 ```
 
 ### Retrieve unique sequences
-Once a directory with query genomes is assembled the following script is implemented:  \
+Once a directory with query genomes is assembled the following script is implemented:
 ```
 uni_seq.sh <REF_GNOME> <QUERY_DIR> <OUT_DIR>
 
