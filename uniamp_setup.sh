@@ -21,6 +21,7 @@ export JQ_PATH="$UNIAMP_PATH/bin/jq"
 #https://www.biostars.org/p/9550142/
 export RNAMMER_PATH="$UNIAMP_PATH/bin/rnammer-1.2/rnammer" 
 export NUCMER_PATH="$UNIAMP_PATH/bin/nucmer"
+export SHOWCOORDS_PATH="$UNIAMP_PATH/bin/show-coords"
 export BEDTOOLS_PATH="$UNIAMP_PATH/bin/bedtools"
 export BLASTN_PATH="$UNIAMP_PATH/bin/blastn"
 export USEARCH_PATH="$UNIAMP_PATH/bin/usearch_v11"

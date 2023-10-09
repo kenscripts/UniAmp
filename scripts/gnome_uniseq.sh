@@ -1,29 +1,40 @@
 #! /bin/bash
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Description
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Description:
+# performs pw genome alignment and extracts unique reference sequences
 
-# performs pw genome alignment with nucmer
-# extracts unique seq intervals in reference to build fasta using bedtools
+# Usage:
+# gnome_uniseq.sh <REF_GNOME> <QUERY_DIR> <OUT_DIR>
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# I/O
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Arguments:
+# <REF_GNOME> = path to reference genome sequence
+# <QUERY_DIR> = path to directory containing query genomes
+# <OUT_DIR> = path to directory for output
 
-# input
-REF=$1
+# Dependencies:
+# build_bedtools_files.sh:::bedtools
+# nucmer
+# build_uni_files.sh:::bedtools
+
+##################################################
+# Inputs
+##################################################
+
+REF_GNOME=$1
 QUERY_DIR=$2
+OUT_DIR=${3%/}
 
-# output
+##################################################
+# Outputs
+##################################################
+
 NO_QUERIES=$(ls ${QUERY_DIR} | wc -l)
-REF_DIR=$(dirname $REF)
-OUT_DIR=$(echo "${3%/}")
+REF_DIR=$(dirname $REF_GNOME)
 mkdir -p $OUT_DIR
 
 # output::build_bedtools_files.sh
-GENOMEFASTA="$OUT_DIR/ref_bedtools.fasta"
-GENOMEBED="$OUT_DIR/ref_bedtools.bed"
+REF_BTFASTA="$OUT_DIR/ref_bedtools.fasta"
+REF_BTBED="$OUT_DIR/ref_bedtools.bed"
 
 # output::nucmer
 NUCCOORS="$OUT_DIR/nuc.coors"
@@ -32,33 +43,34 @@ ANI="$OUT_DIR/ani.tsv"
 # output::build_uni_files.sh
 UNIFASTA="$OUT_DIR/uni_seq.nuc.fasta"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Instructions
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Search Info
+##################################################
 
-# search info
 sleep 1
-printf "\n\nReference: $REF\n"
+printf "\n\nReference: $REF_GNOME\n"
 sleep 1
 printf "Query directory: $QUERY_DIR\n"
 sleep 1
 printf "Number of queries: $NO_QUERIES\n"
 
-
+##################################################
+# File Formatting
+##################################################
 
 sleep 1
 printf "Modifying reference genome fasta for analysis.\n"
 
 # build ref_genome.fasta and ref_genome.bed files
 build_bedtools_files.sh \
-$REF \
+$REF_GNOME \
 $OUT_DIR;
 
-
+##################################################
+# Pairwise Genome Alignment (nucmer)
+##################################################
 
 sleep 1
-# run nucmer
-# run ANIm.sh to find similar queries to reference
 INDEX=1
 for QUERY in $(ls -p $QUERY_DIR | grep -v /);
 do 
@@ -72,37 +84,38 @@ do
   # initially used -b 75 but changed to default
   # to maximize unique sequence retrieval for qPCR set b = 75
   $NUCMER_PATH \
-  $GENOMEFASTA \
+  $REF_BTFASTA \
   $QUERY_DIR/$QUERY \
   2> $OUT_DIR/nuc.log;
 
   # build nuc.coors file
-  show-coords -lcrT out.delta |
+  $SHOWCOORDS_PATH -lcrT out.delta |
   tail -n +5 \
   >> $NUCCOORS;
 
+  # run ANIm.sh to find similar queries to reference
   # build ani.tsv file
   paste \
   -d "\t" \
   <(echo $QUERY) \
-  <(show-coords -rc out.delta | ANIm.sh) \
+  <($SHOWCOORDS_PATH -rc out.delta | ANIm.sh) \
   >> $ANI;
   INDEX=$(expr $INDEX + 1);
 done
 
-
+##################################################
+# Unique Reference Sequences
+##################################################
 
 sleep 1
 printf "\nFinding unique sequences in reference genome.\n"
 
 # build uni.fasta and uni.bed files
 build_uni_files.sh \
-$GENOMEFASTA \
-$GENOMEBED \
+$REF_BTFASTA \
+$REF_BTBED \
 $NUCCOORS \
 $OUT_DIR;
-
-
 
 # add header to nuc.coords file in case user wants to use
 HEADER="S1\tE1\tS2\tE2\tLEN1\tLEN2\tIDY\tRLEN\tQLEN\tRCOV\tQCOV\tRCONTIG\tQCONTIG";

@@ -53,10 +53,10 @@ Description:
 retrieves query genomes from GTDB-tk ani_rep output that match reference genome sequence
 
 Arguments:
-<GTDBTK_DATA_PATH> path to GTDB-tk reference data
-<GTDB_DIR> directory containing GTDB-tk ani_rep output
-<REF_GNOME> filename of reference genome sequence
-<OUT_DIR> directory for output
+<GTDBTK_DATA_PATH> = path to GTDB-tk reference data
+<GTDB_DIR> = directory containing GTDB-tk ani_rep output
+<REF_GNOME> = filename of reference genome sequence
+<OUT_DIR> = directory for output
 
 Dependencies:
 output from GTDB-tk ani_rep
@@ -69,9 +69,9 @@ Description:
 retrieves query genomes from NCBI of the specified taxon with > 97% 16S rRNA sequence identity to reference genome sequence
 
 Arguments:
-<REF_GNOME> filename of reference genome sequence
-<TAXON> search for query genomes from a specific taxon
-<OUT_DIR> path for output directory
+<REF_GNOME> = filename of reference genome sequence
+<TAXON> = search for query genomes from a specific taxon
+<OUT_DIR> = path for output directory
 
 Dependencies:
 datasets
@@ -81,11 +81,24 @@ blastn
 
 ### Retrieve unique sequences
 Once a directory with query genomes is assembled the following script is implemented:  \
-`uni_seq.sh`  \
-***Description***: Performs pairwise genome alignments between reference genome and each query genome (nucmer). From these alignments, unique reference genome intervals are found and used to extract unique reference sequences (bedtools). Small sequences (< 100 bp) are removed and local alignments (blastn) are performed to return only single-copy, unique reference sequences.  \
-***Inputs***: reference genome path, query genome directory, output directory  \
-***Main Outputs***: uni_seq.sc.fasta and other intermediary files \
-***Dependencies***: nucmer, bedtools, bioawk
+```
+uni_seq.sh <REF_GNOME> <QUERY_DIR> <OUT_DIR>
+
+Description:
+find unique sequences in references compared to query genomes by performing pw genome alignment then local alignment
+
+Arguments:
+<REF_GNOME> = path to reference genome sequence
+<QUERY_DIR> = path to directory containing query genomes
+<OUT_DIR> = path to directory for output
+
+Dependencies:
+gnome_uniseq.sh:::nucmer
+gnome_uniseq.sh:::show-coords
+gnome_uniseq.sh:::bedtools
+bioawk
+local_uniseq.sh:::blastn
+```
 
 ### Select unique reference sequence
 The output from `uni_seq.sh` can produced many unique reference sequences. This depends on how many query genomes were compared and how similiar these query genomes were to the reference genome.  \

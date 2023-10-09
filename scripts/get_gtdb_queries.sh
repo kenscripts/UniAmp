@@ -31,7 +31,7 @@ OUT_DIR=${4%/};
 ##################################################
 
 GTDB_MATCHES="$OUT_DIR/gtdb_matches.tsv"
-GTDB_QUERY="$OUT_DIR/gtdb_query_gnomes"
+GTDB_QUERY="$OUT_DIR/gtdb_query_genomes"
 mkdir -p $GTDB_QUERY
 
 ##################################################

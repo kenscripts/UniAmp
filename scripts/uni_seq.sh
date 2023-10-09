@@ -1,30 +1,42 @@
 #! /bin/bash
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Description
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Description:
+# find unique sequences in references compared to query genomes by performing pw genome alignment then local alignment
 
-# find unique sequences in references compared to query genomes
-# perform pw genome alignment then local alignment
+# Usage:
+# uni_seq.sh <REF_GNOME> <QUERY_DIR> <OUT_DIR>
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# I/O
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Arguments:
+# <REF_GNOME> = path to reference genome sequence
+# <QUERY_DIR> = path to directory containing query genomes
+# <OUT_DIR> = path to directory for output
 
-# input
+# Dependencies:
+# gnome_uniseq.sh:::nucmer
+# gnome_uniseq.sh:::show-coords
+# gnome_uniseq.sh:::bedtools
+# bioawk
+# local_uniseq.sh:::blastn
+
+##################################################
+# Inputs
+##################################################
+
 REF_GNOME=$1
 QUERY_DIR=${2%/}
 OUT_DIR=${3%/}
 
-# output
-UNIFASTA="$OUT_DIR/uni_seq.nuc.fasta";
-FILTERED_FASTA="$OUT_DIR/uni_seq.filtered.fasta"
-LOCAL_BLAST="$OUT_DIR/uni_seq.loc_blastn.tsv"
-SINGLECOPY="$OUT_DIR/uni_seq.sc.fasta"
+##################################################
+# Outputs
+##################################################
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+UNIFASTA="$OUT_DIR/uni_seq.nuc.fasta";
+SIZED_UNIFASTA="$OUT_DIR/uni_seq.filtered.fasta"
+SC_UNIFASTA="$OUT_DIR/uni_seq.sc.fasta"
+
+##################################################
 # Local
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
 
 # function to check for empty fasta files
 fasta_check(){
@@ -39,16 +51,16 @@ else
 fi
 }
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Instructions
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Unique Sequences (Pairwise Genome Alignment)
+##################################################
 
 sleep 1
-printf "\n>>> Searching for unique sequences (find_uni_seq.sh)"
+printf "\n>>> Searching for unique sequences (gnome_uniseq.sh)"
 sleep 1
 
 # creates OUT_DIR
-find_uni_seq.sh \
+gnome_uniseq.sh \
 $REF_GNOME \
 $QUERY_DIR \
 $OUT_DIR;
@@ -56,7 +68,9 @@ $OUT_DIR;
 # check if sequences are present
 fasta_check $UNIFASTA;
 
-
+##################################################
+# Removing Small Sequences
+##################################################
 
 sleep 1
 printf "\n\n>>> Removing small sequences (<100 bp)\n\n"
@@ -67,12 +81,14 @@ $BIOAWK_PATH \
 -c fastx \
 'length($seq) > 100 {print ">"$name;print $seq}' \
 $UNIFASTA \
-> $FILTERED_FASTA;
+> $SIZED_UNIFASTA;
 
 # check if sequences are present
-fasta_check $FILTERED_FASTA;
+fasta_check $SIZED_UNIFASTA;
 
-
+##################################################
+# Unique Sequences (Local Alignment)
+##################################################
 
 sleep 1
 printf "\n\n>>> Retrieving single-copy, unique sequences using local alignment (local_uniseq.sh)\n\n"
@@ -80,11 +96,10 @@ sleep 1
 
 # get local unique sequences
 local_uniseq.sh \
-$FILTERED_FASTA \
+$SIZED_UNIFASTA \
 $REF_GNOME \
 <(cat $(find $QUERY_DIR -maxdepth 1 -type f )) \
-$LOCAL_BLAST \
-$SINGLECOPY;
+$OUT_DIR;
 
 # check for sequences
-fasta_check $SINGLECOPY;
+fasta_check $SC_UNIFASTA;

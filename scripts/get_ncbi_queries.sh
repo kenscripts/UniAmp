@@ -7,9 +7,9 @@
 # get_ncbi_queries.sh <REF_GNOME> <TAXON> <OUT_DIR>
 
 # Arguments:
-# <REF_GNOME> = filename of reference genome sequence
+# <REF_GNOME>  = path to reference genome sequence
 # <TAXON> = search for query genomes from a specific taxon
-# <OUT_DIR> = path for output directory
+# <OUT_DIR> = path to directory for output
 
 # Dependencies:
 # datasets
@@ -43,7 +43,7 @@ TAXON_BLAST="$OUT_DIR/ncbi_$TAXON.blast.tsv"
 QACCESSIONS="$OUT_DIR/ncbi_queries.accessions"
 
 # query genomes
-NCBI_QUERY="$OUT_DIR/ncbi_query_gnomes"
+NCBI_QUERY="$OUT_DIR/ncbi_query_genomes"
 mkdir -p $NCBI_QUERY
 
 ##################################################
