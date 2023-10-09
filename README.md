@@ -12,16 +12,12 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 
 
 # Dependencies
-The UniAmp pipeline is composed of bash wrappers around public bioinformatics software. Most of these dependencies are included with UniAmp as binaries in the `bin` folder.  \
+The UniAmp pipeline is composed of bash wrappers around public bioinformatics software. These dependencies are included with UniAmp as binaries in the `bin` folder.  \
 \
 Besides basic Linux utilities and Python, the following software is implemented in the UniAmp pipeline:  \
-(Optional)  \
 [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
 [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)\*  \
-[GTDB-tk](https://github.com/Ecogenomics/GTDBTk)  \
 [taxonkit](https://github.com/shenwei356/taxonkit)  \
-\
-(Required)  \
 [nucmer](https://sourceforge.net/projects/mummer/)  \
 [bedtools](https://github.com/arq5x/bedtools2)  \
 [blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
