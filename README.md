@@ -28,7 +28,7 @@ Besides basic Linux utilities and Python, the following software is implemented 
 [usearch](https://drive5.com/usearch/download.html)  \
 [bioawk](https://github.com/lh3/bioawk)
 
-\* To implement rnammer with UniAmp script, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch` so the binary for this command is included in the UniAmp `bin` folder. 
+\* To implement rnammer in UniAmp scripts, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch` so the binary for this command is included in the UniAmp `bin` folder. 
 
 
 # Installation
@@ -45,7 +45,9 @@ Download and unpack ncbi taxonomy in UniAmp lib directory:  \
 
 
 # Usage
-For one example of how to use the UniAmp pipeline, see "uni_amp.workflow.txt". This was the workflow used in the original UniAmp publication for designing strain-specific primers to bacterial isolates. The following is a walkthrough of the UniAmp pipeline.
+For specific examples on how to use the UniAmp pipeline, see `*.workflow.txt` files in the `docs` folder. These files show the process for designing strain-specific primers to different bacteria.  \
+
+The following is a general walkthrough of the UniAmp pipeline:
 
 ### Set bash variables
 Create bash variables for dependencies by running setup script as described above under "Installation".
