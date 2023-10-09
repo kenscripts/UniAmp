@@ -8,7 +8,7 @@
 
 # Arguments:
 # <QUERY_FASTA> = path for query fasta to use in blastn search
-# <BLAST_DB> = name of NCBI database to search in (e.g. nr)
+# <BLAST_DB> = name of NCBI database to search against (e.g. nr)
 # <TAXON> = limit blastn search to specific taxon (used as entrez query for [organism])
 # <OUT_DIR> = path to output directory
 
