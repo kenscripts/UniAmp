@@ -10,7 +10,7 @@
 # <GTDBTK_DATA_PATH> = path to GTDB-tk reference data
 # <GTDB_DIR> = directory containing GTDB-tk ani_rep output
 # <REF_GNOME> = filename of reference genome sequence
-# <OUT_DIR> = path for output directory
+# <OUT_DIR> = path to output directory
 
 # Dependencies:
 # output from GTDB-tk ani_rep

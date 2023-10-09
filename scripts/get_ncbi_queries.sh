@@ -9,7 +9,7 @@
 # Arguments:
 # <REF_GNOME>  = path to reference genome sequence
 # <TAXON> = search for query genomes from a specific taxon
-# <OUT_DIR> = path to directory for output
+# <OUT_DIR> = path to output directory
 
 # Dependencies:
 # datasets

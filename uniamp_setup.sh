@@ -11,10 +11,10 @@ export UNIAMP_PATH=${1%/}
 chmod u+x $UNIAMP_PATH/scripts/*
 chmod u+x $UNIAMP_PATH/bin/*
 
-# add scripts to path
+# export paths to scripts
 export PATH=$UNIAMP_PATH/scripts/:$PATH
 
-# export binaries as bash variables
+# export paths to binaries
 export DATASETS_PATH="$UNIAMP_PATH/bin/datasets"
 export JQ_PATH="$UNIAMP_PATH/bin/jq"
 # modifying rnammer file
@@ -26,3 +26,7 @@ export BEDTOOLS_PATH="$UNIAMP_PATH/bin/bedtools"
 export BLASTN_PATH="$UNIAMP_PATH/bin/blastn"
 export USEARCH_PATH="$UNIAMP_PATH/bin/usearch_v11"
 export BIOAWK_PATH="$UNIAMP_PATH/bin/bioawk"
+export TAXONKIT_PATH="$UNIAMP_PATH/bin/taxonkit"
+
+# export paths to databases
+export TAXONKIT_DB="$UNIAMP_PATH/lib/ncbi_taxdump/"

@@ -10,7 +10,7 @@
 # <REF_BTFASTA> = reference genome fasta sequence formatted to match nucmer output
 # <REF_BTBED> = sizes of contigs in reference genome sequence in bed format
 # <NUCCOORS> = coordinate output from nucmer
-# <OUT_DIR> = path to directory for output
+# <OUT_DIR> = path to output directory
 
 # Dependencies:
 # bedtools
