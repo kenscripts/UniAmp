@@ -12,7 +12,7 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 
 
 # Dependencies
-The UniAmp pipeline is composed of bash wrappers around public bioinformatics software. These dependencies are included with UniAmp as binaries in the `bin` folder.  \
+The UniAmp pipeline is composed of wrappers around public bioinformatics software. These dependencies are included with UniAmp as binaries in the `bin` folder.  \
 \
 Besides basic linux utilities, python, and perl, the following software is implemented in the UniAmp pipeline:  \
 [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
@@ -24,7 +24,7 @@ Besides basic linux utilities, python, and perl, the following software is imple
 [usearch](https://drive5.com/usearch/download.html)  \
 [bioawk](https://github.com/lh3/bioawk)
 
-\* To implement rnammer in UniAmp scripts, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch` so the binary for this command is included in the UniAmp `bin` folder. 
+\* To implement rnammer in UniAmp scripts, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch`, so the binary for this command is included in the UniAmp `bin` folder. 
 
 
 # Installation
@@ -45,8 +45,8 @@ For specific examples on how to use the UniAmp pipeline, see `*.workflow.txt` fi
 \
 The following is a general walkthrough of the UniAmp pipeline:
 
-### Set bash variables
-Create bash variables for dependencies by running setup script as described above under "Installation".
+### Set up UniAmp scripts and dependencies
+Set up UniAmp scripts and dependencies by running `uniamp_setup.sh` script as described above under "Installation".
 
 ### Build directory of query genomes
 To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. Below are some strategies to obtain query genomes with high sequence similarity to reference genome. \
