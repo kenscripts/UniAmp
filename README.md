@@ -79,7 +79,7 @@ rnammer
 blastn
 ```
 
-### Retrieve unique sequences
+### Retrieve unique reference sequences
 Once a directory with query genomes is assembled the following script is implemented:
 ```
 uni_seq.sh <REF_GNOME> <QUERY_DIR> <OUT_DIR>
@@ -103,9 +103,20 @@ local_uniseq.sh:::blastn
 ### Select unique reference sequence
 The output from `uni_seq.sh` can produced many unique reference sequences. This depends on how many query genomes were compared and how similiar these query genomes were to the reference genome.  \
 \
-For the later steps in the UniAmp pipeline, unique reference sequences are manually entered in the online graphical interface of Primer-BLAST. As a result, it is convienent to only have 1 or a few unique reference sequences to use.  \
+For the later steps in the UniAmp pipeline, unique reference sequences are uploaded to the web server of Primer-BLAST. As a result, it is convienent to only have 1 or a few unique reference sequences to use.  \
 \
-To accomplish this, selection criteria can be imposed to select the most optimal unique reference sequence based on the user's preference. In the original UniAmp publication, sequences with a size of 150-250 bp and GC content of 40-60 % were selected. The remaining unique reference sequences were than aligned against the NCBI nucleotide collection database. The unique reference sequence with the least amount of matches was used for primer design.
+To accomplish this, selection criteria can be imposed to select the most optimal unique reference sequence based on the user's preference. In the original UniAmp publication, unique reference sequences were filtered by size and GC content. The remaining sequences were than aligned against the NCBI nucleotide collection database. The unique reference sequence with the lowest similarity to any database sequence was used for primer design. This approach can be implemented by performing the following:
+
+1) use bioawk to filter unique reference sequences by size and gc content
+```
+# size: 400-800 bp
+# gc: 40-60 %
+$BIOAWK_PATH \
+-c fastx \
+'length($seq) > 400 && length($seq) <800 && gc($seq) < 0.60 && gc($seq) > 0.40 {print ">"$name"\n"$seq"\n"}' \
+$UNISEQ_DIR/uni_seq.sc.fasta \
+> $UNISEQ_DIR/uni_seq.filtered.fasta;
+```
 
 ### Primer-BLAST
 Once a unique reference sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). Presently, no command-line tool exists for Primer-BLAST so the Primer-BLAST html output is saved and used in the next step. 

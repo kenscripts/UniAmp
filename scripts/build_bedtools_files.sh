@@ -8,7 +8,7 @@
 
 # Arguments:
 # <REF_GNOME> = path to reference genome sequence
-# <OUT_DIR> = path to directory for output
+# <OUT_DIR> = path to output directory
 
 # Dependencies:
 # fasta_contig_length.py

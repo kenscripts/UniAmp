@@ -10,7 +10,7 @@
 # <SIZED_UNIFASTA> = sequences (> 100 bp) unique to reference genome sequence
 # <REF_GNOME> = path to reference genome sequence
 # <QUERY_GNOMES> = path to directory containing query genomes
-# <OUT_DIR> = path to directory for output
+# <OUT_DIR> = path to output directory
 
 # Dependencies:
 # local_blastn.sh:::blastn

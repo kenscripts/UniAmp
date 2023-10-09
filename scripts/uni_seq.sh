@@ -9,7 +9,7 @@
 # Arguments:
 # <REF_GNOME> = path to reference genome sequence
 # <QUERY_DIR> = path to directory containing query genomes
-# <OUT_DIR> = path to directory for output
+# <OUT_DIR> = path to output directory
 
 # Dependencies:
 # gnome_uniseq.sh:::nucmer
