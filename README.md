@@ -46,7 +46,7 @@ Download and unpack ncbi taxonomy in UniAmp lib directory:  \
 
 # Usage
 For specific examples on how to use the UniAmp pipeline, see `*.workflow.txt` files in the `docs` folder. These files show the process for designing strain-specific primers to different bacteria.  \
-
+\
 The following is a general walkthrough of the UniAmp pipeline:
 
 ### Set bash variables
