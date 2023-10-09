@@ -12,13 +12,14 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 
 
 # Dependencies
-The UniAmp pipeline is composed of bash wrapper scripts around public bioinformatics software.  \
+The UniAmp pipeline is composed of bash wrappers around public bioinformatics software. Most of these dependencies are included with UniAmp as binaries in the `bin` folder.  \
 \
 Besides basic Linux utilities and Python, the following software is implemented in the UniAmp pipeline:  \
 (Optional)  \
 [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
-[RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)  \
+[RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)\*  \
 [GTDB-tk](https://github.com/Ecogenomics/GTDBTk)  \
+[taxonkit](https://github.com/shenwei356/taxonkit)  \
 \
 (Required)  \
 [nucmer](https://sourceforge.net/projects/mummer/)  \
@@ -26,6 +27,8 @@ Besides basic Linux utilities and Python, the following software is implemented 
 [blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
 [usearch](https://drive5.com/usearch/download.html)  \
 [bioawk](https://github.com/lh3/bioawk)
+
+\* To implement rnammer with UniAmp script, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch` so the binary for this command is included in the UniAmp `bin` folder. 
 
 
 # Installation
