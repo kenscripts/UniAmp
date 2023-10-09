@@ -33,7 +33,14 @@ Download repository from Github:  \
 `git clone https://github.com/kenscripts/UniAmp.git`  \
 \
 Run the following script and specify UniAmp path:  \
-`source ./uniamp_setup.sh <path to UniAmp>` 
+`source ./uniamp_setup.sh <path to UniAmp>`  \
+\
+Download and unpack ncbi taxonomy in UniAmp lib directory:  \
+```
+cd $UNIAMP_PATH/lib/ncbi_taxdump
+wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz
+tar -xvf taxdump.tar.gz 
+```
 
 
 # Usage
