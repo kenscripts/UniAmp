@@ -37,7 +37,10 @@ Run the following script and specify UniAmp path:  \
 Download and unpack ncbi taxonomy in UniAmp lib directory:  \
 `cd $UNIAMP_PATH/lib/ncbi_taxdump`  \
 `wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz`  \
-`tar -xvf taxdump.tar.gz`
+`tar -xvf taxdump.tar.gz`  \
+\
+Some of the python scripts in UniAmp require the python package [BeautifulSoup4](https://pypi.org/project/beautifulsoup4/) to parse the html output from Primer-BLAST. BeautifulSoup4 can be installed using the following command:  \
+`pip install beautifulsoup4`
 
 
 # Usage
