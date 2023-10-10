@@ -149,7 +149,32 @@ bioawk
 
 
 ### Primer-BLAST
-Once a unique reference sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). Presently, no command-line tool exists for Primer-BLAST so the Primer-BLAST html output is saved and used in the next step. 
+Once a unique reference sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). Presently, no command-line tool exists for Primer-BLAST so the Primer-BLAST html output is saved and used in the next step.  \
+\
+Users can select different Primer-BLAST parameters depending on their specific needs. Below are some parameters that have been adjusted to design strain-specific primers for bacteria:  \
+\
+PCR Product Size:  \
+Min = 400, Max = 800 for end-point PCR  \
+Min = 75, Max = 150 for qPCR  \
+\
+Primer Melting Temperature:  \
+Min = 57, Opt = 60, Max = 63  \
+\
+Database = nr  \
+\
+Organism = bacteria  \
+\
+Primer Specificity Stringency:
+primer must have at least 5 total mismatches to unintended targets \
+at least 2 mismatches within the last 3 bps at the 3'end  \
+ignore targets that have 6 or more mismatches to primer  \
+\
+Primer Size:  \
+Min = 18, Opt = 22, Max = 26  \
+\
+Primer GC Content:  \
+Min = 40, Max = 60
+
 
 ### Tabulate primer pair info
 The following script is implemented using Primer-BLAST output:  \
