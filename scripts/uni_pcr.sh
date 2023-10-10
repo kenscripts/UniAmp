@@ -1,33 +1,45 @@
 #! /bin/bash
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Description
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Description:
+# parses primer blast output, performs in-silico PCR, and determines number of amplicons produced by each primer pair
 
-# parses primer blast output into tsv
-# runs in-silico PCR against specified genomes 
+# Usage:
+# uni_pcr.sh <PB_HTML> <QUERY_PATHS> <OUT_DIR>
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# I/O
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Arguments:
+# <PB_HTML> = path to Primer-BLAST html output
+# <QUERY_PATHS> = path to file containing file paths to query genomes
+# <OUT_DIR> = path to output directory
 
-# input
+# Dependencies:
+# gnome_uniseq.sh:::nucmer
+# gnome_uniseq.sh:::show-coords
+# gnome_uniseq.sh:::bedtools
+# bioawk
+# local_uniseq.sh:::blastn
+
+##################################################
+# Inputs
+##################################################
+
 PB_HTML=$1
 QUERY_PATHS=$2
-REF_FILE_NAME=$3
+OUT_DIR=${3%/}
 
-# output
-OUT_DIR=$(dirname PB_HTML)
+##################################################
+# Outputs
+##################################################
+
 OUT_NAME=$(echo $PB_HTML | xargs -n 1 basename | rev | cut -d"." -f2- | rev)
 PB_RESULTS="$OUT_DIR/$OUT_NAME.tsv"
 PRIMER_TSV="$OUT_DIR/$OUT_NAME.tmp"
-PB_RESULTS_ISPCR="$OUT_DIR/$OUT_NAME.ispcr.tsv"
+ISPCR_OUT="$OUT_DIR/$OUT_NAME.ispcr.tsv"
 ISPCR_AMPCOUNTS="$OUT_DIR/$OUT_NAME.ispcr.amp_counts.tsv"
 UNIPCR_OUT="$OUT_DIR/$OUT_NAME.uni_pcr.tsv"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Instructions
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Parse Primer-BLAST (pb_parser.py)
+##################################################
 
 sleep 1
 printf "\n>>> Parsing primer-blast output (pb_parser.py)\n\n"
@@ -39,7 +51,9 @@ pb_parser.py \
 $PB_HTML \
 > $PB_RESULTS;
 
-
+##################################################
+# In-Silico PCR (run_isPCR.py)
+##################################################
 
 sleep 1
 printf "\n>>> Performing in-silico PCR on genomes in $QUERY_PATHS (run_isPCR.sh):\n\n"
@@ -57,7 +71,9 @@ run_isPCR.sh \
 $PRIMER_TSV \
 $QUERY_PATHS;
 
-
+##################################################
+# Amplicon Counts (isPCR_amp_counts.sh)
+##################################################
 
 sleep 1
 printf "\n\n>>> Tabulating number of isPCR amplicons for each primer pair (isPCR_amp_counts.sh)\n\n"
@@ -65,7 +81,7 @@ sleep 1
 
 # get isPCR amplicon count
 isPCR_amp_counts.sh \
-$PB_RESULTS_ISPCR \
+$ISPCR_OUT \
 $REF_FILE_NAME;
 
 # join together pb results and isPCR non-reference amplicon counts

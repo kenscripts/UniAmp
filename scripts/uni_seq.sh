@@ -1,7 +1,7 @@
 #! /bin/bash
 
 # Description:
-# find unique sequences in references compared to query genomes by performing pw genome alignment then local alignment
+# finds unique sequences in references compared to query genomes by performing pw genome alignment then local alignment
 
 # Usage:
 # uni_seq.sh <REF_GNOME> <QUERY_DIR> <OUT_DIR>
@@ -52,7 +52,7 @@ fi
 }
 
 ##################################################
-# Unique Sequences (Pairwise Genome Alignment)
+# Pair-wise Genome Alignment (gnome_uniseq.sh)
 ##################################################
 
 sleep 1
@@ -87,7 +87,7 @@ $UNIFASTA \
 fasta_check $SIZED_UNIFASTA;
 
 ##################################################
-# Unique Sequences (Local Alignment)
+# Local Alignment (local_uniseq.sh)
 ##################################################
 
 sleep 1
