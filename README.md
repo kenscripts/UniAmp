@@ -153,8 +153,8 @@ Once a unique reference sequence is selected, this sequence is uploaded to the P
 \
 Users can select different Primer-BLAST parameters depending on their specific needs. Below are some parameters that have been adjusted to design strain-specific primers for bacteria:  \
 \
-PCR Product Size:  \
-*Min = 400, Max = 800 for end-point PCR  \
+*PCR Product Size:  \
+Min = 400, Max = 800 for end-point PCR  \
 Min = 75, Max = 150 for qPCR  \
 \
 Primer Melting Temperature:  \
