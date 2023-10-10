@@ -164,7 +164,7 @@ Database = nr  \
 \
 Organism = bacteria  \
 \
-Primer Specificity Stringency:
+Primer Specificity Stringency:  \
 primer must have at least 5 total mismatches to unintended targets \
 at least 2 mismatches within the last 3 bps at the 3'end  \
 ignore targets that have 6 or more mismatches to primer  \
