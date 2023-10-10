@@ -49,7 +49,9 @@ For specific examples on how to use the UniAmp pipeline, see `*.workflow.txt` fi
 The following is a general walkthrough of the UniAmp pipeline:
 
 ### Set up UniAmp scripts and dependencies
-Set up UniAmp scripts and dependencies by running `uniamp_setup.sh` script as described above under "Installation".
+Before running UniAmp scripts, execute the following script and specify the path to UniAmp:  \
+`source ./uniamp_setup.sh <path to UniAmp>`
+
 
 ### Build directory of query genomes
 To find unique reference sequences, the reference genome is compared to query genomes. This step controls how unique the reference sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique reference sequences then many query genomes can be used. Below are some strategies to obtain query genomes with high sequence similarity to reference genome. \
