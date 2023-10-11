@@ -1,13 +1,13 @@
 #! /bin/bash
 
 # Description:
-# retrieves query genomes from NCBI of the specified taxon with > 97% 16S rRNA sequence identity to reference genome sequence
+# retrieves query genomes from NCBI of the specified taxon with > 97% 16S rRNA sequence identity to target genome sequence
 
 # Usage:
-# get_ncbi_queries.sh <REF_GNOME> <TAXON> <OUT_DIR>
+# get_ncbi_queries.sh <TARGET_GNOME> <TAXON> <OUT_DIR>
 
 # Arguments:
-# <REF_GNOME>  = path to reference genome sequence
+# <TARGET_GNOME>  = path to target genome sequence
 # <TAXON> = search for query genomes from a specific taxon
 # <OUT_DIR> = path to output directory
 
@@ -20,9 +20,9 @@
 # Inputs
 ##################################################
 
-REF_GNOME=$1
+TARGET_GNOME=$1
 TAXON=$2
-OUT_DIR=$3
+OUT_DIR=${3%/}
 
 ##################################################
 # Outputs
@@ -34,9 +34,9 @@ ACCESSIONS="$OUT_DIR/ncbi_$TAXON.accessions"
 # taxon genomes
 QUERY_GNOMES="$OUT_DIR/ncbi_$TAXON.genomes.zip"
 
-# reference 16S 
-REF_NAME=$(basename $REF_GNOME | rev | cut -d"." -f2- | rev);
-REF_16S="$OUT_DIR/$REF_NAME.16S.fna";
+# target 16S 
+TARGET_NAME=$(basename $TARGET_GNOME | rev | cut -d"." -f2- | rev);
+TARGET_16S="$OUT_DIR/$TARGET_NAME.16S.fna";
 
 # query 16S
 TAXON_BLAST="$OUT_DIR/ncbi_$TAXON.blast.tsv"
@@ -91,26 +91,26 @@ rm -r $OUT_DIR/ncbi_dataset/data;
 # Reference 16S rRNA Gene Sequence
 ##################################################
 
-printf "\n>>> Searching for reference 16S rRNA gene sequences\n\n"
+printf "\n>>> Searching for target 16S rRNA gene sequences\n\n"
 
-# get reference 16S seq
+# get target 16S seq
 perl \
 $RNAMMER_PATH \
 -S bac \
 -m ssu \
--f $REF_16S \
-$REF_GNOME;
-echo $REF_16S;
+-f $TARGET_16S \
+$TARGET_GNOME;
+echo $TARGET_16S;
 
 ##################################################
 # Find Similar 16S rRNA Gene Sequences
 ##################################################
 
-printf "\n>>> %s\n\n" "Searching for queries from same species as reference (> 97 % 16S identity)"
+printf "\n>>> %s\n\n" "Searching for queries from same species as target (> 97 % 16S identity)"
 
 # blast ref 16S against ncbi taxon genomes to find genomes of same species
 $BLASTN_PATH \
--query $REF_16S \
+-query $TARGET_16S \
 -subject <(cat $OUT_DIR/ncbi_dataset/*_genomic.fna) \
 -task megablast \
 -evalue 1e-10 \
@@ -118,7 +118,7 @@ $BLASTN_PATH \
 -outfmt "6 qseqid sseqid qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore" \
 > $TAXON_BLAST
 
-# need to remove reference from query dataset; do that by removing queries with 100 % identity to reference
+# need to remove target from query dataset; do that by removing queries with 100 % identity to target
 # retrieve species members by filtering for > 97 % identity
 awk \
 '$5 == 100 && $6 > 97 && $6 != 100' \

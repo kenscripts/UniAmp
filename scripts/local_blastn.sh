@@ -1,23 +1,28 @@
 #! /bin/bash
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Description
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Description:
+# perform local blastn 
 
-# perform local blastn with custom output format
-# output is sent to stdout
+# Usage:
+# local_blast.sh <BLAST_QUERY> <BLAST_SUBJECT>
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# I/O
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Arguments:
+# <BLAST_QUERY> = query sequence for blastn comparison
+# <BLAST_SUBJECT> = subject sequence for blastn comparison
 
-# input
+# Dependencies:
+# blastn
+
+##################################################
+# Inputs
+##################################################
+
 BLAST_QUERY=$1
 BLAST_SUBJECT=$2
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Instructions
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# BLASTN
+##################################################
 
 $BLASTN_PATH \
 -query $BLAST_QUERY \

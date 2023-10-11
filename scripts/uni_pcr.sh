@@ -4,35 +4,33 @@
 # parses primer blast output, performs in-silico PCR, and determines number of amplicons produced by each primer pair
 
 # Usage:
-# uni_pcr.sh <PB_HTML> <QUERY_PATHS> <OUT_DIR>
+# uni_pcr.sh <PB_HTML> <GNOME_PATHS> <TARGET_GNOME> <OUT_DIR>
 
 # Arguments:
 # <PB_HTML> = path to Primer-BLAST html output
-# <QUERY_PATHS> = path to file containing file paths to query genomes
+# <GNOME_PATHS> = path to file containing file paths to target and query genomes
+# <TARGET_GNOME> = path to target genome sequence
 # <OUT_DIR> = path to output directory
 
 # Dependencies:
-# gnome_uniseq.sh:::nucmer
-# gnome_uniseq.sh:::show-coords
-# gnome_uniseq.sh:::bedtools
-# bioawk
-# local_uniseq.sh:::blastn
+# run_isPCR.sh:::usearch
 
 ##################################################
 # Inputs
 ##################################################
 
 PB_HTML=$1
-QUERY_PATHS=$2
-OUT_DIR=${3%/}
+GNOME_PATHS=$2
+TARGET_GNOME=$3
+OUT_DIR=${4%/}
+OUT_NAME=$(echo $PB_HTML | xargs -n 1 basename | rev | cut -d"." -f2- | rev)
 
 ##################################################
 # Outputs
 ##################################################
 
-OUT_NAME=$(echo $PB_HTML | xargs -n 1 basename | rev | cut -d"." -f2- | rev)
 PB_RESULTS="$OUT_DIR/$OUT_NAME.tsv"
-PRIMER_TSV="$OUT_DIR/$OUT_NAME.tmp"
+PB_PRIMERS="$OUT_DIR/$OUT_NAME.primers.tsv"
 ISPCR_OUT="$OUT_DIR/$OUT_NAME.ispcr.tsv"
 ISPCR_AMPCOUNTS="$OUT_DIR/$OUT_NAME.ispcr.amp_counts.tsv"
 UNIPCR_OUT="$OUT_DIR/$OUT_NAME.uni_pcr.tsv"
@@ -56,23 +54,23 @@ $PB_HTML \
 ##################################################
 
 sleep 1
-printf "\n>>> Performing in-silico PCR on genomes in $QUERY_PATHS (run_isPCR.sh):\n\n"
+printf "\n>>> Performing in-silico PCR on genomes in $GNOME_PATHS (run_isPCR.sh):\n\n"
 sleep 1
 
 # generate primer tsv file
 # run_isPCR didn't accept from stdin
 cut -f2,6,15 $PB_RESULTS |
 tail -n +2 \
-> $PRIMER_TSV;
+> $PB_PRIMERS;
 
 # find amplicons in specified genomes
 # generates *.ispcr.tsv file
 run_isPCR.sh \
-$PRIMER_TSV \
-$QUERY_PATHS;
+$PB_PRIMERS \
+$GNOME_PATHS;
 
 ##################################################
-# Amplicon Counts (isPCR_amp_counts.sh)
+# Amplicon Counts for Primer Pairs (isPCR_amp_counts.sh)
 ##################################################
 
 sleep 1
@@ -82,7 +80,7 @@ sleep 1
 # get isPCR amplicon count
 isPCR_amp_counts.sh \
 $ISPCR_OUT \
-$REF_FILE_NAME;
+$TARGET_GNOME;
 
 # join together pb results and isPCR non-reference amplicon counts
 join -t $'\t' -1 2 -2 1 \

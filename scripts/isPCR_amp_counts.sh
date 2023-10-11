@@ -1,34 +1,46 @@
 #! /bin/bash
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Description
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Description:
+# counts number of isPCR amplicons generated from target and non-target genomes
 
-# count number of amplicons generated for each primer pair by isPCR
+# Usage:
+# isPCR_amp_counts.sh <ISPCR_OUT> <TARGET_GNOME> <OUT_DIR>
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# I/O
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Arguments:
+# <ISPCR_OUT> = path to is-PCR output
+# <TARGET_GNOME> = path to target genome sequence
+# <OUT_DIR> = path to output directory
 
-# input
-ISPCR_TSV=$1
-REF_FILE=$2
+# Dependencies:
+# None
 
-# output
-OUT_DIR=$(dirname $ISPCR_TSV)
-OUT_NAME=$(echo $ISPCR_TSV | xargs -n 1 basename | rev | cut -d"." -f2- | rev)
+##################################################
+# Inputs
+##################################################
+
+ISPCR_OUT=$1
+TARGET_GNOME=$2
+OUT_DIR=${3%/}
+
+TARGET_NAME=$(echo $TARGET_GNOME | xargs -n 1 basename | rev | cut -d"." -f2- | rev)
+
+##################################################
+# Outputs
+##################################################
+
+OUT_NAME=$(echo $ISPCR_OUT | xargs -n 1 basename | rev | cut -d"." -f2- | rev)
 PCR_AMP_COUNT="$OUT_DIR/$OUT_NAME.amp_counts.tsv"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Instructions
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Amplicon Counts for Primer Pairs
+##################################################
 
-# get number of reference amplicons
-cat $ISPCR_TSV |
+# get number of target amplicons
+cat $ISPCR_OUT |
 # filter pr_pairs that don't amplify
 grep -v "False" |
-# ignore non-reference amplicons; removes header
-grep "$REF_FILE" |
+# ignore non-target amplicons; removes header
+grep "$TARGET_NAME" |
 awk \
 -F"\t" \
 -v OFS="\t" \
@@ -43,12 +55,12 @@ sort -t$'\t' -k6,6 |
 $BEDTOOLS_PATH groupby -g 6 -c 1 -o count \
 > $PCR_AMP_COUNT.tmp1
 
-# get number of non-reference amplicons
-cat $ISPCR_TSV |
+# get number of non-target amplicons
+cat $ISPCR_OUT |
 # filter pr_pairs that don't amplify;
 grep -v "False" |
-# ignore reference amplicons
-grep -v "$REF_FILE" |
+# ignore target amplicons
+grep -v "$TARGET_GNOME" |
 # modify primer names to summarize primer pair info
 awk \
 -F"\t" \
@@ -73,5 +85,8 @@ join -t $'\t' -e0 -a1 -a2 -1 1 -2 1 -o auto \
 <(sort -k1,1 $PCR_AMP_COUNT.tmp2) \
 > $PCR_AMP_COUNT;
 
-# remove tmp files
+##################################################
+# Clean-Up
+##################################################
+
 rm $OUT_DIR/*.tmp*;

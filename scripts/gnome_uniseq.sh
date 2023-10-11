@@ -1,13 +1,13 @@
 #! /bin/bash
 
 # Description:
-# performs pw genome alignment and extracts unique reference sequences
+# performs pw genome alignment and extracts unique target sequences
 
 # Usage:
-# gnome_uniseq.sh <REF_GNOME> <QUERY_DIR> <OUT_DIR>
+# gnome_uniseq.sh <TARGET_GNOME> <QUERY_DIR> <OUT_DIR>
 
 # Arguments:
-# <REF_GNOME> = path to reference genome sequence
+# <TARGET_GNOME> = path to target genome sequence
 # <QUERY_DIR> = path to directory containing query genomes
 # <OUT_DIR> = path to output directory
 
@@ -20,8 +20,8 @@
 # Inputs
 ##################################################
 
-REF_GNOME=$1
-QUERY_DIR=$2
+TARGET_GNOME=$1
+QUERY_DIR=${2%/}
 OUT_DIR=${3%/}
 
 ##################################################
@@ -29,12 +29,10 @@ OUT_DIR=${3%/}
 ##################################################
 
 NO_QUERIES=$(ls ${QUERY_DIR} | wc -l)
-REF_DIR=$(dirname $REF_GNOME)
-mkdir -p $OUT_DIR
 
 # output::build_bedtools_files.sh
-REF_BTFASTA="$OUT_DIR/ref_bedtools.fasta"
-REF_BTBED="$OUT_DIR/ref_bedtools.bed"
+TARGET_BTFASTA="$OUT_DIR/target_bedtools.fasta"
+TARGET_BTBED="$OUT_DIR/target_bedtools.bed"
 
 # output::nucmer
 NUCCOORS="$OUT_DIR/nuc.coors"
@@ -48,7 +46,7 @@ UNIFASTA="$OUT_DIR/uni_seq.nuc.fasta"
 ##################################################
 
 sleep 1
-printf "\n\nReference: $REF_GNOME\n"
+printf "\n\nTarget: $TARGET_GNOME\n"
 sleep 1
 printf "Query directory: $QUERY_DIR\n"
 sleep 1
@@ -59,11 +57,11 @@ printf "Number of queries: $NO_QUERIES\n"
 ##################################################
 
 sleep 1
-printf "Modifying reference genome fasta for analysis.\n"
+printf "Modifying target genome fasta for analysis.\n"
 
-# build ref_genome.fasta and ref_genome.bed files
+# build target_genome.fasta and target_genome.bed files
 build_bedtools_files.sh \
-$REF_GNOME \
+$TARGET_GNOME \
 $OUT_DIR;
 
 ##################################################
@@ -74,7 +72,7 @@ sleep 1
 INDEX=1
 for QUERY in $(ls -p $QUERY_DIR | grep -v /);
 do 
-  echo -ne "Aligning query $INDEX of $NO_QUERIES to reference.\r";
+  echo -ne "Aligning query $INDEX of $NO_QUERIES to target.\r";
 
   # nucmer command; modify nucmer command as needed
   # -b: length of poor scoring region allowed by alignment extension
@@ -84,7 +82,7 @@ do
   # initially used -b 75 but changed to default
   # to maximize unique sequence retrieval for qPCR set b = 75
   $NUCMER_PATH \
-  $REF_BTFASTA \
+  $TARGET_BTFASTA \
   $QUERY_DIR/$QUERY \
   2> $OUT_DIR/nuc.log;
 
@@ -93,7 +91,7 @@ do
   tail -n +5 \
   >> $NUCCOORS;
 
-  # run ANIm.sh to find similar queries to reference
+  # run ANIm.sh to find similar queries to target
   # build ani.tsv file
   paste \
   -d "\t" \
@@ -104,16 +102,16 @@ do
 done
 
 ##################################################
-# Unique Reference Sequences
+# Unique Target Sequences
 ##################################################
 
 sleep 1
-printf "\nFinding unique sequences in reference genome.\n"
+printf "\nFinding unique sequences in target genome.\n"
 
 # build uni.fasta and uni.bed files
 build_uni_files.sh \
-$REF_BTFASTA \
-$REF_BTBED \
+$TARGET_BTFASTA \
+$TARGET_BTBED \
 $NUCCOORS \
 $OUT_DIR;
 

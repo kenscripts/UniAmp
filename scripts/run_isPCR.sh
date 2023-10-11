@@ -1,28 +1,44 @@
 #! /bin/bash
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Description
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+# Description:
+# runs in-silico PCR (ispcr) using input primers and checks if amplification occurs with primer pairs
 
-# run in-silico PCR (ispcr) using primers to check for amplicons in genomes
+# Usage:
+# run_isPCR.sh <PRIMER_TSV> <QUERY_PATHS> <OUT_DIR>
+
+# Arguments:
+# <PRIMER_TSV> = path to file containing primer pair name and sequences
+# <QUERY_PATHS> = path to file containing file paths to query genomes for ispcr
+# <OUT_DIR> = path to output directory
+
+# Dependencies:
+# run_isPCR.sh:::usearch
+
+# Notes:
 # uses search_pcr command from usearch to get amplicon info
+# - maxdiffs 5
+# - min 25
+# - max 2500
+# modify as needed below
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# I/O
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Inputs
+##################################################
 
-# input
 PRIMER_TSV=$1
 QUERY_PATHS=$2
+OUT_DIR=${3%/}
 
-# ouput
-OUT_DIR=$(dirname $PRIMER_TSV)
+##################################################
+# Outputs
+##################################################
+
 OUT_NAME=$(echo $PRIMER_TSV | xargs -n 1 basename | rev | cut -d"." -f2- | rev)
 ISPCR_HITS="$OUT_DIR/$OUT_NAME.ispcr.tsv"
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Instructions
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# isPCR (usearch -search_pcr)
+##################################################
 
 # create isPCR file
 for GNOME_PATH in $(cat $QUERY_PATHS);
@@ -67,10 +83,18 @@ do
   done < $PRIMER_TSV;
 done
 
+##################################################
+# Primer-Pair Amplification (isPCR_amp_check.py)
+##################################################
+
 # add header and determine primer pair amplification
-add_isPCR_amp.py \
+isPCR_amp_check.py \
 $ISPCR_HITS.tmp2 \
-> $ISPCR_HITS
+> $ISPCR_HITS;
+
+##################################################
+# Clean-Up
+##################################################
 
 # clean-up tmp files
 rm $OUT_DIR/*.tmp*;

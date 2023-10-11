@@ -1,15 +1,15 @@
 #! /bin/bash
 
 # Description:
-# retrieves query genomes from GTDB-tk ani_rep output that match reference genome sequence
+# retrieves query genomes from GTDB-tk ani_rep output that match target genome sequence
 
 # Usage:
-# get_gtdb_queries.sh <GTDBTK_DATA_PATH> <GTDB_DIR> <REF_GNOME> <OUT_DIR>
+# get_gtdb_queries.sh <GTDBTK_DATA_PATH> <GTDB_DIR> <TARGET_GNOME> <OUT_DIR>
 
 # Arguments:
 # <GTDBTK_DATA_PATH> = path to GTDB-tk reference data
 # <GTDB_DIR> = directory containing GTDB-tk ani_rep output
-# <REF_GNOME> = filename of reference genome sequence
+# <TARGET_GNOME> = filename of target genome sequence
 # <OUT_DIR> = path to output directory
 
 # Dependencies:
@@ -22,8 +22,8 @@
 
 GTDBTK_DATA_PATH=${1%/};
 GTDB_DIR=${2%/};
-REF_GNOME=$3;
-REF_NAME=$(basename $REF_GNOME | rev | cut -d"." -f2- | rev);
+TARGET_GNOME=$3;
+TARGET_NAME=$(basename $TARGET_GNOME | rev | cut -d"." -f2- | rev);
 OUT_DIR=${4%/};
 
 ##################################################
@@ -42,7 +42,7 @@ mkdir -p $GTDB_QUERY
 awk \
 '$4 !~ /1.0/' \
 $GTDB_DIR/gtdbtk.ani_summary.tsv |
-grep "$REF_NAME" \
+grep "$TARGET_NAME" \
 > $GTDB_MATCHES;
 
 ##################################################

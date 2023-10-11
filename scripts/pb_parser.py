@@ -1,5 +1,16 @@
 #! /usr/bin/env python3
 
+"""
+Description:
+parses the html output from Primer-BLAST"
+
+Usage:
+pb_parser.py <PB_HTML>
+
+Arguments:
+<PB_HTML> = html output from Primer-BLAST
+"""
+
 import sys
 from bs4 import BeautifulSoup
 import re

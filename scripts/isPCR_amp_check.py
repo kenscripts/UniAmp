@@ -1,5 +1,16 @@
 #! /usr/bin/env python3
 
+"""
+Description:
+checks if primer pairs will amplify templates by looking at 3'end mismatches
+
+Usage:
+isPCR_amp_check.sh <ISPCR_OUT>
+
+Arguments:
+<ISPCR_OUT> = path to output from usearch -search_pcr
+"""
+
 import sys
 import re
 
@@ -28,8 +39,8 @@ for LINE in ISPCR_TSV:
                 "primer_1.diffs\t" 
                 "primer_2.diffs\t" 
                 "pr_pair.diffs\t" 
-                "primer_1.amplified\t" 
-                "primer_2.amplified\t" 
+                "primer_1.annealed\t" 
+                "primer_2.annealed\t" 
                 "pr_pair.amplified"
                 )
       print(HEADER)
@@ -45,13 +56,13 @@ for LINE in ISPCR_TSV:
    RPR_SEQ = LINE.split("\t")[10][-3:]
 
    # determine amplification
-   # for primer
+   # forward primer annealed
    if len(re.findall(r'[ATCG]',FPR_SEQ)) > 1:
       FPR_AMP = False
-   # rev primer
+   # reverse primer annealed
    if len(re.findall(r'[ATCG]',RPR_SEQ)) > 1:
       RPR_AMP = False
-   # primer pair
+   # primer pair amplification
    if (not FPR_AMP) or (not RPR_AMP):
       PR_PAIR_AMP = False
 
