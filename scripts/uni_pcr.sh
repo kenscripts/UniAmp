@@ -31,8 +31,8 @@ OUT_NAME=$(echo $PB_HTML | xargs -n 1 basename | rev | cut -d"." -f2- | rev)
 
 PB_RESULTS="$OUT_DIR/$OUT_NAME.tsv"
 PB_PRIMERS="$OUT_DIR/$OUT_NAME.primers.tsv"
-ISPCR_OUT="$OUT_DIR/$OUT_NAME.ispcr.tsv"
-ISPCR_AMPCOUNTS="$OUT_DIR/$OUT_NAME.ispcr.amp_counts.tsv"
+ISPCR_OUT="$OUT_DIR/$OUT_NAME.primers.ispcr.tsv"
+ISPCR_AMPCOUNTS="$OUT_DIR/$OUT_NAME.primers.ispcr.amp_counts.tsv"
 UNIPCR_OUT="$OUT_DIR/$OUT_NAME.uni_pcr.tsv"
 
 ##################################################
@@ -54,7 +54,7 @@ $PB_HTML \
 ##################################################
 
 sleep 1
-printf "\n>>> Performing in-silico PCR on genomes in $GNOME_PATHS (run_isPCR.sh):\n\n"
+printf "\n>>> Performing in-silico PCR on genomes in $(echo $GNOME_PATHS | xargs -n 1 basename) (run_isPCR.sh):\n\n"
 sleep 1
 
 # generate primer tsv file
@@ -67,7 +67,8 @@ tail -n +2 \
 # generates *.ispcr.tsv file
 run_isPCR.sh \
 $PB_PRIMERS \
-$GNOME_PATHS;
+$GNOME_PATHS \
+$OUT_DIR;
 
 ##################################################
 # Amplicon Counts for Primer Pairs (isPCR_amp_counts.sh)
@@ -80,7 +81,12 @@ sleep 1
 # get isPCR amplicon count
 isPCR_amp_counts.sh \
 $ISPCR_OUT \
-$TARGET_GNOME;
+$TARGET_GNOME \
+$OUT_DIR;
+
+##################################################
+# Create UniPCR File
+##################################################
 
 # join together pb results and isPCR non-reference amplicon counts
 join -t $'\t' -1 2 -2 1 \
@@ -91,5 +97,5 @@ join -t $'\t' -1 2 -2 1 \
 # add header
 HEADER="Primer_pair\tUnique_sequence\t"
 HEADER+=$(head -n 1 $PB_RESULTS | cut -f3- | sed 's/\n//g')
-HEADER+="\tRef_amplicons\tNonref_amplicons"
+HEADER+="\tTarget_amplicons\tNontarget_amplicons"
 sed -i "1i $HEADER" $UNIPCR_OUT;

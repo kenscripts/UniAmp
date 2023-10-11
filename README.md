@@ -90,7 +90,7 @@ rnammer
 blastn
 ```
 
-### Retrieve unique reference sequences
+### Retrieve unique target sequences
 Once a directory with query genomes is assembled the following script is implemented:
 ```
 uni_seq.sh <TARGET_GNOME> <QUERY_DIR> <OUT_DIR>
@@ -148,7 +148,7 @@ bioawk
 ```
 
 
-### Primer-BLAST
+### Design primers using Primer-BLAST
 Once a unique target sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). Presently, no command-line tool exists for Primer-BLAST so the Primer-BLAST html output is saved and used in the next step.  \
 \
 Users can select different Primer-BLAST parameters depending on their specific needs. Below are URLs containing previously used settings for designing bacterial strain-specific primers:  \
@@ -156,10 +156,32 @@ Users can select different Primer-BLAST parameters depending on their specific n
 [Settings to design primers for qPCR](https://www.ncbi.nlm.nih.gov/tools/primer-blast/index.cgi?LINK_LOC=bookmark&OVERLAP_5END=7&OVERLAP_3END=4&PRIMER_PRODUCT_MIN=75&PRIMER_PRODUCT_MAX=150&PRIMER_NUM_RETURN=500&PRIMER_MIN_TM=57.0&PRIMER_OPT_TM=60.0&PRIMER_MAX_TM=63.0&PRIMER_MAX_DIFF_TM=3&PRIMER_ON_SPLICE_SITE=0&SEARCHMODE=0&SPLICE_SITE_OVERLAP_5END=7&SPLICE_SITE_OVERLAP_3END=4&SPLICE_SITE_OVERLAP_3END_MAX=8&SPAN_INTRON=off&MIN_INTRON_SIZE=1000&MAX_INTRON_SIZE=1000000&SEARCH_SPECIFIC_PRIMER=on&EXCLUDE_ENV=off&EXCLUDE_XM=off&TH_OLOGO_ALIGNMENT=off&TH_TEMPLATE_ALIGNMENT=off&ORGANISM=bacteria%20%28taxid%3A2%29&PRIMER_SPECIFICITY_DATABASE=nt&TOTAL_PRIMER_SPECIFICITY_MISMATCH=4&PRIMER_3END_SPECIFICITY_MISMATCH=1&MISMATCH_REGION_LENGTH=3&TOTAL_MISMATCH_IGNORE=6&MAX_TARGET_SIZE=4000&ALLOW_TRANSCRIPT_VARIANTS=off&HITSIZE=50000&EVALUE=30000&WORD_SIZE=7&MAX_CANDIDATE_PRIMER=500&PRIMER_MIN_SIZE=18&PRIMER_OPT_SIZE=22&PRIMER_MAX_SIZE=26&PRIMER_MIN_GC=40&PRIMER_MAX_GC=60&GC_CLAMP=0&NUM_TARGETS_WITH_PRIMERS=1000&NUM_TARGETS=20&MAX_TARGET_PER_TEMPLATE=100&POLYX=5&SELF_ANY=8.00&SELF_END=3.00&PRIMER_MAX_END_STABILITY=9&PRIMER_MAX_END_GC=5&PRIMER_MAX_TEMPLATE_MISPRIMING_TH=40.00&PRIMER_PAIR_MAX_TEMPLATE_MISPRIMING_TH=70.00&PRIMER_MAX_SELF_ANY_TH=45.0&PRIMER_MAX_SELF_END_TH=35.0&PRIMER_PAIR_MAX_COMPL_ANY_TH=45.0&PRIMER_PAIR_MAX_COMPL_END_TH=35.0&PRIMER_MAX_HAIRPIN_TH=24.0&PRIMER_MAX_TEMPLATE_MISPRIMING=12.00&PRIMER_PAIR_MAX_TEMPLATE_MISPRIMING=24.00&PRIMER_PAIR_MAX_COMPL_ANY=8.00&PRIMER_PAIR_MAX_COMPL_END=3.00&PRIMER_MISPRIMING_LIBRARY=AUTO&NO_SNP=off&LOW_COMPLEXITY_FILTER=on&MONO_CATIONS=50.0&DIVA_CATIONS=1.5&CON_ANEAL_OLIGO=50.0&CON_DNTPS=0.6&SALT_FORMULAR=1&TM_METHOD=1&PRIMER_INTERNAL_OLIGO_MIN_SIZE=18&PRIMER_INTERNAL_OLIGO_OPT_SIZE=20&PRIMER_INTERNAL_OLIGO_MAX_SIZE=27&PRIMER_INTERNAL_OLIGO_MIN_TM=57.0&PRIMER_INTERNAL_OLIGO_OPT_TM=60.0&PRIMER_INTERNAL_OLIGO_MAX_TM=63.0&PRIMER_INTERNAL_OLIGO_MAX_GC=80.0&PRIMER_INTERNAL_OLIGO_OPT_GC_PERCENT=50&PRIMER_INTERNAL_OLIGO_MIN_GC=20.0&PICK_HYB_PROBE=off&NEWWIN=off&NEWWIN=off&SHOW_SVIEWER=true)
 
 
-### Tabulate primer pair info
-The following script is implemented using Primer-BLAST output:  \
-`uni_pcr.sh`  \
-***Description***: First, html output from Primer-BLAST is parsed. Then, in-silico PCR is performed (usearch) on reference genome to determine the number of reference amplicons generated for each primer pair. In-silico PCR is also performed on query genome(s) as one final check for unique reference genome amplicons.  \
-***Inputs***: Primer-BLAST html output, text file containing query paths, reference genome path  \
-***Main Outputs***: \*uni_pcr.tsv, \*.ispcr.tsv \
-***Dependencies***: nucmer, bedtools
+### Tabulate Primer-BLAST output and check primer pair amplification of input genomes
+
+In the last step of the UniAmp pipeline, the Primer-BLAST html output is parsed and a text file is created. The specificity of these primers is then tested by performing in-silico PCR on a set of input genomes, containing the target genome as well as non-target genomes.  \
+\
+To perform in-silico PCR, a text file needs to be created containing the file paths of the target genome and non-target genomes. This file can be created using the following shell command:
+```
+realpath <GNOME_DIR> > ispcr.gnome_paths.tsv
+
+Argument:
+<GNOME_DIR> = directory containing target genome and non-target genomes to test primer pair specificity
+```
+\
+Once the text file containing file paths to the target genome and non-target genomes is created, the following script can be implemented:
+```
+uni_pcr.sh <PB_HTML> <GNOME_PATHS> <TARGET_GNOME> <OUT_DIR>
+
+Description:
+parses primer blast output and performs an additional in-silico PCR on input genomes to check number of amplicons produced by each primer pair
+
+Arguments:
+<PB_HTML> = path to Primer-BLAST html output
+<GNOME_PATHS> = path to file containing file paths to target and query genomes
+<TARGET_GNOME> = path to target genome sequence
+<OUT_DIR> = path to output directory
+
+Dependencies:
+pb_parser.py:::BeautifulSoup4 python package
+run_isPCR.sh:::usearch
+```

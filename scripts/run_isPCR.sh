@@ -4,11 +4,11 @@
 # runs in-silico PCR (ispcr) using input primers and checks if amplification occurs with primer pairs
 
 # Usage:
-# run_isPCR.sh <PRIMER_TSV> <QUERY_PATHS> <OUT_DIR>
+# run_isPCR.sh <PRIMER_TSV> <GNOME_PATHS> <OUT_DIR>
 
 # Arguments:
 # <PRIMER_TSV> = path to file containing primer pair name and sequences
-# <QUERY_PATHS> = path to file containing file paths to query genomes for ispcr
+# <GNOME_PATHS> = path to file containing file paths to genomes for is-PCR
 # <OUT_DIR> = path to output directory
 
 # Dependencies:
@@ -26,7 +26,7 @@
 ##################################################
 
 PRIMER_TSV=$1
-QUERY_PATHS=$2
+GNOME_PATHS=$2
 OUT_DIR=${3%/}
 
 ##################################################
@@ -34,14 +34,14 @@ OUT_DIR=${3%/}
 ##################################################
 
 OUT_NAME=$(echo $PRIMER_TSV | xargs -n 1 basename | rev | cut -d"." -f2- | rev)
-ISPCR_HITS="$OUT_DIR/$OUT_NAME.ispcr.tsv"
+ISPCR_OUT="$OUT_DIR/$OUT_NAME.ispcr.tsv"
 
 ##################################################
 # isPCR (usearch -search_pcr)
 ##################################################
 
 # create isPCR file
-for GNOME_PATH in $(cat $QUERY_PATHS);
+for GNOME_PATH in $(cat $GNOME_PATHS);
 do
   # get genome file name
   GNOME_FILE=$(basename $GNOME_PATH);
@@ -68,18 +68,18 @@ do
     -maxdiffs 5 \
     -minamp 25 \
     -maxamp 2500 \
-    -pcrout ${ISPCR_HITS}.tmp \
+    -pcrout ${ISPCR_OUT}.tmp \
     2>> $OUT_DIR/usearch.stderr \
     1>> $OUT_DIR/usearch.stdout;
 
     # get line count for filling in gnome_file column
-    NO_OF_LINES=$(wc -l ${ISPCR_HITS}.tmp | cut -d" " -f1);
+    NO_OF_LINES=$(wc -l ${ISPCR_OUT}.tmp | cut -d" " -f1);
 
     # generate ispcr final output
     paste \
     <(yes "$GNOME_FILE" | head -n $NO_OF_LINES) \
-    <(cat $ISPCR_HITS.tmp) \
-    >> $ISPCR_HITS.tmp2;
+    <(cat $ISPCR_OUT.tmp) \
+    >> $ISPCR_OUT.tmp2;
   done < $PRIMER_TSV;
 done
 
@@ -89,8 +89,8 @@ done
 
 # add header and determine primer pair amplification
 isPCR_amp_check.py \
-$ISPCR_HITS.tmp2 \
-> $ISPCR_HITS;
+$ISPCR_OUT.tmp2 \
+> $ISPCR_OUT;
 
 ##################################################
 # Clean-Up
