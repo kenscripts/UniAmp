@@ -56,7 +56,7 @@ Before running UniAmp scripts, execute the following script and specify the path
 ### Build directory of query genomes with high sequence similarity to target genome
 The target genome is compared to query genomes to find unique target sequences. This step controls how unique the target sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique target sequences then the user should compare query genomes with high sequence similarity to target genome.  \
 \
-Below are some optional UniAmp scripts to obtain query genomes with high sequence similarity to a target genome:  \
+Below are some optional UniAmp scripts to obtain query genomes with high sequence similarity to a target genome:
 ```
 get_gtdb_queries.sh <GTDBTK_DATA_PATH> <GTDB_DIR> <TARGET_GNOME> <OUT_DIR>
 
@@ -73,7 +73,6 @@ Dependencies:
 output from GTDB-tk ani_rep
 GTDB-tk reference data
 ``` 
-   \
 ```
 get_ncbi_queries.sh <TARGET_GNOME> <TAXON> <OUT_DIR>
 
