@@ -46,8 +46,7 @@ UniAmp requires the python package [BeautifulSoup4](https://pypi.org/project/bea
 # Usage
 For specific examples on how to use the UniAmp pipeline, see `*.workflow.txt` files in the `docs` folder. These files show the process for designing strain-specific primers to different bacteria.  \
 \
-The following is a general walkthrough of the UniAmp pipeline:
-
+The following is a general walkthrough of the UniAmp pipeline:  \
 ### Set up UniAmp scripts and dependencies
 Before running UniAmp scripts, execute the following script and specify the path to UniAmp:  \
 `source ./uniamp_setup.sh <path to UniAmp>`
@@ -112,6 +111,7 @@ gnome_uniseq.sh:::bedtools
 bioawk
 local_uniseq.sh:::blastn
 ```
+
 
 ### Select unique target sequence
 The output from `uni_seq.sh` can produced many unique target sequences. This depends on how many query genomes were compared and how similiar these query genomes were to the target genome.  \
