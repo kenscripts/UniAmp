@@ -73,7 +73,7 @@ Arguments:
 Dependencies:
 output from GTDB-tk ani_rep
 GTDB-tk reference data
-```  \
+``` 
 \
 ```
 get_ncbi_queries.sh <TARGET_GNOME> <TAXON> <OUT_DIR>
