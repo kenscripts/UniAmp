@@ -1,14 +1,14 @@
 #! /bin/bash
 
 # Description:
-# parses primer blast output, performs in-silico PCR, and determines number of amplicons produced by each primer pair
+# parses primer blast output and uses primers to performs in-silico PCR on target and non-target genomes
 
 # Usage:
 # uni_pcr.sh <PB_HTML> <GNOME_PATHS> <TARGET_GNOME> <OUT_DIR>
 
 # Arguments:
 # <PB_HTML> = path to Primer-BLAST html output
-# <GNOME_PATHS> = path to file containing paths to target and query genome files
+# <GNOME_PATHS> = path to file containing paths to target and non-target genome files
 # <TARGET_GNOME> = path to target genome sequence
 # <OUT_DIR> = path to output directory
 
