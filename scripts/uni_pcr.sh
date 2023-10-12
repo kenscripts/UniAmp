@@ -8,7 +8,7 @@
 
 # Arguments:
 # <PB_HTML> = path to Primer-BLAST html output
-# <GNOME_PATHS> = path to file containing file paths to target and query genomes
+# <GNOME_PATHS> = path to file containing paths to target and query genome files
 # <TARGET_GNOME> = path to target genome sequence
 # <OUT_DIR> = path to output directory
 

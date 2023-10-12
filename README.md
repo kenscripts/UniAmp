@@ -1,8 +1,8 @@
 # Overview
-UniAmp (Unique Amplicon) is a pipeline used to generate primers complementary to a unique sequence in a target genome.  \
+UniAmp (Unique Amplicon) is a pipeline used to generate primers specific to a target genome.
 \
 The UniAmp pipeline can be conceptually split into 4 parts:
-1. Build directory of query genomes.
+1. Build directory of query genomes with high sequence similarity to target genome.
 2. Retrieve unique sequences in a target genome compared to query genomes.
 3. Select unique target sequence for primer design.
 4. Design primers to unique target sequence.
@@ -53,10 +53,11 @@ Before running UniAmp scripts, execute the following script and specify the path
 `source ./uniamp_setup.sh <path to UniAmp>`
 
 
-### Build directory of query genomes
-The target genome is compared to query genomes to find unique target sequences. This step controls how unique the target sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique target sequences then many query genomes can be used. Below are some strategies to obtain query genomes with high sequence similarity to a target genome. \
+### Build directory of query genomes with high sequence similarity to target genome
+The target genome is compared to query genomes to find unique target sequences. This step controls how unique the target sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique target sequences then the user should compare query genomes with high sequence similarity to target genome.  \
 \
-At this step, the following scripts can be implemented:
+Below are some optional UniAmp scripts to obtain query genomes with high sequence similarity to a target genome:  \
+\
 ```
 get_gtdb_queries.sh <GTDBTK_DATA_PATH> <GTDB_DIR> <TARGET_GNOME> <OUT_DIR>
 
@@ -72,7 +73,8 @@ Arguments:
 Dependencies:
 output from GTDB-tk ani_rep
 GTDB-tk reference data
-``` 
+```  \
+\
 ```
 get_ncbi_queries.sh <TARGET_GNOME> <TAXON> <OUT_DIR>
 
@@ -89,6 +91,8 @@ datasets
 rnammer
 blastn
 ```
+Note: If target genome sequence has previously been deposited into NCBI database then user should check the query genomes returned by `get_ncbi_queries.sh` to make sure target genome sequence is not present.
+
 
 ### Retrieve unique target sequences
 Once a directory with query genomes is assembled the following script is implemented:
@@ -156,11 +160,11 @@ Users can select different Primer-BLAST parameters depending on their specific n
 [Settings to design primers for qPCR](https://www.ncbi.nlm.nih.gov/tools/primer-blast/index.cgi?LINK_LOC=bookmark&OVERLAP_5END=7&OVERLAP_3END=4&PRIMER_PRODUCT_MIN=75&PRIMER_PRODUCT_MAX=150&PRIMER_NUM_RETURN=500&PRIMER_MIN_TM=57.0&PRIMER_OPT_TM=60.0&PRIMER_MAX_TM=63.0&PRIMER_MAX_DIFF_TM=3&PRIMER_ON_SPLICE_SITE=0&SEARCHMODE=0&SPLICE_SITE_OVERLAP_5END=7&SPLICE_SITE_OVERLAP_3END=4&SPLICE_SITE_OVERLAP_3END_MAX=8&SPAN_INTRON=off&MIN_INTRON_SIZE=1000&MAX_INTRON_SIZE=1000000&SEARCH_SPECIFIC_PRIMER=on&EXCLUDE_ENV=off&EXCLUDE_XM=off&TH_OLOGO_ALIGNMENT=off&TH_TEMPLATE_ALIGNMENT=off&ORGANISM=bacteria%20%28taxid%3A2%29&PRIMER_SPECIFICITY_DATABASE=nt&TOTAL_PRIMER_SPECIFICITY_MISMATCH=4&PRIMER_3END_SPECIFICITY_MISMATCH=1&MISMATCH_REGION_LENGTH=3&TOTAL_MISMATCH_IGNORE=6&MAX_TARGET_SIZE=4000&ALLOW_TRANSCRIPT_VARIANTS=off&HITSIZE=50000&EVALUE=30000&WORD_SIZE=7&MAX_CANDIDATE_PRIMER=500&PRIMER_MIN_SIZE=18&PRIMER_OPT_SIZE=22&PRIMER_MAX_SIZE=26&PRIMER_MIN_GC=40&PRIMER_MAX_GC=60&GC_CLAMP=0&NUM_TARGETS_WITH_PRIMERS=1000&NUM_TARGETS=20&MAX_TARGET_PER_TEMPLATE=100&POLYX=5&SELF_ANY=8.00&SELF_END=3.00&PRIMER_MAX_END_STABILITY=9&PRIMER_MAX_END_GC=5&PRIMER_MAX_TEMPLATE_MISPRIMING_TH=40.00&PRIMER_PAIR_MAX_TEMPLATE_MISPRIMING_TH=70.00&PRIMER_MAX_SELF_ANY_TH=45.0&PRIMER_MAX_SELF_END_TH=35.0&PRIMER_PAIR_MAX_COMPL_ANY_TH=45.0&PRIMER_PAIR_MAX_COMPL_END_TH=35.0&PRIMER_MAX_HAIRPIN_TH=24.0&PRIMER_MAX_TEMPLATE_MISPRIMING=12.00&PRIMER_PAIR_MAX_TEMPLATE_MISPRIMING=24.00&PRIMER_PAIR_MAX_COMPL_ANY=8.00&PRIMER_PAIR_MAX_COMPL_END=3.00&PRIMER_MISPRIMING_LIBRARY=AUTO&NO_SNP=off&LOW_COMPLEXITY_FILTER=on&MONO_CATIONS=50.0&DIVA_CATIONS=1.5&CON_ANEAL_OLIGO=50.0&CON_DNTPS=0.6&SALT_FORMULAR=1&TM_METHOD=1&PRIMER_INTERNAL_OLIGO_MIN_SIZE=18&PRIMER_INTERNAL_OLIGO_OPT_SIZE=20&PRIMER_INTERNAL_OLIGO_MAX_SIZE=27&PRIMER_INTERNAL_OLIGO_MIN_TM=57.0&PRIMER_INTERNAL_OLIGO_OPT_TM=60.0&PRIMER_INTERNAL_OLIGO_MAX_TM=63.0&PRIMER_INTERNAL_OLIGO_MAX_GC=80.0&PRIMER_INTERNAL_OLIGO_OPT_GC_PERCENT=50&PRIMER_INTERNAL_OLIGO_MIN_GC=20.0&PICK_HYB_PROBE=off&NEWWIN=off&NEWWIN=off&SHOW_SVIEWER=true)
 
 
-### Tabulate Primer-BLAST output and check primer pair amplification of input genomes
+### Tabulate Primer-BLAST output and test specificity of primer pairs 
 
 In the last step of the UniAmp pipeline, the Primer-BLAST html output is parsed and a text file is created. The specificity of these primers is then tested by performing in-silico PCR on a set of input genomes, containing the target genome as well as non-target genomes.  \
 \
-To perform in-silico PCR, a text file needs to be created containing the file paths of the target genome and non-target genomes. This file can be created using the following shell command:
+To perform in-silico PCR, a text file needs to be created containing the paths of the target genome and non-target genomes. This file can be created using the following shell command:
 ```
 realpath <GNOME_DIR> > ispcr.gnome_paths.tsv
 
@@ -168,7 +172,7 @@ Argument:
 <GNOME_DIR> = directory containing target genome and non-target genomes to test primer pair specificity
 ```
 \
-Once the text file containing file paths to the target genome and non-target genomes is created, the following script can be implemented:
+Once the text file containing paths to the target genome and non-target genomes is created, the following script can be implemented:
 ```
 uni_pcr.sh <PB_HTML> <GNOME_PATHS> <TARGET_GNOME> <OUT_DIR>
 
@@ -177,7 +181,7 @@ parses primer blast output and performs an additional in-silico PCR on input gen
 
 Arguments:
 <PB_HTML> = path to Primer-BLAST html output
-<GNOME_PATHS> = path to file containing file paths to target and query genomes
+<GNOME_PATHS> = path to file containing paths to target and query genome files
 <TARGET_GNOME> = path to target genome sequence
 <OUT_DIR> = path to output directory
 

@@ -8,7 +8,7 @@
 
 # Arguments:
 # <PRIMER_TSV> = path to file containing primer pair name and sequences
-# <GNOME_PATHS> = path to file containing file paths to genomes for is-PCR
+# <GNOME_PATHS> = path to file containing paths to target and query genome files
 # <OUT_DIR> = path to output directory
 
 # Dependencies:
