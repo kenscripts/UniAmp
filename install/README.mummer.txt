@@ -2,10 +2,8 @@
 # nucmer exe was not working
 # nucmer: error while loading shared libraries: libumdmummer.so.0: cannot open shared object file: No such file or directory
 
-
 # solution: create a statically compiled version (implemented suggestion from github below)
 # https://github.com/mummer4/mummer/issues/10
-
 
 # download mummer4.0.0rc1
 wget https://github.com/mummer4/mummer/releases/download/v4.0.0rc1/mummer-4.0.0rc1.tar.gz;
