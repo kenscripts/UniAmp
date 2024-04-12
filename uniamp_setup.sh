@@ -12,8 +12,8 @@ chmod u+x $UNIAMP_PATH/scripts/*;
 chmod u+x $UNIAMP_PATH/bin/*;
 
 # install e-direct
-printf "\n>>> installing edirect";
-sh -c $UNIAMP_PATH/install/install-edirect.sh;
+printf "\n>>> downloading edirect";
+sh $UNIAMP_PATH/install/install-edirect.sh;
 
 # download and unpack ncbi taxonomy in UniAmp lib directory:
 printf "\n>>> unpacking ncbi taxonomy";
@@ -24,8 +24,8 @@ tar -xvf taxdump.tar.gz;
 # UniAmp requires the python package BeautifulSoup4 to parse the html output from Primer-BLAST
 python3 -c "import beautifulsoup4" 2>/dev/null
 if [ " $?" -eq 1 ]; then
-    echo "installing beautifulsoup4";
+    echo "\n>>>installing beautifulsoup4";
     #pip install beautifulsoup4;
 else
-    echo "beautifulsoup4 already installed";
+    echo "\n>>>beautifulsoup4 already installed";
 fi

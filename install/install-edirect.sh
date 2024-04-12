@@ -94,5 +94,5 @@ fi
 
 # offer to edit the PATH variable assignment command in configuration files
 echo ""
-echo "Entrez Direct has been successfully downloaded and installed."
+echo "Entrez Direct has been successfully downloaded"
 echo ""
