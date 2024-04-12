@@ -14,7 +14,7 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 # Dependencies
 The UniAmp pipeline is composed of wrappers around public bioinformatics software. These dependencies are included with UniAmp as binaries in the `bin` folder.  \
 \
-Besides basic linux utilities, python, and perl, the following software is implemented in the UniAmp pipeline:  \
+Besides basic linux utilities, python, and perl, the following software are implemented in the UniAmp pipeline:  \
 [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
 [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)\*  \
 [taxonkit](https://github.com/shenwei356/taxonkit)  \
