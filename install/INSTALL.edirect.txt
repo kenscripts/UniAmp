@@ -1,0 +1,6 @@
+# edirect installation instructions
+wget -q https://ftp.ncbi.nlm.nih.gov/entrez/entrezdirect/install-edirect.sh
+
+# modified install-edirect.sh to:
+# install in $UNIAMP_PATH/bin instead of $HOME
+# remove configuration steps

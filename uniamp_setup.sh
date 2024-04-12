@@ -5,26 +5,27 @@
 
 # remove forward slash in argument 
 #https://stackoverflow.com/questions/9018723/what-is-the-simplest-way-to-remove-a-trailing-slash-from-each-parameter
-export UNIAMP_PATH=${1%/}
+export UNIAMP_PATH=${1%/};
 
 # make files executable
-chmod u+x $UNIAMP_PATH/scripts/*
-chmod u+x $UNIAMP_PATH/bin/*
+chmod u+x $UNIAMP_PATH/scripts/*;
+chmod u+x $UNIAMP_PATH/bin/*;
 
-# export paths to scripts
-export PATH=$UNIAMP_PATH/scripts/:$PATH
+# install e-direct
+printf "\n>>> installing edirect";
+sh -c $UNIAMP_PATH/install/install-edirect.sh;
 
-# export paths to binaries
-export DATASETS_PATH="$UNIAMP_PATH/bin/datasets"
-export JQ_PATH="$UNIAMP_PATH/bin/jq"
-export RNAMMER_PATH="$UNIAMP_PATH/bin/rnammer-1.2/rnammer" 
-export NUCMER_PATH="$UNIAMP_PATH/bin/nucmer"
-export SHOWCOORDS_PATH="$UNIAMP_PATH/bin/show-coords"
-export BEDTOOLS_PATH="$UNIAMP_PATH/bin/bedtools"
-export BLASTN_PATH="$UNIAMP_PATH/bin/blastn"
-export USEARCH_PATH="$UNIAMP_PATH/bin/usearch_v11"
-export BIOAWK_PATH="$UNIAMP_PATH/bin/bioawk"
-export TAXONKIT_PATH="$UNIAMP_PATH/bin/taxonkit"
+# download and unpack ncbi taxonomy in UniAmp lib directory:
+printf "\n>>> unpacking ncbi taxonomy";
+cd $UNIAMP_PATH/lib/ncbi_taxdump;
+wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz;
+tar -xvf taxdump.tar.gz;
 
-# export paths to databases
-export TAXONKIT_DB="$UNIAMP_PATH/lib/ncbi_taxdump/"
+# UniAmp requires the python package BeautifulSoup4 to parse the html output from Primer-BLAST
+python3 -c "import beautifulsoup4" 2>/dev/null
+if [ " $?" -eq 1 ]; then
+    echo "installing beautifulsoup4";
+    #pip install beautifulsoup4;
+else
+    echo "beautifulsoup4 already installed";
+fi

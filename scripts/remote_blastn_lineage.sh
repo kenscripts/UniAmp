@@ -55,7 +55,7 @@ $BLASTN_PATH \
 -db $BLAST_DB \
 -entrez_query "$TAXON [organism]" \
 -task blastn \
--evalue 1e-10 \
+-evalue 0.1 \
 -max_target_seqs 25 \
 -max_hsps 1 \
 -outfmt "6 qseqid sseqid qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore staxids" |
