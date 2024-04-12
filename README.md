@@ -16,15 +16,15 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 UniAmp is run on Linux and requires basic Linux utilities, python3, and perl.  \
 \
 UniAmp contains wrappers around public bioinformatics software. The following dependencies are included with UniAmp as binaries in the `bin` folder and do not need to be installed:  \
-[nucmer](https://sourceforge.net/projects/mummer/)  \
-[bedtools](https://github.com/arq5x/bedtools2)  \
-[bioawk](https://github.com/lh3/bioawk)
-[usearch](https://drive5.com/usearch/download.html)  \
-[blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
-[taxonkit](https://github.com/shenwei356/taxonkit)  \
-[datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
-[RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)\*  \
-[edirect](https://www.ncbi.nlm.nih.gov/books/NBK179288/)
+* [nucmer](https://sourceforge.net/projects/mummer/)  \
+* [bedtools](https://github.com/arq5x/bedtools2)  \
+* [bioawk](https://github.com/lh3/bioawk)
+* [usearch](https://drive5.com/usearch/download.html)  \
+* [blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
+* [taxonkit](https://github.com/shenwei356/taxonkit)  \
+* [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
+* [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)\*  \
+* [edirect](https://www.ncbi.nlm.nih.gov/books/NBK179288/)
 
 \* To implement rnammer in UniAmp scripts, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch`, so the binary for this command is included in the UniAmp `bin` folder. \
 \* rnammer requires the perl `XML::Simple` module. If not already installed, the module can be installed using the command `cpan install XML::Simple`. 
