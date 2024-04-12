@@ -77,9 +77,7 @@ $DATASETS_PATH \
 download genome accession \
 --inputfile $ACCESSIONS \
 --filename $QUERY_GNOMES \
---exclude-gff3 \
---exclude-protein \
---exclude-rna;
+--include genome;
 
 # format directory
 unzip $QUERY_GNOMES -d $OUT_DIR;
