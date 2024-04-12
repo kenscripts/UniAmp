@@ -7,24 +7,28 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 3. Select unique target sequence for primer design.
 4. Design primers to unique target sequence.
 
+
 ### Visual representation:
 ![UniAmp](https://github.com/kenscripts/UniAmp/blob/main/docs/UniAmp.v2.png)
 
 
 # Dependencies
-The UniAmp pipeline is composed of wrappers around public bioinformatics software. These dependencies are included with UniAmp as binaries in the `bin` folder.  \
+UniAmp is run on Linux and requires basic Linux utilities, python3, and perl.  \
 \
-Besides basic linux utilities, python, and perl, the following software are implemented in the UniAmp pipeline:  \
-[datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
-[RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)\*  \
-[taxonkit](https://github.com/shenwei356/taxonkit)  \
+UniAmp contains wrappers around public bioinformatics software. The following dependencies are included with UniAmp as binaries in the `bin` folder and do not need to be installed:  \
+\
 [nucmer](https://sourceforge.net/projects/mummer/)  \
 [bedtools](https://github.com/arq5x/bedtools2)  \
-[blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
-[usearch](https://drive5.com/usearch/download.html)  \
 [bioawk](https://github.com/lh3/bioawk)
+[usearch](https://drive5.com/usearch/download.html)  \
+[blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
+[taxonkit](https://github.com/shenwei356/taxonkit)  \
+[datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
+[RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)\*  \
+[edirect](https://www.ncbi.nlm.nih.gov/books/NBK179288/)
 
-\* To implement rnammer in UniAmp scripts, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch`, so the binary for this command is included in the UniAmp `bin` folder. 
+\* To implement rnammer in UniAmp scripts, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch`, so the binary for this command is included in the UniAmp `bin` folder. \
+\* rnammer requires the perl `XML::Simple` module. If not already installed, the module can be installed using the command `cpan install XML::Simple`. \
 
 
 # Installation
@@ -32,15 +36,7 @@ Download repository from Github:  \
 `git clone https://github.com/kenscripts/UniAmp.git`  \
 \
 Run the following script and specify UniAmp path:  \
-`source ./uniamp_setup.sh <path to UniAmp>`  \
-\
-Download and unpack ncbi taxonomy in UniAmp lib directory:  \
-`cd $UNIAMP_PATH/lib/ncbi_taxdump`  \
-`wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz`  \
-`tar -xvf taxdump.tar.gz`  \
-\
-UniAmp requires the python package [BeautifulSoup4](https://pypi.org/project/beautifulsoup4/) to parse the html output from Primer-BLAST. BeautifulSoup4 can be installed using the following command:  \
-`pip install beautifulsoup4`
+`source <path to UniAmp>/UniAmp/setup_uniamp.sh <path to UniAmp>`
 
 
 # Usage

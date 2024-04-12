@@ -16,7 +16,7 @@ printf "\n>>> downloading edirect";
 sh $UNIAMP_PATH/install/install-edirect.sh;
 
 # download and unpack ncbi taxonomy in UniAmp lib directory:
-printf "\n>>> unpacking ncbi taxonomy";
+printf "\n>>> unpacking ncbi taxonomy\n";
 cd $UNIAMP_PATH/lib/ncbi_taxdump;
 wget https://ftp.ncbi.nlm.nih.gov/pub/taxonomy/taxdump.tar.gz;
 tar -xvf taxdump.tar.gz;
