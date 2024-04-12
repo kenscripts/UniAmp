@@ -15,19 +15,19 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 # Dependencies
 UniAmp is run on Linux and requires basic Linux utilities, python3, and perl.  \
 \
-UniAmp contains wrappers around public bioinformatics software. The following dependencies are included with UniAmp as binaries in the `bin` folder and do not need to be installed:  \
-* [nucmer](https://sourceforge.net/projects/mummer/)  \
-* [bedtools](https://github.com/arq5x/bedtools2)  \
+UniAmp contains wrappers around public bioinformatics software. The following dependencies are included with UniAmp as binaries in the `bin` folder and do not need to be installed:
+* [nucmer](https://sourceforge.net/projects/mummer/)
+* [bedtools](https://github.com/arq5x/bedtools2)
 * [bioawk](https://github.com/lh3/bioawk)
-* [usearch](https://drive5.com/usearch/download.html)  \
-* [blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)  \
-* [taxonkit](https://github.com/shenwei356/taxonkit)  \
-* [datasets](https://www.ncbi.nlm.nih.gov/datasets)  \
-* [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)\*  \
+* [usearch](https://drive5.com/usearch/download.html)
+* [blastn](https://www.ncbi.nlm.nih.gov/books/NBK52640/)
+* [taxonkit](https://github.com/shenwei356/taxonkit)
+* [datasets](https://www.ncbi.nlm.nih.gov/datasets)
+* [RNAmmer](https://services.healthtech.dtu.dk/service.php?RNAmmer-1.2)\*
 * [edirect](https://www.ncbi.nlm.nih.gov/books/NBK179288/)
 
-\* To implement rnammer in UniAmp scripts, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch`, so the binary for this command is included in the UniAmp `bin` folder. \
-\* rnammer requires the perl `XML::Simple` module. If not already installed, the module can be installed using the command `cpan install XML::Simple`. 
+\* To implement `rnammer` in UniAmp scripts, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch`, so the binary for this command is included in the UniAmp `bin` folder. \
+\* `rnammer` requires the perl `XML::Simple` module. If not already installed, the module can be installed using the command `cpan install XML::Simple`. 
 
 
 # Installation
@@ -42,12 +42,12 @@ Run the following script and specify UniAmp path:  \
 For specific examples on how to use the UniAmp pipeline, see `*.workflow.txt` files in the `docs` folder. These files show the process for designing strain-specific primers to different bacteria.  \
 \
 The following is a general walkthrough of the UniAmp pipeline:
-### Set up UniAmp scripts and dependencies
+### 1. Set up UniAmp scripts and dependencies
 Before running UniAmp scripts, execute the following script and specify the path to UniAmp:  \
-`source ./uniamp_setup.sh <path to UniAmp>`
+`source <path to UniAmp>/start_uniamp.sh <path to UniAmp>`
 
 
-### Build directory of query genomes with high sequence similarity to target genome
+### 2. Build directory of query genomes with high sequence similarity to target genome
 The target genome is compared to query genomes to find unique target sequences. This step controls how unique the target sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique target sequences then the user should compare query genomes with high sequence similarity to target genome.  \
 \
 Below are some optional UniAmp scripts to obtain query genomes with high sequence similarity to a target genome:
@@ -86,7 +86,7 @@ blastn
 Note: If target genome sequence has previously been deposited into NCBI database then user should check the query genomes returned by `get_ncbi_queries.sh` to make sure target genome sequence is not present.
 
 
-### Retrieve unique target sequences
+### 3. Retrieve unique target sequences
 Once a directory with query genomes is assembled the following script is implemented:
 ```
 uni_seq.sh <TARGET_GNOME> <QUERY_DIR> <OUT_DIR>
@@ -108,7 +108,7 @@ local_uniseq.sh:::blastn
 ```
 
 
-### Select unique target sequence
+### 4. Select unique target sequence
 The output from `uni_seq.sh` can produced many unique target sequences. This depends on how many query genomes were compared and how similiar these query genomes were to the target genome.  \
 \
 For the later steps in the UniAmp pipeline, unique target sequences are uploaded to the web server of Primer-BLAST. As a result, it is convienent to only have 1 or a few unique target sequences to work with. To accomplish this, selection criteria can be imposed to select the most optimal unique target sequence based on the user's preference.  \
@@ -145,7 +145,7 @@ bioawk
 ```
 
 
-### Design primers using Primer-BLAST
+### 5. Design primers using Primer-BLAST
 Once a unique target sequence is selected, this sequence is uploaded to the Primer-BLAST server (https://www.ncbi.nlm.nih.gov/tools/primer-blast/). Presently, no command-line tool exists for Primer-BLAST so the Primer-BLAST html output is saved and used in the next step.  \
 \
 Users can select different Primer-BLAST parameters depending on their specific needs. Below are URLs containing previously used settings for designing bacterial strain-specific primers:  \
@@ -153,7 +153,7 @@ Users can select different Primer-BLAST parameters depending on their specific n
 [Settings to design primers for qPCR](https://www.ncbi.nlm.nih.gov/tools/primer-blast/index.cgi?LINK_LOC=bookmark&OVERLAP_5END=7&OVERLAP_3END=4&PRIMER_PRODUCT_MIN=75&PRIMER_PRODUCT_MAX=150&PRIMER_NUM_RETURN=500&PRIMER_MIN_TM=57.0&PRIMER_OPT_TM=60.0&PRIMER_MAX_TM=63.0&PRIMER_MAX_DIFF_TM=3&PRIMER_ON_SPLICE_SITE=0&SEARCHMODE=0&SPLICE_SITE_OVERLAP_5END=7&SPLICE_SITE_OVERLAP_3END=4&SPLICE_SITE_OVERLAP_3END_MAX=8&SPAN_INTRON=off&MIN_INTRON_SIZE=1000&MAX_INTRON_SIZE=1000000&SEARCH_SPECIFIC_PRIMER=on&EXCLUDE_ENV=off&EXCLUDE_XM=off&TH_OLOGO_ALIGNMENT=off&TH_TEMPLATE_ALIGNMENT=off&ORGANISM=bacteria%20%28taxid%3A2%29&PRIMER_SPECIFICITY_DATABASE=nt&TOTAL_PRIMER_SPECIFICITY_MISMATCH=4&PRIMER_3END_SPECIFICITY_MISMATCH=1&MISMATCH_REGION_LENGTH=3&TOTAL_MISMATCH_IGNORE=6&MAX_TARGET_SIZE=4000&ALLOW_TRANSCRIPT_VARIANTS=off&HITSIZE=50000&EVALUE=30000&WORD_SIZE=7&MAX_CANDIDATE_PRIMER=500&PRIMER_MIN_SIZE=18&PRIMER_OPT_SIZE=22&PRIMER_MAX_SIZE=26&PRIMER_MIN_GC=40&PRIMER_MAX_GC=60&GC_CLAMP=0&NUM_TARGETS_WITH_PRIMERS=1000&NUM_TARGETS=20&MAX_TARGET_PER_TEMPLATE=100&POLYX=5&SELF_ANY=8.00&SELF_END=3.00&PRIMER_MAX_END_STABILITY=9&PRIMER_MAX_END_GC=5&PRIMER_MAX_TEMPLATE_MISPRIMING_TH=40.00&PRIMER_PAIR_MAX_TEMPLATE_MISPRIMING_TH=70.00&PRIMER_MAX_SELF_ANY_TH=45.0&PRIMER_MAX_SELF_END_TH=35.0&PRIMER_PAIR_MAX_COMPL_ANY_TH=45.0&PRIMER_PAIR_MAX_COMPL_END_TH=35.0&PRIMER_MAX_HAIRPIN_TH=24.0&PRIMER_MAX_TEMPLATE_MISPRIMING=12.00&PRIMER_PAIR_MAX_TEMPLATE_MISPRIMING=24.00&PRIMER_PAIR_MAX_COMPL_ANY=8.00&PRIMER_PAIR_MAX_COMPL_END=3.00&PRIMER_MISPRIMING_LIBRARY=AUTO&NO_SNP=off&LOW_COMPLEXITY_FILTER=on&MONO_CATIONS=50.0&DIVA_CATIONS=1.5&CON_ANEAL_OLIGO=50.0&CON_DNTPS=0.6&SALT_FORMULAR=1&TM_METHOD=1&PRIMER_INTERNAL_OLIGO_MIN_SIZE=18&PRIMER_INTERNAL_OLIGO_OPT_SIZE=20&PRIMER_INTERNAL_OLIGO_MAX_SIZE=27&PRIMER_INTERNAL_OLIGO_MIN_TM=57.0&PRIMER_INTERNAL_OLIGO_OPT_TM=60.0&PRIMER_INTERNAL_OLIGO_MAX_TM=63.0&PRIMER_INTERNAL_OLIGO_MAX_GC=80.0&PRIMER_INTERNAL_OLIGO_OPT_GC_PERCENT=50&PRIMER_INTERNAL_OLIGO_MIN_GC=20.0&PICK_HYB_PROBE=off&NEWWIN=off&NEWWIN=off&SHOW_SVIEWER=true)
 
 
-### Tabulate Primer-BLAST output and test specificity of primer pairs 
+### 6. Tabulate Primer-BLAST output and test specificity of primer pairs 
 
 In the last step of the UniAmp pipeline, the Primer-BLAST html output is parsed and a text file is created. The specificity of these primers is then tested by performing in-silico PCR on a set of input genomes, containing the target genome as well as non-target genomes.  \
 \
