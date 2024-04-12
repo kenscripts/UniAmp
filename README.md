@@ -16,7 +16,6 @@ The UniAmp pipeline can be conceptually split into 4 parts:
 UniAmp is run on Linux and requires basic Linux utilities, python3, and perl.  \
 \
 UniAmp contains wrappers around public bioinformatics software. The following dependencies are included with UniAmp as binaries in the `bin` folder and do not need to be installed:  \
-\
 [nucmer](https://sourceforge.net/projects/mummer/)  \
 [bedtools](https://github.com/arq5x/bedtools2)  \
 [bioawk](https://github.com/lh3/bioawk)
@@ -28,7 +27,7 @@ UniAmp contains wrappers around public bioinformatics software. The following de
 [edirect](https://www.ncbi.nlm.nih.gov/books/NBK179288/)
 
 \* To implement rnammer in UniAmp scripts, the `rnammer` script included with UniAmp was modified as described [here](https://www.biostars.org/p/9550142/). `rnammer` also requires the HMMER2 command `hmmsearch`, so the binary for this command is included in the UniAmp `bin` folder. \
-\* rnammer requires the perl `XML::Simple` module. If not already installed, the module can be installed using the command `cpan install XML::Simple`. \
+\* rnammer requires the perl `XML::Simple` module. If not already installed, the module can be installed using the command `cpan install XML::Simple`. 
 
 
 # Installation
@@ -42,7 +41,7 @@ Run the following script and specify UniAmp path:  \
 # Usage
 For specific examples on how to use the UniAmp pipeline, see `*.workflow.txt` files in the `docs` folder. These files show the process for designing strain-specific primers to different bacteria.  \
 \
-The following is a general walkthrough of the UniAmp pipeline:  \
+The following is a general walkthrough of the UniAmp pipeline:
 ### Set up UniAmp scripts and dependencies
 Before running UniAmp scripts, execute the following script and specify the path to UniAmp:  \
 `source ./uniamp_setup.sh <path to UniAmp>`
