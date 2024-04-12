@@ -53,12 +53,13 @@ mkdir -p $NCBI_QUERY
 printf "\n>>> Retrieving $TAXON accessions\n\n"
 
 # get tax accessions
-$DATASETS_PATH summary genome taxon "$TAXON" --refseq |
-$JQ_PATH \
--r \
-'.assemblies[].assembly |
-select(.assembly_level == "Complete Genome") |
-.assembly_accession' \
+$DATASETS_PATH \
+summary \
+genome \
+taxon "$TAXON" \
+--assembly-level chromosome,complete \
+--assembly-source Refseq |
+$JQ_PATH -r '.reports[].accession' \
 > $ACCESSIONS
 
 # get accession count
