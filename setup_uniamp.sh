@@ -24,8 +24,8 @@ tar -xvf taxdump.tar.gz;
 # UniAmp requires the python package BeautifulSoup4 to parse the html output from Primer-BLAST
 python3 -c "import beautifulsoup4" 2>/dev/null
 if [ " $?" -eq 1 ]; then
-    echo "\n>>>installing beautifulsoup4";
+    echo -e "\n>>> installing beautifulsoup4";
     #pip install beautifulsoup4;
 else
-    echo "\n>>>beautifulsoup4 already installed";
+    echo -e "\n>>> beautifulsoup4 already installed";
 fi
