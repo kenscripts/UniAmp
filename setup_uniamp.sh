@@ -29,3 +29,6 @@ if [ " $?" -eq 1 ]; then
 else
     echo -e "\n>>> beautifulsoup4 already installed";
 fi
+
+# go back to initial directory
+cd $OLDPWD;
