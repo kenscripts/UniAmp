@@ -45,7 +45,8 @@ The following is a general walkthrough of the UniAmp pipeline:
 ### 1. Set up UniAmp scripts and dependencies
 Before running UniAmp scripts, execute the following script and specify the path to UniAmp:  \
 `source <path to UniAmp>/start_uniamp.sh <path to UniAmp>`  \
-\
+
+
 ### 2. Build directory of query genomes with high sequence similarity to target genome
 The target genome is compared to query genomes to find unique target sequences. This step controls how unique the target sequences can be. For example, if a synthetic community of organisms is being studied, then only the genomes of these community members can be used as queries. However, if a high level of uniqueness is desired for unique target sequences then the user should compare query genomes with high sequence similarity to target genome.  \
 \
@@ -83,7 +84,8 @@ rnammer
 blastn
 ```
 Note: If target genome sequence has previously been deposited into NCBI database then user should check the query genomes returned by `get_ncbi_queries.sh` to make sure target genome sequence is not present.  \
-\
+
+
 ### 3. Retrieve unique target sequences
 Once a directory with query genomes is assembled the following script is implemented:
 ```
