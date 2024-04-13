@@ -44,7 +44,7 @@ For specific examples on how to use the UniAmp pipeline, see `*.workflow.txt` fi
 The following is a general walkthrough of the UniAmp pipeline:
 ### 1. Set up UniAmp scripts and dependencies
 Before running UniAmp scripts, execute the following script and specify the path to UniAmp:  \
-`source <path to UniAmp>/start_uniamp.sh <path to UniAmp>`  \
+`source <path to UniAmp>/start_uniamp.sh <path to UniAmp>`
 
 
 ### 2. Build directory of query genomes with high sequence similarity to target genome
@@ -83,7 +83,7 @@ datasets
 rnammer
 blastn
 ```
-Note: If target genome sequence has previously been deposited into NCBI database then user should check the query genomes returned by `get_ncbi_queries.sh` to make sure target genome sequence is not present.  \
+Note: If target genome sequence has previously been deposited into NCBI database then user should check the query genomes returned by `get_ncbi_queries.sh` to make sure target genome sequence is not present.
 
 
 ### 3. Retrieve unique target sequences
