@@ -4,12 +4,12 @@
 # performs remote blastn search and attaches subject sequence lineage using taxonkit
 
 # Usage:
-# remote_blastn_lineage.sh <QUERY_FASTA> <BLAST_DB> <TAXON> <OUT_DIR>
+# remote_blastn_lineage.sh <QUERY_FASTA> <BLAST_DB> <ENTREZ> <OUT_DIR>
 
 # Arguments:
 # <QUERY_FASTA> = path for query fasta to use in blastn search
 # <BLAST_DB> = name of NCBI database to search in (e.g. nr)
-# <TAXON> = limit blastn search to specific taxon (used as entrez query for [organism])
+# <ENTREZ> = limit blastn search to specific entrez (e.g. "Pseudomonas [organism]"
 # <OUT_DIR> = path to output directory
 
 # Dependencies:
@@ -28,7 +28,7 @@
 
 QUERY_FASTA=$1
 BLAST_DB=$2
-TAXON=$3
+ENTREZ=$3
 OUT_DIR=$4
 
 ##################################################
@@ -53,9 +53,9 @@ $BLASTN_PATH \
 -remote \
 -query $QUERY_FASTA \
 -db $BLAST_DB \
--entrez_query "$TAXON [organism]" \
+-entrez_query $ENTREZ \
 -task blastn \
--evalue 0.1 \
+-evalue 1e-3 \
 -max_target_seqs 25 \
 -max_hsps 1 \
 -outfmt "6 qseqid sseqid qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore staxids" |

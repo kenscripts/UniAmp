@@ -4,12 +4,12 @@
 # performs a remote blastn search and returns most unique query sequence
 
 # Usage:
-# get_remote_uniseq.sh <QUERY_FASTA> <BLASTDB> <TAXON> <OUT_DIR>
+# get_remote_uniseq.sh <QUERY_FASTA> <BLASTDB> <ENTREZ> <OUT_DIR>
 
 # Arguments:
 # <QUERY_FASTA> = path for query fasta to use in blastn search
 # <BLAST_DB> = name of NCBI database to search against (e.g. nr)
-# <TAXON> = limit blastn search to specific taxon (used as entrez query for [organism])
+# <ENTREZ> = limit blastn search to specific entrez (e.g. "Pseudomonas [organism]"
 # <OUT_DIR> = path to output directory
 
 # Dependencies:
@@ -23,7 +23,7 @@
 
 QUERY_FASTA=$1;
 BLAST_DB=$2;
-TAXON=$3;
+ENTREZ=$3;
 OUT_DIR=${4%/}
 
 ##################################################
@@ -31,9 +31,9 @@ OUT_DIR=${4%/}
 ##################################################
 
 OUT_NAME=$(echo $QUERY_FASTA | xargs -n 1 basename | rev | cut -d"." -f2- | rev);
-BLAST_OUT="$OUT_DIR/$OUT_NAME.remblastn_out.tsv"
-QUERY_STATS="$OUT_DIR/$OUT_NAME.remblastn_out.qstats.tsv"
-REM_UNISEQ="$OUT_DIR/$OUT_NAME.rem_uniq.fasta"
+BLAST_OUT="$OUT_DIR/$OUT_NAME.remblastn_out.tsv";
+QUERY_STATS="$OUT_DIR/$OUT_NAME.remblastn_qstats.tsv";
+REM_UNISEQ="$OUT_DIR/$OUT_NAME.rem_uniq.fasta";
 
 ##################################################
 # BLASTN w/ Lineage
@@ -42,7 +42,7 @@ REM_UNISEQ="$OUT_DIR/$OUT_NAME.rem_uniq.fasta"
 remote_blastn_lineage.sh \
 $QUERY_FASTA \
 $BLAST_DB \
-$TAXON \
+$ENTREZ \
 $OUT_DIR;
 
 ##################################################
