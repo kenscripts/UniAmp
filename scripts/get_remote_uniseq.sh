@@ -23,7 +23,7 @@
 
 QUERY_FASTA=$1;
 BLAST_DB=$2;
-ENTREZ=$3;
+ENTREZ="$3";
 OUT_DIR=${4%/}
 
 ##################################################
@@ -42,7 +42,7 @@ REM_UNISEQ="$OUT_DIR/$OUT_NAME.rem_uniq.fasta";
 remote_blastn_lineage.sh \
 $QUERY_FASTA \
 $BLAST_DB \
-$ENTREZ \
+"$ENTREZ" \
 $OUT_DIR;
 
 ##################################################

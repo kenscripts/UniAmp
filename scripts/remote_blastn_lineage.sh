@@ -28,7 +28,7 @@
 
 QUERY_FASTA=$1
 BLAST_DB=$2
-ENTREZ=$3
+ENTREZ="$3"
 OUT_DIR=$4
 
 ##################################################
@@ -53,7 +53,7 @@ $BLASTN_PATH \
 -remote \
 -query $QUERY_FASTA \
 -db $BLAST_DB \
--entrez_query $ENTREZ \
+-entrez_query "$ENTREZ" \
 -task blastn \
 -evalue 1e-3 \
 -max_target_seqs 25 \
