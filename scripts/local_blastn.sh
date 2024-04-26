@@ -9,6 +9,7 @@
 # Arguments:
 # <BLAST_QUERY> = query sequence for blastn comparison
 # <BLAST_SUBJECT> = subject sequence for blastn comparison
+# evalue of 0.05 is used
 
 # Dependencies:
 # blastn
@@ -27,5 +28,5 @@ BLAST_SUBJECT=$2
 $BLASTN_PATH \
 -query $BLAST_QUERY \
 -subject $BLAST_SUBJECT \
--evalue 1e-10 \
+-evalue 0.05 \
 -outfmt "6 qseqid sseqid qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore" \

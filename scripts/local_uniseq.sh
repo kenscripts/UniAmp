@@ -47,9 +47,10 @@ $SIZED_UNIFASTA \
 $QUERY_GNOMES \
 >> $BLASTOUT;
 
-# returns list of seq ids
+# determine number of similar hits for each sequence
 # sequences are considered similar if:
 # query coverage is > 75 % and percent identity is > 75 % 
+# returns list of seq ids
 awk \
 '$5>75 && $6>75 {print $1}' \
 $BLASTOUT |
