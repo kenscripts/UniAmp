@@ -12,10 +12,8 @@ chmod u+x $UNIAMP_PATH/scripts/*;
 chmod u+x $UNIAMP_PATH/bin/*;
 
 # install e-direct
-# e-direct no longer used
-# entrez query directly applied to blastn search
-#printf "\n>>> downloading edirect";
-#sh $UNIAMP_PATH/install/install-edirect.sh;
+printf "\n>>> downloading edirect";
+sh $UNIAMP_PATH/install/install-edirect.sh;
 
 # download and unpack ncbi taxonomy in UniAmp lib directory:
 printf "\n>>> unpacking ncbi taxonomy\n";
