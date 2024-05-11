@@ -25,7 +25,7 @@ tar -xvf taxdump.tar.gz;
 python3 -c "import beautifulsoup4" 2>/dev/null
 if [ " $?" -eq 1 ]; then
     echo -e "\n>>> installing beautifulsoup4";
-    #pip install beautifulsoup4;
+    pip install beautifulsoup4;
 else
     echo -e "\n>>> beautifulsoup4 already installed";
 fi

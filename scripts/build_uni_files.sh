@@ -1,19 +1,33 @@
 #! /bin/bash
 
-# Description:
-# takes nucmer output, extracts unique target sequence intervals, and builds unique target sequences
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+echo ""
+echo "Description:"
+echo "takes nucmer output, extracts unique target sequence intervals, and builds unique target sequences"
 
-# Usage:
-# build_uni_files.sh <TARGET_BTFASTA> <TARGET_BTBED> <NUCCOORS> <OUT_DIR>
+echo ""
+echo "Usage:"
+echo "build_uni_files.sh <TARGET_BTFASTA> <TARGET_BTBED> <NUCCOORS> <OUT_DIR>"
 
-# Arguments:
-# <TARGET_BTFASTA> = target genome fasta sequence formatted to match nucmer output
-# <TARGET_BTBED> = sizes of contigs in target genome sequence in bed format
-# <NUCCOORS> = coordinate output from nucmer
-# <OUT_DIR> = path to output directory
+echo ""
+echo "Arguments:"
+echo "<TARGET_BTFASTA> = target genome fasta sequence formatted to match nucmer output"
+echo "<TARGET_BTBED> = sizes of contigs in target genome sequence in bed format"
+echo "<NUCCOORS> = coordinate output from nucmer"
+echo "<OUT_DIR> = path to output directory"
 
-# Dependencies:
-# bedtools
+echo ""
+echo "Dependencies:"
+echo "bedtools"
+
+echo ""
+echo "Output:"
+echo "uni_seq.nuc.bed (bed file of unique target genome sequences)"
+echo "uni_seq.nuc.fasta (fasta file of unique target genome sequences)"
+
+echo ""
+exit 1
+fi
 
 ##################################################
 # Input

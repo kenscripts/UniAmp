@@ -1,17 +1,31 @@
 #! /bin/bash
 
-# Description:
-# format target genome sequence for bedtools
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+echo ""
+echo "Description:"
+echo "formats target genome sequence for bedtools and creates target genome bed"
 
-# Usage:
-# build_bedtools_files.sh <TARGET_GNOME> <OUT_DIR>
+echo ""
+echo "Usage:"
+echo "build_bedtools_files.sh <TARGET_GNOME> <OUT_DIR>"
+  
+echo ""
+echo "Arguments:"
+echo "<TARGET_GNOME> = path to target genome sequence"
+echo "<OUT_DIR> = path to output directory"
+  
+echo ""
+echo "Dependencies:"
+echo "fasta_contig_length.py"
 
-# Arguments:
-# <TARGET_GNOME> = path to target genome sequence
-# <OUT_DIR> = path to output directory
-
-# Dependencies:
-# fasta_contig_length.py
+echo ""
+echo "Output:"
+echo "target_bedtools.fasta (fasta file of target genome for bedtools)"
+echo "target_bedtools.bed (bed file of target genome for bedtools)"
+  
+echo ""
+exit 1
+fi
 
 ##################################################
 # Input

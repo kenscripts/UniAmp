@@ -1,20 +1,36 @@
 #! /bin/bash
 
-# Description:
-# retrieves query genomes from NCBI of the specified taxon with > 97% 16S rRNA sequence identity to target genome sequence
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+echo ""
+echo "Description:"
+echo "retrieves query genomes from NCBI of the specified taxon with > 97% 16S rRNA sequence identity to target genome sequence"
 
-# Usage:
-# get_ncbi_queries.sh <TARGET_GNOME> <TAXON> <OUT_DIR>
+echo ""
+echo "Usage:"
+echo "get_ncbi_queries.sh <TARGET_GNOME> <TAXON> <OUT_DIR>"
 
-# Arguments:
-# <TARGET_GNOME>  = path to target genome sequence
-# <TAXON> = search for query genomes from a specific taxon
-# <OUT_DIR> = path to output directory
+echo ""
+echo "Arguments:"
+echo "<TARGET_GNOME>  = path to target genome sequence"
+echo "<TAXON> = search for query genomes from a specific taxon"
+echo "<OUT_DIR> = path to output directory"
 
-# Dependencies:
-# datasets
-# rnammer
-# blastn
+echo ""
+echo "Dependencies:"
+echo "datasets"
+echo "rnammer"
+echo "blastn"
+
+echo ""
+echo "Output:"
+echo "ncbi_<TAXON>.accessions"
+echo "<TARGET_GNOME>.16S.fna"
+echo "ncbi_queries.accessions"
+echo "ncbi_query_genomes/"
+
+echo ""
+exit 1
+fi
 
 ##################################################
 # Inputs

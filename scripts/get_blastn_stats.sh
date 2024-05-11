@@ -1,18 +1,31 @@
 #! /bin/bash
 
-# Description:
-# returns BLAST statistics (median qcov, pdt, bitscore) for each query sequence
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+echo ""
+echo "Description:"
+echo "returns BLAST statistics (median qcov, pdt, & bitscore) for each query sequence"
 
-# Usage:
-# get_blastn_stats.sh <QUERY_FASTA> <QUERY_BLASTN> <OUT_DIR>
+echo ""
+echo "Usage:"
+echo "get_blastn_stats.sh <QUERY_FASTA> <QUERY_BLASTN> <OUT_DIR>"
 
-# Arguments:
-# <QUERY_FASTA> = path to query fasta used in blastn search
-# <QUERY_BLASTN> = path to blast results of query fasta
-# <OUT_DIR> = path to output directory
+echo ""
+echo "Arguments:"
+echo "<QUERY_FASTA> = path to query fasta used in blastn search"
+echo "<QUERY_BLASTN> = path to blast results of query fasta"
+echo "<OUT_DIR> = path to output directory"
 
-# Dependencies:
-# None
+echo ""
+echo "Dependencies:"
+echo "None"
+
+echo ""
+echo "Output:"
+echo "*.qstats.tsv"
+
+echo ""
+exit 1
+fi
 
 ##################################################
 # Inputs

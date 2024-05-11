@@ -1,21 +1,37 @@
 #! /bin/bash
 
-# Description:
-# performs a remote blastn search and returns most unique query sequence
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+echo ""
+echo "Description:"
+echo "performs a remote blastn search and returns most unique query sequence"
 
-# Usage:
-# get_remote_uniseq.sh <QUERY_FASTA> <BLASTDB> <ENTREZ> <OUT_DIR>
+echo ""
+echo "Usage:"
+echo "get_remote_uniseq.sh <QUERY_FASTA> <BLASTDB> <ENTREZ> <OUT_DIR>"
 
-# Arguments:
-# <QUERY_FASTA> = path for query fasta to use in blastn search
-# <BLAST_DB> = name of NCBI database to search against (e.g. nr)
-# <ENTREZ> = limit blastn search to specific entrez (e.g. "Pseudomonas [organism]"
-# <OUT_DIR> = path to output directory
+echo ""
+echo "Arguments:"
+echo "<QUERY_FASTA> = path for query fasta to use in blastn search"
+echo "<BLAST_DB> = name of NCBI database to search against (e.g. nr)"
+echo "<ENTREZ> = limit blastn search to specific entrez (e.g. 'Pseudomonas [organism]'"
+echo "<OUT_DIR> = path to output directory"
 
-# Dependencies:
-# remote_blastn_lineage:::blastn
-# remote_blastn_lineage:::taxon
-# bioawk
+echo ""
+echo "Dependencies:"
+echo "remote_blastn_lineage:::blastn"
+echo "remote_blastn_lineage:::taxon"
+echo "bioawk"
+
+
+echo ""
+echo "Output:"
+echo "*.remblastn_out.tsv"
+echo "*.remblastn_qstats.tsv"
+echo "*.rem_uniq.fasta"
+
+echo ""
+exit 1
+fi
 
 ##################################################
 # Input

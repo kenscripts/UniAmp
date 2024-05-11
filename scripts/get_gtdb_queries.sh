@@ -1,20 +1,34 @@
 #! /bin/bash
 
-# Description:
-# retrieves query genomes from GTDB-tk ani_rep output that match target genome sequence
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+echo ""
+echo "Description:"
+echo "retrieves query genomes from GTDB-tk ani_rep output that match target genome sequence"
 
-# Usage:
-# get_gtdb_queries.sh <GTDBTK_DATA_PATH> <GTDB_DIR> <TARGET_GNOME> <OUT_DIR>
+echo ""
+echo "Usage:"
+echo "get_gtdb_queries.sh <GTDBTK_DATA_PATH> <GTDB_DIR> <TARGET_GNOME> <OUT_DIR>"
 
-# Arguments:
-# <GTDBTK_DATA_PATH> = path to GTDB-tk reference data
-# <GTDB_DIR> = directory containing GTDB-tk ani_rep output
-# <TARGET_GNOME> = filename of target genome sequence
-# <OUT_DIR> = path to output directory
+echo ""
+echo "Arguments:"
+echo "<GTDBTK_DATA_PATH> = path to GTDB-tk reference data"
+echo "<GTDB_DIR> = directory containing GTDB-tk ani_rep output"
+echo "<TARGET_GNOME> = filename of target genome sequence"
+echo "<OUT_DIR> = path to output directory"
 
-# Dependencies:
-# output from GTDB-tk ani_rep
-# GTDB-tk reference data
+echo ""
+echo "Dependencies:"
+echo "output from GTDB-tk ani_rep"
+echo "GTDB-tk reference data"
+
+echo ""
+echo "Output:"
+echo "gtdb_matches.tsv"
+echo "gtdb_query_genomes"
+
+echo ""
+exit 1
+fi
 
 ##################################################
 # Inputs
