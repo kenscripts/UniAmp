@@ -1,30 +1,27 @@
 #! /bin/bash
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-echo ""
-echo "Description:"
-echo "returns BLAST statistics (median qcov, pdt, & bitscore) for each query sequence"
+cat << EOF
 
-echo ""
-echo "Usage:"
-echo "get_blastn_stats.sh <QUERY_FASTA> <QUERY_BLASTN> <OUT_DIR>"
+Description:
+    Returns BLAST statistics (median qcov, pdt, & bitscore) for each query sequence.
 
-echo ""
-echo "Arguments:"
-echo "<QUERY_FASTA> = path to query fasta used in blastn search"
-echo "<QUERY_BLASTN> = path to blast results of query fasta"
-echo "<OUT_DIR> = path to output directory"
+Usage:
+    get_blastn_stats.sh <QUERY_FASTA> <QUERY_BLASTN> <OUT_DIR>
 
-echo ""
-echo "Dependencies:"
-echo "None"
+Arguments:
+    <QUERY_FASTA>    path to query fasta used in blastn search"
+    <QUERY_BLASTN>   path to blast results of query fasta"
+    <OUT_DIR>        path to output directory"
 
-echo ""
-echo "Output:"
-echo "*.qstats.tsv"
+Dependencies:
+    None
 
-echo ""
-exit 1
+Output:
+    *.qstats.tsv
+
+EOF
+    exit 0
 fi
 
 ##################################################
@@ -134,6 +131,11 @@ done
 cat $TMP_MATCHES |
 sort -nk4,4 -nk7,7 \
 > $QUERY_STATS;
+
+# add header
+sed \
+"1i query\ttop_hit_cov\ttop_hit_pidt\ttop_hits_nbs\tmedian_cov\tmedian_pidt\tmed_nbs" \
+$QUERY_STATS;
 
 # clean-up
 rm $OUT_DIR/*.tmp*;

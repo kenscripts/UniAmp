@@ -92,19 +92,36 @@ Once a directory with query genomes is assembled the following script is impleme
 uni_seq.sh <TARGET_GNOME> <QUERY_DIR> <OUT_DIR>
 
 Description:
-finds unique sequences in target genome compared to query genomes by performing pw genome alignment then local alignment
+    Finds unique sequences in target genome compared to query genomes by performing pw genome alignment then local alignment.
 
 Arguments:
-<TARGET_GNOME> = path to target genome sequence
-<QUERY_DIR> = path to directory containing query genomes
-<OUT_DIR> = path to directory for output
+    <TARGET_GNOME>   path to target genome sequence
+    <QUERY_DIR>      path to directory containing query genomes
+    <OUT_DIR>        path to output directory
 
 Dependencies:
-gnome_uniseq.sh:::nucmer
-gnome_uniseq.sh:::show-coords
-gnome_uniseq.sh:::bedtools
-bioawk
-local_uniseq.sh:::blastn
+    gnome_uniseq.sh:::nucmer
+    gnome_uniseq.sh:::show-coords
+    gnome_uniseq.sh:::bedtools
+    bioawk
+    local_uniseq.sh:::blastn
+
+Intermediate Output:
+    target_bedtools.bed         bed file of target genome for bedtools
+    target_bedtools.fasta.fai   index of target genome for bedtools
+    target_bedtools.fasta       fasta file of target genome for bedtools
+    bedtools.err                errors from bedtools
+    nuc.coors                   coordinate file from nucmer
+    nuc.log                     log for nucmer
+    ani.tsv                     average nucleotide identity calculated from nucmer output
+    uni_seq.nuc.bed             bed file of unique target genome sequences
+    uni_seq.nuc.fasta           fasta file of unique target genome sequences
+    uni_seq.filtered.fasta      fasta file of unique target genome sequences > 100 bp 
+    uni_seq.loc_blastn.tsv      blastn results from target-target and target-queries alignments
+
+Main Output:
+    uni_seq.log        log for uni_seq.sh
+    uni_seq.sc.fasta   single-copy sequences unique to target genome sequence
 ```
 
 

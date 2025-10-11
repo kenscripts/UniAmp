@@ -1,36 +1,47 @@
 #! /bin/bash
 
-# entrez query doesn't input correctly; need to use blastn command separately
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+cat << EOF
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Descriptions
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Usage:
+    remote_blastn.sh <TARGET_SEQ> <ENTREZ_TERM>
 
-# performs remote blastn against specificed organism sequences in NCBI nt database 
-# output is sent to stdout
+Description:
+    Performs remote blastn against specificed organism sequences in NCBI nt database. 
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# I/O
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+Arguments:
+    <TARGET_SEQ>
+    <ENTREZ_TERM>
 
-# input
+Output:
+    Stdout
+
+EOF
+    exit 0
+fi
+
+##################################################
+# Inputs
+##################################################
+
 QUERY=$1;
 ENTREZ=$2;
 
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-# Instructions
-#~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+##################################################
+# Remote BLASTN
+##################################################
 
 # print entrez search query
 printf '\nEntrez Query: "%s"\n' "${ENTREZ[@]}"
 
 # entrez input is stored as an array; expand array into 1 string
 #-entrez_query $(printf '"%s"' "${ENTREZ[@]}") \
+# entrez query doesn't input correctly; need to use blastn command separately
 $BLASTN_PATH \
 -remote \
 -query $QUERY \
 -db nt \
--entrez_query XXX
+-entrez_query $ENTREZ \
 -task blastn \
 -evalue 1e-10 \
 -max_hsps 1 \

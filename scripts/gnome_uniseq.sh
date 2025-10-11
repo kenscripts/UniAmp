@@ -1,37 +1,34 @@
 #! /bin/bash
 
 if [[ "$1" == "-h" || "$1" == "--help" ]]; then
-echo ""
-echo "Description:"
-echo "performs pw genome alignment and extracts unique target sequences"
+cat << EOF
 
-echo ""
-echo "Usage:"
-echo "gnome_uniseq.sh <TARGET_GNOME> <QUERY_DIR> <OUT_DIR>"
+Usage:
+    gnome_uniseq.sh <TARGET_GNOME> <QUERY_DIR> <OUT_DIR>
 
-echo ""
-echo "Arguments:"
-echo "<TARGET_GNOME> = path to target genome sequence"
-echo "<QUERY_DIR> = path to directory containing query genomes"
-echo "<OUT_DIR> = path to output directory"
+Description:
+    Performs pairwise genome alignment and extracts unique target sequences.
 
-echo ""
-echo "Dependencies:"
-echo "build_bedtools_files.sh:::bedtools"
-echo "nucmer"
-echo "build_uni_files.sh:::bedtools"
+Arguments:
+    <TARGET_GNOME>   path to target genome sequence
+    <QUERY_DIR>      path to directory containing query genomes
+    <OUT_DIR>        path to output directory
 
-echo ""
-echo "Output:"
-echo "target_bedtools.fasta (fasta file of target genome for bedtools)"
-echo "target_bedtools.bed (bed file of target genome for bedtools)"
-echo "nuc.coors (coordinate file from nucmer)"
-echo "ani.tsv (average nucleotide identity calculated from nucmer output)"
-echo "uni_seq.nuc.bed (bed file of unique target genome sequences)"
-echo "uni_seq.nuc.fasta (fasta file of unique target genome sequences)"
+Dependencies:
+    build_bedtools_files.sh:::bedtools
+    nucmer
+    build_uni_files.sh:::bedtools
 
-echo ""
-exit 1
+Output:
+    target_bedtools.fasta   fasta file of target genome for bedtools
+    target_bedtools.bed     bed file of target genome for bedtools
+    nuc.coors               coordinate file from nucmer
+    ani.tsv                 average nucleotide identity calculated from nucmer output
+    uni_seq.nuc.bed         bed file of unique target genome sequences
+    uni_seq.nuc.fasta       fasta file of unique target genome sequences
+
+EOF
+    exit 0
 fi
 
 ##################################################
@@ -64,18 +61,18 @@ UNIFASTA="$OUT_DIR/uni_seq.nuc.fasta"
 ##################################################
 
 sleep 1
-printf "\n\nTarget: $TARGET_GNOME\n"
+printf "\n\nTarget: $TARGET_GNOME\n\n"
 sleep 1
-printf "Query directory: $QUERY_DIR\n"
+printf "Query directory: $QUERY_DIR\n\n"
 sleep 1
-printf "Number of queries: $NO_QUERIES\n"
+printf "Number of queries: $NO_QUERIES\n\n"
 
 ##################################################
 # File Formatting
 ##################################################
 
 sleep 1
-printf "Modifying target genome fasta for analysis.\n"
+printf "Modifying target genome fasta for analysis.\n\n"
 
 # build target_genome.fasta and target_genome.bed files
 build_bedtools_files.sh \

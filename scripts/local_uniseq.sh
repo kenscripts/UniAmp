@@ -1,26 +1,38 @@
 #! /bin/bash
 
-# Description:
-# performs blastn and returns single-copy, sequences unique to reference genome sequence
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+	cat << EOF
 
-# Usage:
-# local_uniseq.sh <SIZED_UNIFASTA> <REF_GNOME> <QUERY_GNOMES> <OUT_DIR>
+Usage:
+local_uniseq.sh <SIZED_UNIFASTA> <TARGET_GNOME> <QUERY_GNOMES> <OUT_DIR>
 
-# Arguments:
-# <SIZED_UNIFASTA> = sequences (> 100 bp) unique to reference genome sequence
-# <REF_GNOME> = path to reference genome sequence
-# <QUERY_GNOMES> = path to directory containing query genomes
-# <OUT_DIR> = path to output directory
+Description:
+    Performs blastn local alignments of target-target and target-queries.
+    Returns single-copy sequences unique to target genome sequence.
 
-# Dependencies:
-# local_blastn.sh:::blastn
+Arguments:
+    <SIZED_UNIFASTA>   sequences (> 100 bp) unique to target genome sequence
+    <TARGET_GNOME>     path to target genome sequence
+    <QUERY_GNOMES>     path to directory containing query genomes
+    <OUT_DIR>          path to output directory
+
+Dependencies:
+    local_blastn.sh:::blastn
+
+Output:
+    uni_seq.loc_blastn.tsv   blastn results from target-target and target-queries alignments
+    uni_seq.sc.fasta         single-copy sequences unique to target genome sequence
+
+EOF
+    exit 0
+fi
 
 ##################################################
 # Input
 ##################################################
 
 SIZED_UNIFASTA=$1
-REF_GNOME=$2
+TARGET_GNOME=$2
 QUERY_GNOMES=$3
 OUT_DIR=$4
 
@@ -38,7 +50,7 @@ SC_UNIFASTA="$OUT_DIR/uni_seq.sc.fasta"
 # self blast to find duplicated sequences
 local_blastn.sh \
 $SIZED_UNIFASTA \
-$REF_GNOME \
+$TARGET_GNOME \
 > $BLASTOUT;
 
 # blast against queries to find common sequences
