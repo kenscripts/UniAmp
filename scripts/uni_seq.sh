@@ -22,9 +22,9 @@ Dependencies:
     local_uniseq.sh:::blastn
 
 Intermediate Output:
-    target_bedtools.bed         bed file of target genome for bedtools
     target_bedtools.fasta.fai   index of target genome for bedtools
     target_bedtools.fasta       fasta file of target genome for bedtools
+    target_bedtools.bed         bed file of target genome for bedtools
     bedtools.err                errors from bedtools
     nuc.coors                   coordinate file from nucmer
     nuc.log                     log for nucmer

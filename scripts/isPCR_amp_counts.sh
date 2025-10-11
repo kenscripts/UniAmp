@@ -1,18 +1,28 @@
 #! /bin/bash
 
-# Description:
-# counts number of isPCR amplicons generated from target and non-target genomes
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+cat << EOF
 
-# Usage:
-# isPCR_amp_counts.sh <ISPCR_OUT> <TARGET_GNOME> <OUT_DIR>
+Usage:
+    isPCR_amp_counts.sh <ISPCR_OUT> <TARGET_GNOME> <OUT_DIR>
 
-# Arguments:
-# <ISPCR_OUT> = path to is-PCR output
-# <TARGET_GNOME> = path to target genome sequence
-# <OUT_DIR> = path to output directory
+Description:
+    Counts number of isPCR amplicons generated from target and non-target genomes.
 
-# Dependencies:
-# None
+Arguments:
+    <ISPCR_OUT>      path to is-PCR output
+    <TARGET_GNOME>   path to target genome sequence
+    <OUT_DIR>        path to output directory
+
+Dependencies:
+    None
+
+Output:
+    {}.amp_counts.tsv   amplicon counts in target and non-target genomes
+
+EOF
+    exit 0 
+fi
 
 ##################################################
 # Inputs

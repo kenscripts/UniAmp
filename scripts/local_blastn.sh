@@ -27,15 +27,15 @@ fi
 # Inputs
 ##################################################
 
-BLAST_QUERY=$1
-BLAST_SUBJECT=$2
+TARGET_SEQS=$1
+QUERY_SEQS=$2
 
 ##################################################
 # BLASTN
 ##################################################
 
 $BLASTN_PATH \
--query $BLAST_QUERY \
--subject $BLAST_SUBJECT \
+-query $TARGET_SEQS \
+-subject $QUERY_SEQS \
 -evalue 0.05 \
--outfmt "6 qseqid sseqid qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore" \
+-outfmt "6 qseqid sseqid qlen length qcovs pident nident mismatch gaps qstart qend sstart send evalue bitscore"

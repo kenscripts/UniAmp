@@ -1,14 +1,17 @@
 #! /usr/bin/env python3
 
 """
-Description:
-parses the html output from Primer-BLAST"
-
 Usage:
-pb_parser.py <PB_HTML>
+    pb_parser.py <PB_HTML>
+
+Description:
+    Parses the html output from Primer-BLAST.
 
 Arguments:
-<PB_HTML> = html output from Primer-BLAST
+    <PB_HTML>   html output from Primer-BLAST
+
+Output:
+    {}.tsv   parsed primer output from Primer-BLAST
 """
 
 import sys

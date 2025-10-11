@@ -89,5 +89,9 @@ else
     done < $SC_UNIFASTA.tmp;
 fi
 
+# add blastn header
+HEADER="qseqid\tsseqid\tqlen\tlength\tqcovs\tpident\tnident\tmismatch\tgaps\tqstart\tqend\tsstart\tsend\tevalue\tbitscore"
+sed -i "1i $HEADER" $BLASTOUT;
+
 # clean-up
 rm $SC_UNIFASTA.tmp;

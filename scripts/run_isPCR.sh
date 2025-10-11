@@ -1,25 +1,35 @@
 #! /bin/bash
 
-# Description:
-# runs in-silico PCR (ispcr) using input primers and checks if amplification occurs with primer pairs
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+cat << EOF
 
-# Usage:
-# run_isPCR.sh <PRIMER_TSV> <GNOME_PATHS> <OUT_DIR>
+Usage:
+    run_isPCR.sh <PRIMER_TSV> <GNOME_PATHS> <OUT_DIR>
 
-# Arguments:
-# <PRIMER_TSV> = path to file containing primer pair name and sequences
-# <GNOME_PATHS> = path to file containing paths to target and query genome files
-# <OUT_DIR> = path to output directory
+Description:
+    Runs in-silico PCR (ispcr) using input primers and checks if amplification occurs with primer pairs.
 
-# Dependencies:
-# run_isPCR.sh:::usearch
+Arguments:
+    <PRIMER_TSV>    path to file containing primer pair names and sequences
+    <GNOME_PATHS>   path to file containing paths to target and query genome files
+    <OUT_DIR>       path to output directory
 
-# Notes:
-# uses search_pcr command from usearch to get amplicon info
-# - maxdiffs 5
-# - min 25
-# - max 2500
-# modify as needed below
+Dependencies:
+    run_isPCR.sh:::usearch
+
+Output:
+    {}.ispcr.tsv   in-silico PCR results with Primer-BLAST primers
+
+Notes:
+    uses search_pcr command from usearch to get amplicon info
+    - maxdiffs 5
+    - min 25
+    - max 2500
+    modify as needed below
+
+EOF
+    exit 0
+fi
 
 ##################################################
 # Inputs
