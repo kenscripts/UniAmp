@@ -4,14 +4,15 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 cat << EOF
 
 Usage:
-    remote_blastn.sh <TARGET_SEQ> <ENTREZ_TERM>
+    remote_blastn.sh <TARGET_SEQ> <BLAST_DB> <ENTREZ_TERM>
 
 Description:
-    Performs remote blastn against specificed organism sequences in NCBI nt database. 
+    Performs a remote blastn against specified organisms in NCBI database. 
 
 Arguments:
-    <TARGET_SEQ>
-    <ENTREZ_TERM>
+    <TARGET_SEQ>   path of target fasta for blastn search
+    <BLAST_DB>     database for blastn search
+    <TAXID>        taxid for blastn search 
 
 Output:
     Stdout
@@ -24,8 +25,9 @@ fi
 # Inputs
 ##################################################
 
-QUERY=$1;
-ENTREZ=$2;
+TARGET_SEQ=$1;
+BLAST_DB=$2;
+ENTREZ_TERM=$3;
 
 ##################################################
 # Remote BLASTN
@@ -39,8 +41,8 @@ printf '\nEntrez Query: "%s"\n' "${ENTREZ[@]}"
 # entrez query doesn't input correctly; need to use blastn command separately
 $BLASTN_PATH \
 -remote \
--query $QUERY \
--db nt \
+-query $TARGET_SEQ \
+-db $BLAST_DB \
 -entrez_query $ENTREZ \
 -task blastn \
 -evalue 1e-10 \

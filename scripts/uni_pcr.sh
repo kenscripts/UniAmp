@@ -4,16 +4,16 @@ if [[ "$1" == "-h" || "$1" == "--help" ]]; then
 cat << EOF
 
 Usage:
-    uni_pcr.sh <PB_HTML> <GNOME_PATHS> <TARGET_GNOME> <OUT_DIR>
+    uni_pcr.sh <PB_HTML> <QUERY_PATHS> <TARGET_PATH> <OUT_DIR>
 
 Description:
     Parses primer blast output and uses primers to performs in-silico PCR on target and non-target genomes.
 
 Arguments:
-    <PB_HTML>        path to Primer-BLAST html output
-    <GNOME_PATHS>    path to file containing paths to target and non-target genome files
-    <TARGET_GNOME>   path to target genome sequence
-    <OUT_DIR>        path to output directory
+    <PB_HTML>       path to Primer-BLAST html output
+    <QUERY_PATHS>   file containing paths to non-target genome files
+    <TARGET_PATH>   path to target genome sequence
+    <OUT_DIR>       path to output directory
 
 Dependencies:
     pb_parsey.py:::BeautifulSoup4
@@ -37,8 +37,9 @@ fi
 ##################################################
 
 PB_HTML=$1
-GNOME_PATHS=$2
-TARGET_GNOME=$3
+QUERY_PATHS=$2
+TARGET_PATH=$3
+cat $QUERY_PATHS $TARGET_PATH > $GNOME_PATHS
 OUT_DIR=${4%/}
 OUT_NAME=$(echo $PB_HTML | xargs -n 1 basename | rev | cut -d"." -f2- | rev)
 
@@ -98,7 +99,7 @@ sleep 1
 # get isPCR amplicon count
 isPCR_amp_counts.sh \
 $ISPCR_OUT \
-$TARGET_GNOME \
+$TARGET_PATH \
 $OUT_DIR;
 
 ##################################################
